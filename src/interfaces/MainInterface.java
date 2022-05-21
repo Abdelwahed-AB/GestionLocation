@@ -28,6 +28,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.CardLayout;
 import java.util.LinkedHashMap;
+
+import view.FacturePanel;
 import view.ReservationPanel;
 
 public class MainInterface {
@@ -154,7 +156,8 @@ public class MainInterface {
 		
 		//Panel des factures -------------------------------------------------------------------------
 		
-		createFacturePanel();
+		JPanel factures = new FacturePanel();
+		mainPanel.add(factures, "facture");
 		
 		//END Panel des factures ---------------------------------------------------------------------
 		

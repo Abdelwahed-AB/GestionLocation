@@ -30,6 +30,8 @@ import com.itextpdf.layout.properties.VerticalAlignment;
 import connectionManager.ConnectionManager;
 
 public class FactureController {
+	
+
 	public static void fetchAll (JTable table) {
 		String query= "SELECT * "
 					+ "FROM facture, contrat, client, reservation "
