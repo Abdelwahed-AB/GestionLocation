@@ -35,12 +35,6 @@ public class Facture {
 	public void setMontant(int montantFacture) {
 		this.montant = montantFacture;
 	}
-//	public Client getClient() {
-//		return client;
-//	}
-//	public void setClient(Client client) {
-//		this.client = client;
-//	}
 	public Contrat getContrat() {
 		return contrat;
 	}

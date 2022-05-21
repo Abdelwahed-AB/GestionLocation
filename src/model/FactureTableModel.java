@@ -40,7 +40,11 @@ public class FactureTableModel extends AbstractTableModel {
         return false;  
 	}
 	
-	public void loadData(ArrayList<Facture> fact_list) {
+	/**
+	 * Methode qui remplie le tableau a partir d'une liste des factures
+	 * @param fact_list
+	 */
+	public void loadFactures(ArrayList<Facture> fact_list) {
 		rows.clear();
 		for(Facture f: fact_list) {
 			String[] row = {
@@ -52,6 +56,8 @@ public class FactureTableModel extends AbstractTableModel {
 			};
 			rows.add(row);
 		}
+		
+		fireTableChanged(null);
 	}
 
 }

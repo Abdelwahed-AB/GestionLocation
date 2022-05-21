@@ -91,18 +91,8 @@ public class MainInterface {
 		highlight = new Color(202, 168, 227);
 		navFontSize = 12;
 		
-		JPanel titleBar = new JPanel();
-		titleBar.setBounds(0, 0, 986, 102);
-		titleBar.setBackground(mainColor);
-		
-		JLabel logoPlaceHolder = new JLabel("LOGO here");
-		logoPlaceHolder.setBounds(333, 17, 315, 75);
-		logoPlaceHolder.setHorizontalAlignment(SwingConstants.CENTER);
-		logoPlaceHolder.setForeground(new Color(255, 255, 255));
-		logoPlaceHolder.setFont(new Font("Tahoma", Font.BOLD, 24));
-		
 		JPanel sideBar = new JPanel();
-		sideBar.setBounds(0, 100, 234, 563);
+		sideBar.setBounds(0, 94, 234, 569);
 		sideBar.setBackground(secondaryColor);
 		
 		JPanel navigation = new JPanel();
@@ -145,7 +135,6 @@ public class MainInterface {
 		//createReservationPanel();
 		ReservationPanel reservPanel = new ReservationPanel();
 		mainPanel.add(reservPanel, "reserv");
-		reservPanel.setLayout(null);
 		
 		//END PANEL RESERVATIONS ---------------------------------------------------------------------
 		JPanel contrats = new JPanel();
@@ -264,13 +253,23 @@ public class MainInterface {
 		
 		cl.show(mainPanel, "facture");
 		frame.getContentPane().setLayout(null);
+		
+		JPanel titleBar = new JPanel();
+		titleBar.setBounds(0, 0, 986, 102);
+		titleBar.setBackground(mainColor);
+		
+		JLabel logoPlaceHolder = new JLabel("LOGO here");
+		logoPlaceHolder.setBounds(333, 17, 315, 75);
+		logoPlaceHolder.setHorizontalAlignment(SwingConstants.CENTER);
+		logoPlaceHolder.setForeground(new Color(255, 255, 255));
+		logoPlaceHolder.setFont(new Font("Tahoma", Font.BOLD, 24));
+		frame.getContentPane().add(titleBar);
+		titleBar.setLayout(null);
+		titleBar.add(logoPlaceHolder);
 		frame.getContentPane().add(sideBar);
 		sideBar.setLayout(null);
 		sideBar.add(navigation);
 		frame.getContentPane().add(mainPanel);
-		frame.getContentPane().add(titleBar);
-		titleBar.setLayout(null);
-		titleBar.add(logoPlaceHolder);
 		
 	}
 	

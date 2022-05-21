@@ -66,7 +66,7 @@ public class ReservationController {
 	public void ActualiserTableau() {
 		filtre fil = (filtre) reserv_panel.getReserv_filtre().getSelectedItem();
 		ArrayList<Reservation> list_reserv = ReservationDAO.fetchAll(fil);
-		reserv_panel.getReserv_model().loadReservation(list_reserv);
+		reserv_panel.getReserv_model().loadReservations(list_reserv);
 	}
 	
 	/**
@@ -203,7 +203,7 @@ public class ReservationController {
 		
 		ArrayList<Reservation> list_reserv = ReservationDAO.findReservation(Integer.parseInt(input));
 		reserv_panel.getReserv_warning_lbl().setText("");
-		reserv_panel.getReserv_model().loadReservation(list_reserv);
+		reserv_panel.getReserv_model().loadReservations(list_reserv);
 	}
 	
 	/**
