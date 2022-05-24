@@ -36,6 +36,7 @@ public class FactureTableModel extends AbstractTableModel {
 		return cols[index];
 	}
 	
+	@Override
 	public boolean isCellEditable(int row, int column){  
         return false;  
 	}

@@ -71,7 +71,7 @@ public class ModifierReservation {
 		this.isCanceled = r.isCanceled();
 		this.reserv_panel = reserv_panel;
 		this.codeReserv = r.getCodeReservation();
-		this.codeVehicule = r.getCodeVehicule();
+		this.codeVehicule = r.getVehicule().getCodeVehicule();
 		
 		this.cont = new ReservationController(reserv_panel, this);
 		mainColor = new Color(75, 0, 130);

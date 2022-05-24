@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.ClientController;
 import controller.FactureController;
+import controller.tempFactureController;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -29,12 +30,14 @@ import java.awt.event.MouseEvent;
 import java.awt.CardLayout;
 import java.util.LinkedHashMap;
 
+import view.CreerFacturePanel;
 import view.FacturePanel;
 import view.ReservationPanel;
+import java.awt.Toolkit;
 
 public class MainInterface {
 
-	private JFrame frame;
+	private JFrame frmGestionDeLocation;
 	private Color mainColor;
 	private Color secondaryColor;
 	private Color highlight;
@@ -49,10 +52,13 @@ public class MainInterface {
 	private JTextField clienttextField;
 	
 	// reservation panel
-	private JTable reserv_table;
-	private JTextField reserv_field;
 	private JTable facture_table;
 	private JTextField facture_field;
+	
+	
+	
+	//CONTROLLERS @ABD-AB
+	private tempFactureController factureController;
 	/**
 	 * Launch the application.
 	 */
@@ -61,7 +67,7 @@ public class MainInterface {
 			public void run() {
 				try {
 					MainInterface window = new MainInterface();
-					window.frame.setVisible(true);
+					window.frmGestionDeLocation.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -81,10 +87,13 @@ public class MainInterface {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setEnabled(false);
-		frame.setBounds(100, 100, 1000, 700);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGestionDeLocation = new JFrame();
+		frmGestionDeLocation.setIconImage(Toolkit.getDefaultToolkit().getImage(MainInterface.class.getResource("/icons/icons8-garage-80.png")));
+		frmGestionDeLocation.setTitle("Gestion de location");
+		frmGestionDeLocation.setResizable(false);
+		frmGestionDeLocation.getContentPane().setEnabled(false);
+		frmGestionDeLocation.setBounds(100, 100, 1000, 700);
+		frmGestionDeLocation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		mainColor = new Color(75, 0, 130);
 		secondaryColor = new Color(224, 199, 242);
@@ -143,9 +152,9 @@ public class MainInterface {
 		JLabel lblContrats = new JLabel("contrats");
 		contrats.add(lblContrats);
 		
-		//Panel des factures -------------------------------------------------------------------------
+		//Panel des factures @ABD-AB-------------------------------------------------------------------------
 		
-		JPanel factures = new FacturePanel();
+		FacturePanel factures = new FacturePanel(this);
 		mainPanel.add(factures, "facture");
 		
 		//END Panel des factures ---------------------------------------------------------------------
@@ -252,7 +261,7 @@ public class MainInterface {
 		//*********************************************************************************************************************
 		
 		cl.show(mainPanel, "facture");
-		frame.getContentPane().setLayout(null);
+		frmGestionDeLocation.getContentPane().setLayout(null);
 		
 		JPanel titleBar = new JPanel();
 		titleBar.setBounds(0, 0, 986, 102);
@@ -263,14 +272,24 @@ public class MainInterface {
 		logoPlaceHolder.setHorizontalAlignment(SwingConstants.CENTER);
 		logoPlaceHolder.setForeground(new Color(255, 255, 255));
 		logoPlaceHolder.setFont(new Font("Tahoma", Font.BOLD, 24));
-		frame.getContentPane().add(titleBar);
+		frmGestionDeLocation.getContentPane().add(titleBar);
 		titleBar.setLayout(null);
 		titleBar.add(logoPlaceHolder);
-		frame.getContentPane().add(sideBar);
+		frmGestionDeLocation.getContentPane().add(sideBar);
 		sideBar.setLayout(null);
 		sideBar.add(navigation);
-		frame.getContentPane().add(mainPanel);
+		frmGestionDeLocation.getContentPane().add(mainPanel);
 		
+		
+		//PANEL CREATION FACTURE @ABD-AB -------------------------------------------------------------------------------------------
+		CreerFacturePanel creerFacturePanel = new CreerFacturePanel(this);
+		mainPanel.add(creerFacturePanel, "newFacture");
+		
+		
+		
+		//Association des panels aux controlleurs @ABD-AB
+		factureController = new tempFactureController(factures, creerFacturePanel);
+		factureController.ActualiserTableau();
 	}
 	
 	private void setupNavItem(JLabel lab, String name) {
@@ -307,93 +326,12 @@ public class MainInterface {
 		});
 	}
 	
-	private void createFacturePanel() {
-		JPanel factures = new JPanel();
-		mainPanel.add(factures, "facture");
-		factures.setLayout(null);
-		
-		JScrollPane facture_scroll = new JScrollPane();
-		facture_scroll.setBounds(10, 57, 493, 480);
-		factures.add(facture_scroll);
-		
-		facture_table = new JTable() {
-			private static final long serialVersionUID = 1L;
-			public boolean isCellEditable(int row, int column){  
-		          return false;  
-		    };
-		};
-		facture_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		facture_scroll.setViewportView(facture_table);
-		
-		FactureController.fetchAll(facture_table);
-		
-		JLabel facture_warning_lbl = new JLabel("");
-		facture_warning_lbl.setForeground(Color.RED);
-		facture_warning_lbl.setBounds(535, 57, 164, 113);
-		factures.add(facture_warning_lbl);
-		
-		facture_field = new JTextField();
-		facture_field.setBounds(10, 10, 353, 36);
-		factures.add(facture_field);
-		facture_field.setColumns(10);
-		
-		JButton searchFacture_btn = new JButton("Rechercher");
-		searchFacture_btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(facture_field.getText().isEmpty()) {
-					facture_warning_lbl.setText("<html>Veuillez saisir un code avant de rechercher.</html>");
-					return;
-				}
-				facture_warning_lbl.setText("");
-				FactureController.findFacture(facture_field.getText(), facture_table);
-			}
-		});
-		searchFacture_btn.setBounds(373, 10, 130, 36);
-		factures.add(searchFacture_btn);
-		
-		JButton newFacture_btn = new JButton("Nouvelle facture");
-		newFacture_btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CreerFacture newFacture = new CreerFacture(facture_table);
-				facture_warning_lbl.setText("");
-			}
-		});
-		newFacture_btn.setBounds(535, 220, 164, 43);
-		factures.add(newFacture_btn);
-		
-		JButton dltFacture_btn = new JButton("Supprimer");
-		dltFacture_btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index = facture_table.getSelectedRow();
-				if(index < 0) {
-					//if user hasnt selected a row
-					facture_warning_lbl.setText("<html>Veuillez selectionner une facture à supprimer.</html>");
-					return;
-				}
-				//else reset warning label on success
-				facture_warning_lbl.setText("");
-				int result = JOptionPane.showConfirmDialog(null, "Êtes vous sûr?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if(result == JOptionPane.YES_OPTION) {
-					int codeFact = (int) facture_table.getValueAt(index, 0);
-					FactureController.deleteFacture(codeFact);
-					FactureController.fetchAll(facture_table);
-				}
-			}
-		});
-		dltFacture_btn.setBounds(535, 273, 164, 43);
-		factures.add(dltFacture_btn);
-		
-		JButton facture_actualiser_btn = new JButton("Actualiser");
-		facture_actualiser_btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FactureController.fetchAll(facture_table);
-				facture_warning_lbl.setText("");
-			}
-		});
-		facture_actualiser_btn.setBounds(535, 494, 164, 43);
-		factures.add(facture_actualiser_btn);
-		
-		
-		
+	
+	//GETTERS
+	public JPanel getMainPanel() {
+		return this.mainPanel;
+	}
+	public tempFactureController getFactureController() {
+		return factureController;
 	}
 }

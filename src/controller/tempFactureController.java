@@ -2,18 +2,26 @@ package controller;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import dao.FactureDAO;
+import metier.FactureMetier;
 import model.Facture;
+import view.CreerFacturePanel;
 import view.FacturePanel;
 
 public class tempFactureController {
 	private FacturePanel fPanel;
+	private CreerFacturePanel cfPanel;
 	
 	public tempFactureController() {
 	}
 	
-	public tempFactureController(FacturePanel fpanel) {
+	public tempFactureController(FacturePanel fpanel, CreerFacturePanel cfPanel) {
 		this.fPanel = fpanel;
+		this.cfPanel = cfPanel;
+		
+		this.fPanel.setFactureController(this);
 	}
 	
 	/**
@@ -42,5 +50,50 @@ public class tempFactureController {
 		ArrayList<Facture> fList = FactureDAO.findFacture(Integer.parseInt(input));
 		fPanel.getFactureTableModel().loadFactures(fList);
 		fPanel.getFacture_warning_lbl().setText("");
+	}
+	
+	/**
+	 * Methode qui recuperere la facture selectionnée dans le tableau des factures
+	 * et le supprime.
+	 */
+	public void SupprimerFacture() {
+		int index = fPanel.getFacture_table().getSelectedRow();
+		if(index < 0) {
+			fPanel.getFacture_warning_lbl().setText("<html>Veuillez choisir une facture à supprimer.</html>");
+			return;
+		}
+		
+		int result = JOptionPane.showConfirmDialog(null, "Êtes vous sûr?", "Verification", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if(result == JOptionPane.YES_OPTION) {
+			FactureDAO.deleteFacture(Integer.parseInt((String) fPanel.getFacture_table().getValueAt(index, 0)));			
+		}
+		ActualiserTableau();
+	}
+	
+	
+	/**
+	 * Methode qui recupere le contrat selectionné dans le panel de creation des factures
+	 * puis le crée dans la bd (Calcule automatique)
+	 * puis il génere un pdf
+	 */
+	public void CreerFacture() {
+		int index = cfPanel.getContrat_table().getSelectedRow();
+		if(index < 0) {
+			cfPanel.getWarning_lbl().setText("<html>Veuillez choisir un contrat pour creer une facture.</html>");
+			return;
+		}
+		
+		int codeContrat =  (int) cfPanel.getContrat_table().getValueAt(index, 0);
+		
+		FactureDAO.createFacture(codeContrat);
+		
+		Facture fact = FactureDAO.findFactureByContrat(codeContrat);
+		
+		if(fact == null) {
+			JOptionPane.showConfirmDialog(null, "facture : " + fact, "Erreur Creation Facture", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+		}
+		FactureMetier.createPdf(fact);
+		cfPanel.goBack();
+		ActualiserTableau();
 	}
 }

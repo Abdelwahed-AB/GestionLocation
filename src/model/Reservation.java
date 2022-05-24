@@ -9,7 +9,7 @@ public class Reservation {
 
 	//les clefs externes
 	private Client client;
-	private String codeVehicule;
+	private Vehicule vehicule;
 
 	// enumerateur pour les filtres des reservations
 	public enum filtre{
@@ -81,19 +81,20 @@ public class Reservation {
 		this.client = client;
 	}
 
-	public String getCodeVehicule() {
-		return codeVehicule;
-	}
-	public void setCodeVehicule(String codeVehicule) {
-		this.codeVehicule = codeVehicule;
-	}
-
 	public int getCodeReservation() {
 		return codeReservation;
 	}
 
 	public void setCodeReservation(int codeReservation) {
 		this.codeReservation = codeReservation;
+	}
+
+	public Vehicule getVehicule() {
+		return vehicule;
+	}
+
+	public void setVehicule(Vehicule vehicule) {
+		this.vehicule = vehicule;
 	}
 
 

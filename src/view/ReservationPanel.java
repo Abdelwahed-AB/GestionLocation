@@ -19,6 +19,7 @@ import controller.ReservationController;
 import interfaces.CreerReservation;
 import interfaces.ModifierReservation;
 import model.ReservationTableModel;
+import model.Vehicule;
 import model.Reservation;
 import model.Reservation.filtre;
 
@@ -103,7 +104,8 @@ public class ReservationPanel extends JPanel {
 				Reservation r = new Reservation();
 				
 				r.setCodeReservation(Integer.parseInt((String) reserv_table.getValueAt(index, 0)));
-				r.setCodeVehicule((String) reserv_table.getValueAt(index, 3));
+				r.setVehicule(new Vehicule());
+				r.getVehicule().setCodeVehicule((String) reserv_table.getValueAt(index, 3));
 				r.setDateDepart(Date.valueOf((String) reserv_table.getValueAt(index, 4)));
 				r.setDateRetour(Date.valueOf((String) reserv_table.getValueAt(index, 5)));
 				r.setValid(Boolean.parseBoolean((String) reserv_table.getValueAt(index, 6)));

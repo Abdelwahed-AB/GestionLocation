@@ -43,6 +43,7 @@ public class ReservationTableModel extends AbstractTableModel{
 		return nomColonnes[index];
 	}
 	
+	@Override
 	public boolean isCellEditable(int row, int column){  
         return false;  
 	}
@@ -55,7 +56,7 @@ public class ReservationTableModel extends AbstractTableModel{
 					Integer.toString(r.getCodeReservation()),
 					c.getNom(),
 					c.getPrenom(),
-					r.getCodeVehicule(),
+					r.getVehicule().getCodeVehicule(),
 					r.getDateDepart().toString(),
 					r.getDateRetour().toString(),
 					Boolean.toString(r.isValid()),
