@@ -16,7 +16,6 @@ import javax.swing.ListSelectionModel;
 
 import controller.FactureController;
 import controller.tempFactureController;
-import interfaces.CreerFacture;
 import interfaces.MainInterface;
 import model.FactureTableModel;
 import javax.swing.table.TableModel;
