@@ -20,7 +20,6 @@ import javax.swing.SwingConstants;
 
 import controller.ReservationController;
 import interfaces.MainInterface;
-import interfaces.ModifierReservation;
 import model.Reservation;
 
 public class ModifierReserPanel extends JPanel {
