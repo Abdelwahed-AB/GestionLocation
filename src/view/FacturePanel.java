@@ -19,6 +19,7 @@ import controller.FactureController;
 import interfaces.MainInterface;
 import model.FactureTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.SwingConstants;
 
 public class FacturePanel extends JPanel {
 	
@@ -45,6 +46,7 @@ public class FacturePanel extends JPanel {
 		
 		
 		facture_warning_lbl = new JLabel("");
+		facture_warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		facture_warning_lbl.setForeground(Color.RED);
 		facture_warning_lbl.setBounds(535, 57, 164, 113);
 		this.add(facture_warning_lbl);

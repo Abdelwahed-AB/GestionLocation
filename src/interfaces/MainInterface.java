@@ -48,12 +48,6 @@ public class MainInterface {
 	private JTable clienttable;
 	private JTextField clienttextField;
 
-	// reservation panel
-	private JTable facture_table;
-	private JTextField facture_field;
-
-
-
 	//CONTROLLERS @ABD-AB
 	private ReservationController reservController;
 	private FactureController factureController;
@@ -160,13 +154,19 @@ public class MainInterface {
 		mainPanel.add(factures, "facture");
 
 		//END Panel des factures ---------------------------------------------------------------------
-
+		
+		
+		//Panel des sanctions ---------------------------------------------------------------------
+		
 		JPanel sanctions = new JPanel();
 		mainPanel.add(sanctions, "sanction");
 
 		JLabel sanctions_1 = new JLabel("sanctions");
 		sanctions.add(sanctions_1);
-
+		
+		//END Panel des Sanctions ---------------------------------------------------------------------
+		
+		
 		JPanel vehicules = new JPanel();
 		mainPanel.add(vehicules, "vehicule");
 

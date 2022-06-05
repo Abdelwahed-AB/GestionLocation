@@ -100,7 +100,7 @@ public interface ReservationDAO {
 	 * @return ArrayList<Reservation> qui contient une seule reservation aux max.
 	 */
 	public static ArrayList<Reservation> findReservation(int codeReservation) {
-		String query = "SELECT * FROM reservation, client WHERE reservation.codeClient = client.codeClient AND codeReservation = ?;";
+		String query = "SELECT * FROM reservation WHERE codeReservation = ?;";
 		PreparedStatement preparedSt;
 		
 		ArrayList<Reservation> reservList = new ArrayList<Reservation>();
@@ -111,7 +111,7 @@ public interface ReservationDAO {
 			ResultSet result = preparedSt.executeQuery();
 			while (result.next()) {
 				//Creer nouvelle Reservation
-Reservation r = new Reservation();
+				Reservation r = new Reservation();
 				
 				r.setClient(new Client());
 				r.setVehicule(new Vehicule());
@@ -138,9 +138,9 @@ Reservation r = new Reservation();
 					c.setPrenom(result2.getString("prenomClient"));
 				}
 				
-				query = "SELECT * FROM vahicule WHERE codeMatricule LIKE ?;";
+				query = "SELECT * FROM vehicule WHERE codeMatricule LIKE ?;";
 				ps = ConnectionManager.getConnection().prepareStatement(query);
-				ps.setString(0, query);
+				ps.setString(1, query);
 				result2 = ps.executeQuery();
 				if(result2.next()) {
 					Vehicule v = r.getVehicule();
