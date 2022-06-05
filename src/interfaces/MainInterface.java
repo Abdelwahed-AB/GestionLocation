@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.ClientController;
 import controller.ReservationController;
-import controller.tempFactureController;
+import controller.FactureController;
 import view.CreerFacturePanel;
 import view.CreerReservPanel;
 import view.FacturePanel;
@@ -55,8 +55,8 @@ public class MainInterface {
 
 
 	//CONTROLLERS @ABD-AB
-	private tempFactureController factureController;
 	private ReservationController reservController;
+	private FactureController factureController;
 	/**
 	 * Launch the application.
 	 */
@@ -295,7 +295,7 @@ public class MainInterface {
 
 
 		//Association des panels aux controlleurs @ABD-AB
-		factureController = new tempFactureController(factures, creerFacturePanel);
+		factureController = new FactureController(factures, creerFacturePanel);
 		factureController.ActualiserTableau();
 
 		reservController = new ReservationController(reservPanel, createReservPanel);
@@ -341,7 +341,7 @@ public class MainInterface {
 	public JPanel getMainPanel() {
 		return this.mainPanel;
 	}
-	public tempFactureController getFactureController() {
+	public FactureController getFactureController() {
 		return factureController;
 	}
 }

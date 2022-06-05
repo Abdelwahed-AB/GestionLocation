@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import controller.FactureController;
-import controller.tempFactureController;
+import controller.FactureController;
 import interfaces.MainInterface;
 import model.FactureTableModel;
 import javax.swing.table.TableModel;
@@ -26,7 +26,7 @@ public class FacturePanel extends JPanel {
 	private JLabel facture_warning_lbl;
 	
 	private FactureTableModel factureTableModel = new FactureTableModel();
-	private tempFactureController cont;
+	private FactureController cont;
 	private JTable facture_table;
 	
 	private CardLayout cl;
@@ -111,7 +111,7 @@ public class FacturePanel extends JPanel {
 	}
 	
 	//setter
-	public void setFactureController(tempFactureController cont) {
+	public void setFactureController(FactureController cont) {
 		this.cont = cont;
 	}
 }
