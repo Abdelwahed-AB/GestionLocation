@@ -14,7 +14,7 @@ import model.Reservation;
 import model.Reservation.filtre;
 import model.Vehicule;
 
-public class ReservationDAO {
+public interface ReservationDAO {
 	
 	/**
 	 * Recherche tous les reservations stockées dans la base de donnees

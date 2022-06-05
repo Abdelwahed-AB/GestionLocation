@@ -12,6 +12,8 @@ import interfaces.CreerReservation;
 import interfaces.ModifierReservation;
 import model.Reservation;
 import model.Reservation.filtre;
+import view.CreerReservPanel;
+import view.ModifierReserPanel;
 import view.ReservationPanel;
 
 
@@ -23,8 +25,8 @@ import view.ReservationPanel;
 
 public class ReservationController {
 	private ReservationPanel reserv_panel;
-	private CreerReservation creer_reserv;
-	private ModifierReservation mod_reserv;
+	private CreerReservPanel creer_reserv;
+	private ModifierReserPanel mod_reserv;
 	
 	/**
 	 * Constructeur par defaut
@@ -33,31 +35,17 @@ public class ReservationController {
 	}
 	
 	/**
-	 * Constructeur pour associer le panel des reservation à son controlleur
-	 * @param reserv_panel
-	 */
-	public ReservationController(ReservationPanel reserv_panel) {
-		this.reserv_panel = reserv_panel;
-	}
-	
-	/**
 	 * Constructeur pour associer l'interface de creation des reservations aux controlleur
 	 * @param reserv_panel
 	 * @param creer_reserv
 	 */
-	public ReservationController(ReservationPanel reserv_panel, CreerReservation creer_reserv) {
+	public ReservationController(ReservationPanel reserv_panel, CreerReservPanel creer_reserv) {
 		this.creer_reserv = creer_reserv;
 		this.reserv_panel = reserv_panel;
-	}
-	
-	/**
-	 * Constructeur pour associer l'interface de modification de reservation aux controlleur
-	 * @param reserv_panel
-	 * @param mod_reserv
-	 */
-	public ReservationController(ReservationPanel reserv_panel, ModifierReservation mod_reserv) {
-		this.mod_reserv = mod_reserv;
-		this.reserv_panel = reserv_panel;
+		reserv_panel.setReservController(this);
+		creer_reserv.setReservController(this);
+		
+		ActualiserTableau();
 	}
 	
 	/**
@@ -112,6 +100,8 @@ public class ReservationController {
 				ReservationDAO.createReservation(codeClient, codeVehicule, dateDep, dateRet);	
 				JOptionPane.showConfirmDialog(null, "Operation Effectuée.", "Operation Effectuée", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				creer_reserv.getWarning_lbl().setText("");
+				
+				System.out.println("TEST");
 				
 				ActualiserTableau();
 			}
@@ -218,5 +208,10 @@ public class ReservationController {
 		Duration d = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
 		
 		return !(d.toSeconds() <= 0);
+	}
+	
+	
+	public void setReservModPanel(ModifierReserPanel p) {
+		this.mod_reserv = p;
 	}
 }

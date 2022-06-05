@@ -12,15 +12,12 @@ import javax.swing.ListSelectionModel;
 
 import java.awt.Color;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import controller.ClientController;
-import controller.FactureController;
-import controller.tempFactureController;
+import controller.*;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -31,7 +28,9 @@ import java.awt.CardLayout;
 import java.util.LinkedHashMap;
 
 import view.CreerFacturePanel;
+import view.CreerReservPanel;
 import view.FacturePanel;
+import view.ModifierReserPanel;
 import view.ReservationPanel;
 import java.awt.Toolkit;
 
@@ -59,6 +58,7 @@ public class MainInterface {
 	
 	//CONTROLLERS @ABD-AB
 	private tempFactureController factureController;
+	private ReservationController reservController;
 	/**
 	 * Launch the application.
 	 */
@@ -141,9 +141,12 @@ public class MainInterface {
 		
 		//Panel des RESERVATIONS ---------------------------------------------------------------------
 		
-		//createReservationPanel();
-		ReservationPanel reservPanel = new ReservationPanel();
+		ReservationPanel reservPanel = new ReservationPanel(this);
 		mainPanel.add(reservPanel, "reserv");
+		
+		CreerReservPanel createReservPanel = new CreerReservPanel(this);
+		mainPanel.add(createReservPanel, "newReserv");
+		
 		
 		//END PANEL RESERVATIONS ---------------------------------------------------------------------
 		JPanel contrats = new JPanel();
@@ -290,6 +293,9 @@ public class MainInterface {
 		//Association des panels aux controlleurs @ABD-AB
 		factureController = new tempFactureController(factures, creerFacturePanel);
 		factureController.ActualiserTableau();
+		
+		reservController = new ReservationController(reservPanel, createReservPanel);
+		
 	}
 	
 	private void setupNavItem(JLabel lab, String name) {

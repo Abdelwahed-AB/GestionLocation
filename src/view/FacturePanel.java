@@ -33,8 +33,6 @@ public class FacturePanel extends JPanel {
 	private CardLayout cl;
 
 	public FacturePanel(MainInterface mInterface) {
-		this.cont = mInterface.getFactureController();
-		
 		this.cl = (CardLayout) mInterface.getMainPanel().getLayout();
 		this.setLayout(null);
 		

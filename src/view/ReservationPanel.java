@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,11 +18,13 @@ import javax.swing.ListSelectionModel;
 
 import controller.ReservationController;
 import interfaces.CreerReservation;
+import interfaces.MainInterface;
 import interfaces.ModifierReservation;
 import model.ReservationTableModel;
 import model.Vehicule;
 import model.Reservation;
 import model.Reservation.filtre;
+import javax.swing.SwingConstants;
 
 public class ReservationPanel extends JPanel {
 
@@ -29,15 +32,22 @@ public class ReservationPanel extends JPanel {
 	private JTable reserv_table;
 	private JComboBox reserv_filtre;
 	private ReservationTableModel reserv_model = new ReservationTableModel();
-	private ReservationController cont = new ReservationController(this);
+	private ReservationController cont;
 	private JLabel reserv_warning_lbl;
 	private JTextField reserv_field;
 	
+	private CardLayout cl;
+	
 	private ReservationPanel self = this;
 
-	public ReservationPanel() {
+	public ReservationPanel(MainInterface mInterface) {
+		
+		cl = (CardLayout) mInterface.getMainPanel().getLayout();
+		
+		this.setLayout(null);
 		
 		reserv_warning_lbl = new JLabel("");
+		reserv_warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		reserv_warning_lbl.setBounds(512, 57, 185, 88);
 		reserv_warning_lbl.setForeground(Color.RED);
 		
@@ -64,7 +74,6 @@ public class ReservationPanel extends JPanel {
 			}
 		});
 		
-		cont.ActualiserTableau();
 		
 		JLabel filtre_lbl = new JLabel("Filtre :");
 		filtre_lbl.setBounds(522, 401, 193, 21);
@@ -73,9 +82,8 @@ public class ReservationPanel extends JPanel {
 		newReserv_btn.setBounds(522, 155, 193, 56);
 		newReserv_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Open reservation creation window
-				CreerReservation newReserv = new CreerReservation(self);
-				
+				//Open reservation creation panel
+				cl.show(mInterface.getMainPanel(), "newReserv");
 				//Reset warning label on succesful operation
 				reserv_warning_lbl.setText("");
 			}
@@ -112,7 +120,11 @@ public class ReservationPanel extends JPanel {
 				r.setCanceled(Boolean.parseBoolean((String) reserv_table.getValueAt(index, 7)));
 				
 				//Open reservation modification window
-				ModifierReservation newReserv = new ModifierReservation(self, r);
+				//ModifierReservation newReserv = new ModifierReservation(self, r);
+				ModifierReserPanel modR = new ModifierReserPanel(mInterface, r, cont);
+				cont.setReservModPanel(modR);
+				mInterface.getMainPanel().add(modR, "modReserv");
+				cl.show(mInterface.getMainPanel(), "modReserv");
 				
 				//Reset warning label on succesful operation
 				reserv_warning_lbl.setText("");
@@ -165,6 +177,9 @@ public class ReservationPanel extends JPanel {
 		return reserv_field;
 	}
 	
-	
+	//Setter
+	public void setReservController(ReservationController reservCont) {
+		this.cont = reservCont;
+	}
 	
 }
