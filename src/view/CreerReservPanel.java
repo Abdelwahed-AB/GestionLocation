@@ -202,7 +202,7 @@ public class CreerReservPanel extends JPanel {
 		mois_comboBox.setBackground(secondaryColor);
 		dateDepInput.add(mois_comboBox);
 
-		setupDayPicker(annee_comboBox, mois_comboBox, jour_comboBox);
+		setupDayChooser(annee_comboBox, mois_comboBox, jour_comboBox);
 
 		for(JComboBox box : new JComboBox[]{annee_comboBox, jour_comboBox, mois_comboBox} ) {
 			//Foreach combo box update date value on change
@@ -257,7 +257,7 @@ public class CreerReservPanel extends JPanel {
 		mois_comboBox.setBackground(secondaryColor);
 		dateRetInput.add(mois_comboBox);
 
-		setupDayPicker(annee_comboBox, mois_comboBox, jour_comboBox);
+		setupDayChooser(annee_comboBox, mois_comboBox, jour_comboBox);
 		for(JComboBox box : new JComboBox[]{annee_comboBox, jour_comboBox, mois_comboBox} ) {
 			//Foreach combo box update date value on change
 			box.addActionListener(new ActionListener() {
@@ -286,39 +286,42 @@ public class CreerReservPanel extends JPanel {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void setupDayPicker(JComboBox annee, JComboBox mois, JComboBox jour) {
+	private void setupDayChooser(JComboBox annee, JComboBox mois, JComboBox jour) {
 		mois.addActionListener(new ActionListener() {
-			// les valeurs de comboBox des jours depend de mois et l'annee
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				switch((String)mois.getSelectedItem()) {
-					case "1": case"3": case"5": case"7": case "8": case "10": case "12":
-						jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
-								"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
-								"20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-								"30", "31"}));
-						break;
-					case "2":
-						if(Year.isLeap( Integer.parseInt((String)annee.getSelectedItem()))) {
-							jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
-									"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
-									"20", "21", "22", "23", "24", "25", "26", "27", "28", "29"}));
-						}else {
-							jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
-									"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
-									"20", "21", "22", "23", "24", "25", "26", "27", "28"}));
-						}
-						break;
-					default:
-						jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
-								"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
-								"20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-								"30"}));
-						break;
-				}
+				setupJour(annee, mois, jour);			
 			}
 		});
+		setupJour(annee, mois, jour);
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void setupJour(JComboBox annee, JComboBox mois, JComboBox jour) {
+		switch((String)mois.getSelectedItem()) {
+		case "01": case"03": case"05": case"07": case "08": case "10": case "12": 
+			jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
+					"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
+					"20", "21", "22", "23", "24", "25", "26", "27", "28", "29", 
+					"30", "31"}));
+			break;
+		case "02":
+			if(Year.isLeap( Integer.parseInt((String)annee.getSelectedItem()))) {
+				jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
+						"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
+						"20", "21", "22", "23", "24", "25", "26", "27", "28", "29"}));
+			}else {
+				jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
+						"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
+						"20", "21", "22", "23", "24", "25", "26", "27", "28"}));
+			}
+			break;
+		default:
+			jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
+					"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
+					"20", "21", "22", "23", "24", "25", "26", "27", "28", "29", 
+					"30"}));
+			break;
+	}
 	}
 
 

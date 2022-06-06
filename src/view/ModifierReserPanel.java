@@ -263,7 +263,7 @@ public class ModifierReserPanel extends JPanel {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void setupDayChooser(JComboBox annee, JComboBox mois, JComboBox jour) {
+	private void setupDayChooser(JComboBox annee, JComboBox mois, JComboBox jour) {
 		mois.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setupJour(annee, mois, jour);			
@@ -273,15 +273,15 @@ public class ModifierReserPanel extends JPanel {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void setupJour(JComboBox annee, JComboBox mois, JComboBox jour) {
+	private void setupJour(JComboBox annee, JComboBox mois, JComboBox jour) {
 		switch((String)mois.getSelectedItem()) {
-		case "1": case"3": case"5": case"7": case "8": case "10": case "12": 
+		case "01": case "03": case"05": case"07": case "08": case "10": case "12": 
 			jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
 					"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
 					"20", "21", "22", "23", "24", "25", "26", "27", "28", "29", 
 					"30", "31"}));
 			break;
-		case "2":
+		case "02":
 			if(Year.isLeap( Integer.parseInt((String)annee.getSelectedItem()))) {
 				jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
 						"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
