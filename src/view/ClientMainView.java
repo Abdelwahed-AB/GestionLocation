@@ -97,7 +97,7 @@ public class ClientMainView extends JPanel {
 		modifierClientButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// recuperer la ligne du tableau séléctionnée
+				// recuperer l'index de la ligne du tableau séléctionnée
 				int index = clienttable.getSelectedRow();
 				if (index >= 0) {
 					int code = (int) clienttable.getModel().getValueAt(index, 0);
@@ -153,10 +153,12 @@ public class ClientMainView extends JPanel {
 		JButton afficherClientButton = new JButton("Afficher");
 		afficherClientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// recuperer l'index de la ligne du tableau séléctionnée
 				int index = clienttable.getSelectedRow();
 				if (index >= 0) {
 					int code = Integer.parseInt(clienttable.getModel().getValueAt(index, 0).toString());
 					Client client = ClientController.findClientByCode(code);
+					//ouvrir la fenetre d'affichage
 					AfficherClientPanel afficherClientPanel = new AfficherClientPanel(panel, client);
 					panel.add(afficherClientPanel, "afficherClientPanel");
 					cl.show(panel, "afficherClientPanel");

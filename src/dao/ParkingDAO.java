@@ -1,0 +1,142 @@
+package dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.swing.JTable;
+
+import connectionManager.ConnectionManager;
+import model.Parking;
+
+public class ParkingDAO {
+	
+	public static ArrayList<Parking> actualiserParking () {
+		ArrayList<Parking> list = new ArrayList<Parking>();
+		// la requete a executer
+		String query = "SELECT * FROM parking";
+		// execution de la requete
+		ResultSet result = ConnectionManager.execute(query);
+		
+		try {
+			while (result.next()) {
+				list.add(new Parking(Integer.parseInt(result.getString(1)), result.getString(2), Integer.parseInt(result.getString(3)), result.getString(4), result.getString(5), Integer.parseInt(result.getString(6))));
+			}
+		} catch (SQLException e) {
+			// genere erreur si le tableau parking dans la base de donnée est non validé
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static ArrayList<Parking> findParkingByNameDAO (String string) {
+		ArrayList<Parking> list = new ArrayList<Parking>();
+		PreparedStatement prepared;
+		ResultSet result;
+		try {
+			prepared = ConnectionManager.getConnection().prepareStatement("SELECT * FROM parking WHERE nomParking LIKE ?");
+			prepared.setString(1, string);
+			result = prepared.executeQuery();
+			while (result.next()) {
+				list.add(new Parking(Integer.parseInt(result.getString(1)), result.getString(2), Integer.parseInt(result.getString(3)), result.getString(4), result.getString(5), Integer.parseInt(result.getString(6))));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public static Parking findParkingByCodeDAO (int code) {
+		try {
+			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("SELECT * FROM parking WHERE codeParking = ?");
+			prepared.setInt(1, code);
+			ResultSet result = prepared.executeQuery();
+			while (result.next()) {
+				Parking parking = new Parking(Integer.parseInt(result.getString(1)), result.getString(2), Integer.parseInt(result.getString(3)), result.getString(4), result.getString(5), Integer.parseInt(result.getString(6)));
+				return parking;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static void deleteParking(int code) { 
+		try {
+			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("DELETE FROM `parking` WHERE `parking`.`codeParking` = ?");
+			prepared.setInt(1, code);
+			prepared.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static boolean creatParkingDAO (Parking parking) {
+		try {
+			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("INSERT INTO `parking` (`codeParking`, `nomParking`, `capaciteParking`, `rueParking`, `arrondissement`, `nombrePlaceVide`) VALUES (NULL, ?, ?, ?, ?, ?)");
+			prepared.setString(1, parking.getNomParking());
+			prepared.setInt(2, parking.getCapaciteParking());
+			prepared.setString(3, parking.getRueParking());
+			prepared.setString(4, parking.getArrondissementParking());
+			prepared.setInt(5, parking.getNombrePlaceVide());
+			prepared.execute();
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+	
+	public static boolean modifyParkingDAO (Parking parking) {
+		try {
+			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("UPDATE `parking` SET `nomParking` = ?, `capaciteParking` = ?, `rueParking` = ?, `arrondissement` = ?, `nombrePlaceVide` = ? WHERE `parking`.`codeParking` = ?");
+			prepared.setString(1, parking.getNomParking());
+			prepared.setInt(2, parking.getCapaciteParking());;
+			prepared.setString(3, parking.getRueParking());
+			prepared.setString(4, parking.getArrondissementParking());
+			prepared.setInt(5, parking.getNombrePlaceVide());
+			prepared.setInt(6, parking.getCodeParking());
+			prepared.execute();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	//chercher l'ensemble des vehicules stationnées dans un park pour les afficheés 
+	public static ResultSet chercherVehicule (int code) {
+		try {
+			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
+					"SELECT codeMatricule, marqueVehicule, typeVehicule, prixLocation FROM vehicule, parking, reservation WHERE vehicule.codePark=parking.codeParking AND vehicule.codeMatricule=reservation.codeVehicule AND parking.codeParking=? AND reservation.isValid=0");
+			prepared.setInt(1, code);
+			ResultSet result = prepared.executeQuery();
+			return result;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	//pour calculer le nombre de place vide dans une parking on a besion du nombre de vehicule situées dans ce park
+	public static int nombreVehicule (int code) {
+		try {
+			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("SELECT COUNT(codeMatricule) FROM vehicule, parking WHERE vehicule.codePark = parking.codeParking AND parking.codeParking = ?");
+			prepared.setInt(1, code);
+			ResultSet result = prepared.executeQuery();
+			if (result.next()) {
+				return Integer.parseInt(result.getString(1));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+}

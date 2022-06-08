@@ -165,16 +165,19 @@ public class NouveauClientPanel extends JPanel {
 						&& !adresseTextField.getText().isBlank() && !teleTextField.getText().isBlank()
 						&& !imagePath.getText().isBlank() && !permisPath.getText().isBlank()) {
 					// tester si l'utilisateur ne fait des fautes lors de saisie
-					if (nomTextField.getText().matches("[a-zA-Z]*") && prenomTextField.getText().matches("[a-zA-Z]*")
+					if (nomTextField.getText().matches("[a-zA-Z -_'é]*") && prenomTextField.getText().matches("[a-zA-Z -_'é]*")
 							&& teleTextField.getText().matches("[0-9]*")) {
 						Client client = new Client(nomTextField.getText(), prenomTextField.getText(),
 								adresseTextField.getText(), Long.parseLong(teleTextField.getText()),
 								imagePath.getText(), permisPath.getText());
+						//création du client
 						boolean b = ClientController.creatClient(client);
+						//si le client est bien créer dans la base de donnée afficher message "Opération Effectuée avce Succée"
 						if (b) {
 							JOptionPane.showConfirmDialog(null, "Opération Effectuée avce Succée", "Succée",
 									JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
 						} else {
+							//si non
 							JOptionPane.showConfirmDialog(null, "Opération Echouée", "Echoue",
 									JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 						}

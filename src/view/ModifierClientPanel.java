@@ -170,7 +170,7 @@ public class ModifierClientPanel extends JPanel {
 				//tester si l'utilisateur remplir tous les champs
 				if (!nomClientTextField.getText().isBlank() && !prenomClientTextField.getText().isBlank() && !adresseClientTextField.getText().isBlank() && !teleClientTextField.getText().isBlank() && !imagePath.getText().isBlank() && !permisPath.getText().isBlank()) {
 					//tester si l'utilisateur ne fait des fautes lors de saisie
-					if (nomClientTextField.getText().matches("[a-zA-Z]*") && prenomClientTextField.getText().matches("[a-zA-Z]*") && teleClientTextField.getText().matches("[0-9]*")) {
+					if (nomClientTextField.getText().matches("[a-zA-Z -_'é]*") && prenomClientTextField.getText().matches("[a-zA-Z -_'é]*") && teleClientTextField.getText().matches("[0-9]*")) {
 						Client client1 = new Client(nomClientTextField.getText(), prenomClientTextField.getText(), adresseClientTextField.getText(), Long.parseLong(teleClientTextField.getText()), imagePath.getText(), permisPath.getText());
 						client1.setCodeClient(client.getCodeClient());
 						boolean b = ClientController.modifyClient(client1);

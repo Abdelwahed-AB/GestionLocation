@@ -67,8 +67,8 @@ public class ClientDAO {
 	public static Client chercherClient(int code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection()
-					.prepareStatement("SELECT * FROM client WHERE codeClient LIKE ?");
-			prepared.setString(1, "" + code);
+					.prepareStatement("SELECT * FROM client WHERE codeClient = ?");
+			prepared.setInt(1, code);
 			ResultSet result = prepared.executeQuery();
 			while (result.next()) {
 				Client client = new Client(Integer.parseInt(result.getString(1)), result.getString(2),
@@ -132,6 +132,7 @@ public class ClientDAO {
 		}
 	}
 
+	//chercher les vehicules loueé par une client pour les afficheés
 	public static ResultSet chercherVehicule(String code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
