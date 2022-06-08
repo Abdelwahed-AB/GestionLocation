@@ -166,9 +166,9 @@ public class NouveauClientPanel extends JPanel {
 						&& !imagePath.getText().isBlank() && !permisPath.getText().isBlank()) {
 					// tester si l'utilisateur ne fait des fautes lors de saisie
 					if (nomTextField.getText().matches("[a-zA-Z -_'é]*") && prenomTextField.getText().matches("[a-zA-Z -_'é]*")
-							&& teleTextField.getText().matches("[0-9]*")) {
+							&& teleTextField.getText().matches("0[0-9]*|212[0-9]*")) {
 						Client client = new Client(nomTextField.getText(), prenomTextField.getText(),
-								adresseTextField.getText(), Long.parseLong(teleTextField.getText()),
+								adresseTextField.getText(), teleTextField.getText(),
 								imagePath.getText(), permisPath.getText());
 						//création du client
 						boolean b = ClientController.creatClient(client);
@@ -189,7 +189,7 @@ public class NouveauClientPanel extends JPanel {
 						permisPath.setText("");
 					} else {
 						JOptionPane.showConfirmDialog(null,
-								"nom : chaine de caractere \n prenom : chaine de caractere \n num tele : nombre",
+								"le nom doit etre une chaine de caractere \\n le prenom doit etre une chaine de caractere \\n le num tele doit etre sous forme 0(611223344) ou 212(611223344)",
 								"Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 					}
 

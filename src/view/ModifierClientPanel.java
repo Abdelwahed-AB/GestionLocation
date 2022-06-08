@@ -55,7 +55,7 @@ public class ModifierClientPanel extends JPanel {
 		teleClientTextField.setBounds(217, 131, 408, 20);
 		this.add(teleClientTextField);
 		teleClientTextField.setColumns(10);
-		teleClientTextField.setText(client.getNumTelClient()+"");
+		teleClientTextField.setText(client.getNumTelClient());
 
 		adresseClientTextField = new JTextField();
 		adresseClientTextField.setBounds(217, 185, 408, 20);
@@ -170,8 +170,8 @@ public class ModifierClientPanel extends JPanel {
 				//tester si l'utilisateur remplir tous les champs
 				if (!nomClientTextField.getText().isBlank() && !prenomClientTextField.getText().isBlank() && !adresseClientTextField.getText().isBlank() && !teleClientTextField.getText().isBlank() && !imagePath.getText().isBlank() && !permisPath.getText().isBlank()) {
 					//tester si l'utilisateur ne fait des fautes lors de saisie
-					if (nomClientTextField.getText().matches("[a-zA-Z -_'é]*") && prenomClientTextField.getText().matches("[a-zA-Z -_'é]*") && teleClientTextField.getText().matches("[0-9]*")) {
-						Client client1 = new Client(nomClientTextField.getText(), prenomClientTextField.getText(), adresseClientTextField.getText(), Long.parseLong(teleClientTextField.getText()), imagePath.getText(), permisPath.getText());
+					if (nomClientTextField.getText().matches("[a-zA-Z -_'é]*") && prenomClientTextField.getText().matches("[a-zA-Z -_'é]*") && teleClientTextField.getText().matches("0[0-9]*|212[0-9]*")) {
+						Client client1 = new Client(nomClientTextField.getText(), prenomClientTextField.getText(), adresseClientTextField.getText(), teleClientTextField.getText(), imagePath.getText(), permisPath.getText());
 						client1.setCodeClient(client.getCodeClient());
 						boolean b = ClientController.modifyClient(client1);
 						if (b) {
@@ -180,7 +180,7 @@ public class ModifierClientPanel extends JPanel {
 							JOptionPane.showConfirmDialog(null, "Opération Echouée", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 						}
 					} else {
-						JOptionPane.showConfirmDialog(null, "nom : chaine de caractere \n prenom : chaine de caractere \n num tele : nombre", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showConfirmDialog(null, "le nom doit etre une chaine de caractere \n le prenom doit etre une chaine de caractere \n le num tele doit etre sous forme 0(611223344) ou 212(611223344)", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 					}
 				} else {
 					JOptionPane.showConfirmDialog(null, "Tu dois remplir tous les champs", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);

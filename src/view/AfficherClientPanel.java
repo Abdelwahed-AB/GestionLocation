@@ -112,7 +112,7 @@ public class AfficherClientPanel extends JPanel {
 		teleClientTextField.setBounds(118, 212, 398, 38);
 		this.add(teleClientTextField);
 		teleClientTextField.setColumns(10);
-		teleClientTextField.setText(client.getNumTelClient() + "");
+		teleClientTextField.setText(client.getNumTelClient());
 
 		JButton btnNewButton = new JButton("Retour");
 		btnNewButton.addActionListener(new ActionListener() {

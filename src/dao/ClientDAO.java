@@ -28,7 +28,7 @@ public class ClientDAO {
 		try {
 			while (result.next()) {
 				Client client = new Client(Integer.parseInt(result.getString(1)), result.getString(2),
-						result.getString(3), result.getString(4), Long.parseLong(result.getString(5)),
+						result.getString(3), result.getString(4), result.getString(5),
 						result.getString(6), result.getString(7));
 				list.add(client);
 			}
@@ -49,7 +49,7 @@ public class ClientDAO {
 			prepared.setString(1, client.getNomClient());
 			prepared.setString(2, client.getPrenomClient());
 			prepared.setString(3, client.getAddresseClient());
-			prepared.setLong(4, client.getNumTelClient());
+			prepared.setString(4, client.getNumTelClient());
 			prepared.setString(5, client.getImage());
 			prepared.setString(6, client.getPermisScannee());
 			// executer la requete
@@ -72,7 +72,7 @@ public class ClientDAO {
 			ResultSet result = prepared.executeQuery();
 			while (result.next()) {
 				Client client = new Client(Integer.parseInt(result.getString(1)), result.getString(2),
-						result.getString(3), result.getString(4), Long.parseLong(result.getString(5)),
+						result.getString(3), result.getString(4), result.getString(5),
 						result.getString(6), result.getString(7));
 				return client;
 			}
@@ -92,7 +92,7 @@ public class ClientDAO {
 			ResultSet result = prepared.executeQuery();
 			while (result.next()) {
 				list.add(new Client(Integer.parseInt(result.getString(1)), result.getString(2), result.getString(3),
-						result.getString(4), Long.parseLong(result.getString(5)), result.getString(6),
+						result.getString(4), result.getString(5), result.getString(6),
 						result.getString(7)));
 			}
 			return list;
@@ -109,7 +109,7 @@ public class ClientDAO {
 			prepared.setString(1, client.getNomClient());
 			prepared.setString(2, client.getPrenomClient());
 			prepared.setString(3, client.getAddresseClient());
-			prepared.setLong(4, client.getNumTelClient());
+			prepared.setString(4, client.getNumTelClient());
 			prepared.setString(5, client.getImage());
 			prepared.setString(6, client.getPermisScannee());
 			prepared.setInt(7, client.getCodeClient());
