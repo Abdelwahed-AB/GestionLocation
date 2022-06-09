@@ -41,7 +41,7 @@ public class CreerFacturePanel extends JPanel {
 				}
 			}
 		});
-		contrat_table.setSelectionBackground(viewColors.SECONDARY);
+		contrat_table.setSelectionBackground(viewSettings.SECONDARY);
 		contrat_scroll.setViewportView(contrat_table);
 		
 		TempContratController.fetchAll(contrat_table);
