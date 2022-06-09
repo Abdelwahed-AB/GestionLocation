@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import controller.ClientController;
 import controller.ReservationController;
 import interfaces.MainInterface;
+import model.VehiculeTableModel;
 
 public class CreerReservPanel extends JPanel {
 	private JTable reserv_client_table;
@@ -32,6 +33,7 @@ public class CreerReservPanel extends JPanel {
 
 
 	private MainInterface mInterface;
+	private VehiculeTableModel vTable_model = new VehiculeTableModel();
 	private CardLayout cl;
 	private ReservationController cont;
 
@@ -65,13 +67,12 @@ public class CreerReservPanel extends JPanel {
 		this.add(warning_lbl);
 
 		//to make table cells uneditable
-		reserv_client_table = new JTable() {
+		reserv_client_table = new JTable(){
 			private static final long serialVersionUID = 1L;
 			@Override
 			public boolean isCellEditable(int row, int column){
 		          return false;
-		    }
-		};
+		    }};
 
 		reserv_client_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		reserv_client_table.setSelectionBackground(viewSettings.SECONDARY);
@@ -114,13 +115,7 @@ public class CreerReservPanel extends JPanel {
 		this.add(reserv_vehi_Scroll);
 
 		//to make table cells uneditable
-		reserv_vehi_table = new JTable() {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public boolean isCellEditable(int row, int column){
-		          return false;
-		    }
-		};
+		reserv_vehi_table = new JTable(vTable_model);
 		reserv_vehi_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		reserv_vehi_table.setSelectionBackground(viewSettings.SECONDARY);
 		reserv_vehi_Scroll.setViewportView(reserv_vehi_table);
@@ -129,8 +124,7 @@ public class CreerReservPanel extends JPanel {
 		reserv_vehi_actualiser.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO: refill vehicle table
-
+				cont.ActualiserTableVehicule();
 				warning_lbl.setText("");
 			}
 		});
@@ -341,9 +335,14 @@ public class CreerReservPanel extends JPanel {
 	public JLabel getWarning_lbl() {
 		return warning_lbl;
 	}
-
+	
+	public VehiculeTableModel getVehiculeTableModel() {
+		return this.vTable_model;
+	}
+	
 	//Setter
 	public void setReservController(ReservationController reservCont) {
 		this.cont = reservCont;
 	}
+	
 }

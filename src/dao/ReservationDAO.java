@@ -279,4 +279,37 @@ public interface ReservationDAO {
 		}
 		return false;
 	}
+	
+	/**
+	 * Methode qui cherche les vehicules disponibles
+	 * @return ArrayList<Vehicule>
+	 */
+	public static ArrayList<Vehicule> getAvailableVehicles(){
+		String query= "SELECT * "
+				+ "FROM  vehicule WHERE disponible = true;";
+		
+		ResultSet result = ConnectionManager.execute(query);
+		
+		ArrayList<Vehicule> vList = new ArrayList<Vehicule>();
+		
+		try {
+			while (result.next()) {
+				Vehicule V = new Vehicule(result.getString("Immatriculation"),
+						result.getString("marqueVehicule"),
+						result.getString("typeVehicule"),
+						result.getString("carburant"),
+						result.getInt("kilometrage"),
+						result.getDate("dateMiseCirculation"),
+						result.getInt("codePark"),
+						result.getInt("prixLocation"),
+						result.getBoolean("disponible"));
+				vList.add(V);
+			}
+			
+		} catch (SQLException e) {
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return vList;
+	}
 }
