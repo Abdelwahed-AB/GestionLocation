@@ -80,7 +80,7 @@ public interface FactureDAO {
 				+ "WHERE facture.codeContrat = contrat.codeContrat "
 				+ "AND contrat.codeReservation = reservation.codeReservation "
 				+ "AND reservation.codeClient = client.codeClient "
-				+ "AND contrat.codeMatricule = vehicule.Immatriculation"
+				+ "AND contrat.codeMatricule = vehicule.Immatriculation "
 				+ "AND codeFacture = ? "
 				+ "ORDER BY dateFacture DESC;";
 		
@@ -157,7 +157,7 @@ public interface FactureDAO {
 				     + " 	CURRENT_DATE(),"
 				     + "	(SELECT DATEDIFF(dateEcheance, dateContrat)*prixLocation "
 				     + "	 FROM contrat, vehicule"
-				     + "	 WHERE contrat.codeMatricule = vehicule.codeMatricule"
+				     + "	 WHERE contrat.codeMatricule = vehicule.Immatriculation "
 				     + "	 AND contrat.codeContrat = ?),"
 				     + "	?);";
 		
@@ -184,7 +184,7 @@ public interface FactureDAO {
 				+ "WHERE facture.codeContrat = contrat.codeContrat "
 				+ "AND contrat.codeReservation = reservation.codeReservation "
 				+ "AND reservation.codeClient = client.codeClient "
-				+ "AND contrat.codeMatricule = vehicule.Immatriculation"
+				+ "AND contrat.codeMatricule = vehicule.Immatriculation "
 				+ "AND contrat.codeContrat = ? "
 				+ "ORDER BY dateFacture DESC;";
 		

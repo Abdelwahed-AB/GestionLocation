@@ -1,18 +1,9 @@
 package dao;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
 import connectionManager.ConnectionManager;
 import model.Client;
@@ -135,7 +126,7 @@ public class ClientDAO {
 	public static ResultSet chercherVehicule(String code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
-					"SELECT codeMatricule, marqueVehicule, dateDepReservation, dateRetReservation FROM vehicule, reservation, client WHERE reservation.codeVehicule=vehicule.codeMatricule AND reservation.codeClient=client.codeClient AND reservation.codeClient=? AND reservation.isValid=1");
+					"SELECT Immatriculation, marqueVehicule, dateDepReservation, dateRetReservation FROM vehicule, reservation, client WHERE reservation.codeVehicule=vehicule.Immatriculation AND reservation.codeClient=client.codeClient AND reservation.codeClient=? AND reservation.isValid=1");
 			prepared.setString(1, code);
 			ResultSet result = prepared.executeQuery();
 			return result;
