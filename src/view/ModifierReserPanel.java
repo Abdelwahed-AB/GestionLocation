@@ -19,6 +19,8 @@ import javax.swing.SwingConstants;
 import controller.ReservationController;
 import interfaces.MainInterface;
 import model.Reservation;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ModifierReserPanel extends JPanel {
 	private String dateDepart, dateRetour, codeVehicule;

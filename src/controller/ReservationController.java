@@ -195,6 +195,7 @@ public class ReservationController {
 				mod_reserv.getWarning_lbl().setText("");
 
 				ActualiserTableau();
+				goBack();
 			}
 			else
 				mod_reserv.getWarning_lbl().setText("<html>La vehicule est déja reservé pendant cette interval choisi.</html>");
