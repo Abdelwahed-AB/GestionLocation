@@ -67,19 +67,19 @@ public class ReservationController {
 	 */
 	public void CreerReservation() {
 		int indexClient = creer_reserv.getReserv_client_table().getSelectedRow();
-		int indexVehicule = creer_reserv.getReserv_client_table().getSelectedRow();
+		int indexVehicule = creer_reserv.getReserv_vehi_table().getSelectedRow();
+
 		if(indexClient < 0) {
 			creer_reserv.getWarning_lbl().setText("<html>Veuillez Selectionner un client.</html>");
 			return;
 		}
-//		if(indexVehicule < 0) {
-//			creer_reserv.getWarning_lbl().setText("<html>Veuillez Selectionner une Vehicule.</html>");
-//			return;
-//		}
+		if(indexVehicule < 0) {
+			creer_reserv.getWarning_lbl().setText("<html>Veuillez Selectionner une Vehicule.</html>");
+			return;
+		}
 
 		int codeClient = (int) creer_reserv.getReserv_client_table().getValueAt(indexClient, 0);
-		//String codeVehicule = (String) creer_reserv.getReserv_vehi_table().getValueAt(indexVehicule, 0);
-		String codeVehicule = "ABC";
+		String codeVehicule = (String) creer_reserv.getReserv_vehi_table().getValueAt(indexVehicule, 0);
 		Date dateDep, dateRet;
 
 		//Si la valeur de date est erroné
@@ -119,6 +119,8 @@ public class ReservationController {
 	 * Methode pour creer la nouvelle panel de modification
 	 */
 	public void goToNewReserv() {
+		ActualiserTableVehicule();
+		
 		int index = reserv_panel.getReserv_table().getSelectedRow();
 		if(index < 0) {
 			// if user hasnt selected any row :
@@ -257,5 +259,13 @@ public class ReservationController {
 
 	public void setReservModPanel(ModifierReserPanel p) {
 		this.mod_reserv = p;
+	}
+	
+	/**
+	 * Methode qui actualise le tableau des vehicules dans le panel de creation de reservation 
+	 */
+	public void ActualiserTableVehicule() {
+		ArrayList<Vehicule> vList = ReservationDAO.getAvailableVehicles();
+		creer_reserv.getVehiculeTableModel().loadVehicules(vList);
 	}
 }
