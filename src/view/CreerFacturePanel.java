@@ -1,8 +1,9 @@
 package view;
 
-import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import controller.FactureController;
 import controller.TempContratController;
 import interfaces.MainInterface;
 import javax.swing.SwingConstants;
@@ -18,13 +20,11 @@ import java.awt.Color;
 public class CreerFacturePanel extends JPanel {
 	
 	private JTable contrat_table;
-	private MainInterface mInterface;
-	private CardLayout cl;
 	private JLabel warning_lbl;
+	
+	private FactureController cont;
 
 	public CreerFacturePanel(MainInterface mInterface) {
-		this.mInterface = mInterface;
-		this.cl = (CardLayout) mInterface.getMainPanel().getLayout();
 		
 		this.setLayout(null);
 		
@@ -33,6 +33,15 @@ public class CreerFacturePanel extends JPanel {
 		this.add(contrat_scroll);
 		
 		contrat_table = new JTable();
+		contrat_table.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_DELETE) {
+					cont.SupprimerFacture();
+				}
+			}
+		});
+		contrat_table.setSelectionBackground(viewColors.SECONDARY);
 		contrat_scroll.setViewportView(contrat_table);
 		
 		TempContratController.fetchAll(contrat_table);
@@ -59,7 +68,7 @@ public class CreerFacturePanel extends JPanel {
 		creerFacture_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mInterface.getFactureController().CreerFacture();
+				cont.CreerFacture();
 			}
 		});
 		this.add(creerFacture_btn);
@@ -71,7 +80,7 @@ public class CreerFacturePanel extends JPanel {
 		annuler_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				goBack();
+				cont.goBack();
 			}
 		});
 		this.add(annuler_btn);
@@ -92,11 +101,9 @@ public class CreerFacturePanel extends JPanel {
 		return warning_lbl;
 	}
 	
-	/**
-	 * Methode pour retourner a l'interface de gestion des factures
-	 */
-	public void goBack() {
-		cl.show(mInterface.getMainPanel(), "facture");
+	//Setters
+	public void setFactureController(FactureController cont) {
+		this.cont = cont;
 	}
 	
 }
