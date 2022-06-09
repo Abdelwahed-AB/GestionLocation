@@ -26,12 +26,8 @@ public class ModifierReserPanel extends JPanel {
 	private boolean isCanceled;
 	private int codeReserv;
 	
-	private MainInterface mInterface;
-	private CardLayout cl;
 	private ReservationController cont;
 	private JLabel warning_lbl;
-	
-	private ModifierReserPanel self = this;
 
 	/**
 	 * Create the application.
@@ -41,10 +37,8 @@ public class ModifierReserPanel extends JPanel {
 		initialize();
 	}
 	
-	public ModifierReserPanel(MainInterface mInterface, Reservation r, ReservationController cont) {
+	public ModifierReserPanel(Reservation r, ReservationController cont) {
 		this.cont = cont;
-		this.mInterface = mInterface;
-		this.cl = (CardLayout) mInterface.getMainPanel().getLayout();
 		this.dateDepart = r.getDateDepart().toString();
 		this.dateRetour = r.getDateRetour().toString();
 		this.isValid = r.isValid();
@@ -104,7 +98,6 @@ public class ModifierReserPanel extends JPanel {
 		sauvegarder_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cont.ModifierReservation();
-				//cl.show(mInterface.getMainPanel(), "reserv");
 			}
 		});
 		this.add(sauvegarder_btn);
@@ -114,8 +107,7 @@ public class ModifierReserPanel extends JPanel {
 		Annuler_btn.setBackground(viewSettings.MAIN);
 		Annuler_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cl.show(mInterface.getMainPanel(), "reserv");
-				mInterface.getMainPanel().remove(self);
+				cont.goBack();
 			}
 		});
 		Annuler_btn.setBounds(10, 489, 109, 48);

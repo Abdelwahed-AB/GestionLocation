@@ -175,7 +175,7 @@ public class MainInterface {
 
 		//Panel des factures @ABD-AB-------------------------------------------------------------------
 
-		FacturePanel factures = new FacturePanel(this);
+		FacturePanel factures = new FacturePanel();
 		mainPanel.add(factures, "facture");
 		
 		CreerFacturePanel creerFacturePanel = new CreerFacturePanel(this);
@@ -200,8 +200,8 @@ public class MainInterface {
 		
 
 		//Association des panels aux controlleurs @ABD-AB
-		factureController = new FactureController(factures, creerFacturePanel);
-		reservController = new ReservationController(reservPanel, createReservPanel);
+		factureController = new FactureController(factures, creerFacturePanel, this);
+		reservController = new ReservationController(reservPanel, createReservPanel, this);
 		sanctionController = new SanctionController(sanctions, sanctionInfo, this);
 		
 
@@ -277,9 +277,6 @@ public class MainInterface {
 	//GETTERS
 	public JPanel getMainPanel() {
 		return this.mainPanel;
-	}
-	public FactureController getFactureController() {
-		return factureController;
 	}
 	private void setupParkingPanel(JPanel panel) {
 		panel.setLayout(null);

@@ -130,7 +130,7 @@ public interface FactureDAO {
 	}
 	
 	/**
-	 * Supprime la facture qui correspond aux codeFacture passé comme argument
+	 * Supprime la facture qui correspond aux codeFacture passï¿½ comme argument
 	 * @param codeFacture
 	 */
 	public static void deleteFacture (int codeFacture) {

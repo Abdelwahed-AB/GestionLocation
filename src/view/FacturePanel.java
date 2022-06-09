@@ -1,13 +1,11 @@
 package view;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,11 +13,13 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import controller.FactureController;
-import controller.FactureController;
-import interfaces.MainInterface;
 import model.FactureTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.SwingConstants;
+
+import com.mysql.cj.x.protobuf.MysqlxExpect.Open.Condition.Key;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FacturePanel extends JPanel {
 	
@@ -29,11 +29,9 @@ public class FacturePanel extends JPanel {
 	private FactureTableModel factureTableModel = new FactureTableModel();
 	private FactureController cont;
 	private JTable facture_table;
-	
-	private CardLayout cl;
 
-	public FacturePanel(MainInterface mInterface) {
-		this.cl = (CardLayout) mInterface.getMainPanel().getLayout();
+
+	public FacturePanel() {
 		this.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -53,6 +51,14 @@ public class FacturePanel extends JPanel {
 		this.add(facture_warning_lbl);
 		
 		facture_field = new JTextField();
+		facture_field.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					cont.RechercherFacture();
+				}
+			}
+		});
 		facture_field.setBounds(10, 10, 353, 36);
 		this.add(facture_field);
 		facture_field.setColumns(10);
@@ -75,7 +81,7 @@ public class FacturePanel extends JPanel {
 		
 		newFacture_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cl.show(mInterface.getMainPanel(), "newFacture");
+				cont.goToNewFacture();
 			}
 		});
 		newFacture_btn.setBounds(535, 220, 164, 43);

@@ -1,10 +1,12 @@
 package controller;
 
+import java.awt.CardLayout;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import dao.FactureDAO;
+import interfaces.MainInterface;
 import metier.FactureMetier;
 import model.Facture;
 import view.CreerFacturePanel;
@@ -13,15 +15,20 @@ import view.FacturePanel;
 public class FactureController {
 	private FacturePanel fPanel;
 	private CreerFacturePanel cfPanel;
+	private MainInterface mInterface;
+	private CardLayout cl;
 	
 	public FactureController() {
 	}
 	
-	public FactureController(FacturePanel fpanel, CreerFacturePanel cfPanel) {
+	public FactureController(FacturePanel fpanel, CreerFacturePanel cfPanel, MainInterface mInterface) {
 		this.fPanel = fpanel;
 		this.cfPanel = cfPanel;
+		this.mInterface = mInterface;
+		this.cl = (CardLayout) mInterface.getMainPanel().getLayout();
 		
 		this.fPanel.setFactureController(this);
+		this.cfPanel.setFactureController(this);
 		ActualiserTableau();
 	}
 	
@@ -94,10 +101,13 @@ public class FactureController {
 			JOptionPane.showConfirmDialog(null, "facture : " + fact, "Erreur Creation Facture", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 		}
 		FactureMetier.createPdf(fact);
-		cfPanel.goBack();
+		goBack();
 		ActualiserTableau();
 	}
 	
+	/**
+	 * Methode qui recupére la facture selectionnee et l'imprime
+	 */
 	public void imprimerFacture() {
 		int index = fPanel.getFacture_table().getSelectedRow();
 		if(index < 0) {
@@ -109,5 +119,12 @@ public class FactureController {
 		
 		FactureMetier.createPdf(f);
 		ActualiserTableau();
+	}
+	
+	public void goToNewFacture() {
+		cl.show(mInterface.getMainPanel(), "newFacture");
+	}
+	public void goBack() {
+		cl.show(mInterface.getMainPanel(), "facture");
 	}
 }
