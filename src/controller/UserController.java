@@ -27,17 +27,17 @@ public class UserController {
 	 
 
 
-	// METHODE AUTOCOMPLETING
+// METHODE AUTOCOMPLETING
 	public static void autoCompletion(String CleRecherche) {
 		 ArrayList<User>  u=UserDAO.findUserAutoCompleting(CleRecherche);
 		 UserPanel.getTableModel().loadUsers(u);
 	}
 	
-	// SUPPRIMER UN UTILISATEUR
+// SUPPRIMER UN UTILISATEUR
 	public static void removeUser() {
 		int i = userTable.getSelectedRow();
 		if (i>= 0) {
-			int result = JOptionPane.showConfirmDialog(null, "Ete-vous sure de bien vouloir supprimer l'utilisateur : "+userTable.getModel().getValueAt(i, 1).toString()+"  "+userTable.getModel().getValueAt(i, 2).toString(),
+			int result = JOptionPane.showConfirmDialog(null, "Etes-vous sure de bien vouloir supprimer l'utilisateur : "+userTable.getModel().getValueAt(i, 1).toString()+"  "+userTable.getModel().getValueAt(i, 2).toString(),
 					"Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if(result == JOptionPane.YES_OPTION) {
 				int id = Integer.parseInt(userTable.getModel().getValueAt(i, 0).toString());
@@ -52,7 +52,7 @@ public class UserController {
 		else
 			JOptionPane.showMessageDialog(userPanel,"Aucun utilisateur n'est sélectionné ", "Erreu de suppression", JOptionPane.ERROR_MESSAGE);
 	}
-	//CHANGER LES ATTRIBUTS D'UN UTILISATEUR
+//CHANGER LES ATTRIBUTS D'UN UTILISATEUR
 	public static void changeUser() {
 		int i = userTable.getSelectedRow();
 		if (i>= 0) {
@@ -68,25 +68,27 @@ public class UserController {
 			changeUser.setNewTel(u.getTelephone());
 			changeUser.setNewAdresse(u.getAdresse());
 			changeUser.setChkBox(u.isStatut());
-			changeUser.getUserActif().setVisible(u.isStatut());
-			changeUser.getUserSuspendu().setVisible(!u.isStatut());
+			if(u.isStatut())
+				changeUser.getUserSuspendu().setText("Actif");
+			else
+				changeUser.getUserSuspendu().setText("Suspendu");
 			changeUser.setUsername(u.getUsername().toString());
 			window.addToMainPanel(changeUser,"changeUser");// AJOUTER LE PANEL AU MAIN PANEL
 			window.showOnMainPanel("changeUser");
 			ChangeExistingUser.setOldId(Integer.parseInt(userTable.getModel().getValueAt(i,0).toString()));
 			}
 		else
-			JOptionPane.showMessageDialog(userPanel,"no selected user ", "Mofification error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(userPanel,"Aucun utilisateur n'est sélectionné ", "Erreur de modification", JOptionPane.ERROR_MESSAGE);
 		
 	}
 	
-	// AFFICHER TOUS LES UTILISATEUR QUI SONT DANS LA BASE DE DONNEES 
+// AFFICHER TOUS LES UTILISATEUR QUI SONT DANS LA BASE DE DONNEES 
 	public static void fetchAll() {
 		ArrayList<User> uList = UserDAO.fetchAll();
 		userPanel.getTableModel().loadUsers(uList);
 	}
 	
-	// AJOUTER UN NOUVEAU UTILISATEUR
+// AJOUTER UN NOUVEAU UTILISATEUR
 	public static void createUser(UserPanel UP) {
 		try {
 			AddUser newUser = new AddUser(window);
@@ -100,28 +102,26 @@ public class UserController {
 	}
 	
 	
-	//verifies si un utilisatru existe
+//verifies si un utilisatru existe
 	public static boolean findUser(int id) {
 		if(UserDAO.findUser( id).equals(null)) return true;
 		return false;
 	}
 	
-	// changer le status d'un utilisateur en cochant le CheckBox
+// changer le status d'un utilisateur en cochant le CheckBox
 	public static void changeStatus(ChangeExistingUser changeUserPanel) {
 		if(!changeUserPanel.getChkBox().isSelected()) {
 			changeUserPanel.setStatus(false);
-			changeUserPanel.getUserActif().setVisible(false);
-			changeUserPanel.getUserSuspendu().setVisible(true);
+			changeUserPanel.getUserSuspendu().setText("Suspendu");;
 		}
 		else {
 		changeUserPanel.setStatus(true);
-		changeUserPanel.getUserActif().setVisible(true);
-		changeUserPanel.getUserSuspendu().setVisible(false);
+		changeUserPanel.getUserSuspendu().setText("Actif");;
 		}
 	}
 	
 	
-	// sousmettre les information que l'admin a modifier 
+// sousmettre les information que l'admin a modifier 
 	public static void saveUserUpdate(User U,int oldId,String newPassword) {
 		if(UserDAO.verifyUser(U.getMatricule())&&U.getMatricule()!=oldId) {//SI LA MATRICULE EXITE DEJA MAIS DIFFERENT DE L'ANCIEN MATRICULE
 			JOptionPane.showMessageDialog(null,"le champ 'matricule' existe déja, changer le et cliquer sur enregistrer", "Probléme d'identifiant", JOptionPane.ERROR_MESSAGE);
@@ -163,29 +163,29 @@ public class UserController {
 					if(!UserDAO.findUser(ee)) {
 						if(UserDAO.createUser(a, b, c, d, ee, encryptedPassword)) {
 							UserController.fetchAll();
-							JOptionPane.showMessageDialog(null,"user added successfully", "Adding succeded", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null,"Utilisateur ajouté avec succés", "Ajout evec succés", JOptionPane.INFORMATION_MESSAGE);
 							window.showOnMainPanel("user");//revenir au menu principal
 						}
 						else
-							JOptionPane.showMessageDialog(null,"failed to add new user", "Adding problem", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null,"Ajout d'utilisateur echoué", "Probleme d'Ajout", JOptionPane.ERROR_MESSAGE);
 					}else
-						JOptionPane.showMessageDialog(null,"User exitst already", "Adding problem", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Utilisateur existe deja", "Probleme d'ajout", JOptionPane.ERROR_MESSAGE);
 				}else 
-						JOptionPane.showMessageDialog(null,"make sure the two password fields match", "Password problem", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Verifie que les deux mots de passe sont similaires", "Probleme de mot de passe", JOptionPane.WARNING_MESSAGE);
 			}else {
 				JOptionPane.showMessageDialog(null,"Le champ telephone ne peut contenir que des nombres ou des symboles + * #", "Probléme de modification", JOptionPane.ERROR_MESSAGE);
 				UserController.AU.getNewUserTel().setText("");;
 			}
 		}
 		else 
-			JOptionPane.showMessageDialog(null,"One or more fields are empty", "Data missng", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Manque de données", JOptionPane.WARNING_MESSAGE);
 		
 	}
 
 	
 	
 	
-	//méthodes de contrôle
+//méthodes de contrôle
 	public static boolean empty(ChangeExistingUser JP) {//verifie si les cahmps de text sont vides[ça concerne la modification des utilisateurs]
 		if(JP.getNewNom().getText().isEmpty()||JP.getNewPrenom().getText().isEmpty()||JP.getNewMatricule().getText().isEmpty()||JP.getNewTel().getText().isEmpty()||
 				JP.getNewAdresse().getText().isEmpty())
@@ -207,7 +207,7 @@ public class UserController {
 		else return false;
 	}
 
-	// vider les champs du panel ChangeExistingUser
+// vider les champs du panel ChangeExistingUser
 	public static void emptyUpdateFields(ChangeExistingUser changeExistingUser) {
 		changeExistingUser.getNewMatricule().setText("");
 		changeExistingUser.getNewNom().setText("");
@@ -215,13 +215,12 @@ public class UserController {
 		changeExistingUser.getNewTel().setText("");
 		changeExistingUser.getNewAdresse().setText("");
 		changeExistingUser.getChkBox().setSelected(true);
-		changeExistingUser.getUserActif().setVisible(true);
-		changeExistingUser.getUserSuspendu().setVisible(false);
+		changeExistingUser.getUserSuspendu().setText("Actif");;
 		changeExistingUser.getUsername().setText("");
 		changeExistingUser.getNewPasword().setText("");
 	
 	}
-	// vider les champs du panel AddUser
+// vider les champs du panel AddUser
 		public static void emptyAddFields(AddUser addUser) {
 			addUser.getNewUserNom().setText("");
 			addUser.getNewUserPrenom().setText("");
@@ -232,9 +231,7 @@ public class UserController {
 			addUser.getPasswordConfirmed().setText("");
 		}
 	
-	
-	
-	// methode de cryptage
+// methode de cryptage
 	public static String cryptWithMD5(String pass){
 	    try {
 	        md = MessageDigest.getInstance("MD5");
@@ -252,7 +249,7 @@ public class UserController {
 	        return null;
 	}
 	   
-	// SETTERS 
+// SETTERS 
 	public static void setTable(JTable a) {
 		UserController.userTable=a;
 	}

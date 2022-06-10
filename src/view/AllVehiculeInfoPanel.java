@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.CardLayout;
-import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +12,6 @@ import interfaces.MainInterface;
 import model.VehiculeTableModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 public class AllVehiculeInfoPanel extends JPanel {
 	// ATTRIBUTS DE LA CLASSE AVIP

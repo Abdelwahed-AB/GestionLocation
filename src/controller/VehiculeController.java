@@ -23,32 +23,31 @@ public class VehiculeController {
 	 
 	 
 	 
-	// METRHODE AUTOCOMPLETING
+// METRHODE AUTOCOMPLETING
 	public static void autoCompleting(String a) {
 		ArrayList<Vehicule> vList = vehiculeDAO.findVehiculeAutoCompleting(a);//RETOURNE UNE ARRAYLIST
 		vehiculePanel.getTableModel().loadVehicules(vList);//ATTACHE LA LISTE A LA TABLE DU PANEL VEHICULEPANEL
 	}
-	//AFFICHER TOUT LES ENREGISTREMENT
+//AFFICHER TOUT LES ENREGISTREMENT
 	public static void fetchAll() {
 		ArrayList<Vehicule> vList = vehiculeDAO.fetchAll();
 		vehiculePanel.getTableModel().loadVehicules(vList);
 	}
-	// METHODE AJOUTER UN NOUVEAU VEHICULE
+// METHODE AJOUTER UN NOUVEAU VEHICULE
 	public static void addVehicule( ) {
 		try {
 			AddNewVehicule newVehicule = new AddNewVehicule(window);
 			window.addToMainPanel(newVehicule,"newVehicule");
 			window.showOnMainPanel("newVehicule");
 			newVehicule.getDisponible().setSelected(true);
-			newVehicule.getLbl_disp().setVisible(true);
-			newVehicule.getLbl_indisp().setVisible(false);
+			newVehicule.getLbl_disp().setText("Disponible");;
 			newVehicule.getYcomboBox().setSelectedIndex(0);//ON FORCE LE CHOIX D'UNE DATE POUR QU'ON EVITE LA SEVAUGARDE SANS CHOISIR UNE
 			newVehicule.getMcomboBox().setSelectedIndex(0);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	//METHODE SAUVEAGARDER L'ENREGISTREMENT
+//METHODE SAUVEAGARDER L'ENREGISTREMENT
 	public static void saveNewVehicule(AddNewVehicule ANV,Vehicule v) {
 		
 		if(v.getCarburant().matches("[a-zA-Z]*") && v.getMatricule().matches("[a-zA-Z 0-9]*")&&v.getMarque().matches("[a-zA-Z 0-9]*")&&v.getType().matches("[a-zA-Z]*")) {
@@ -65,13 +64,13 @@ public class VehiculeController {
 		}
 		
 	}
-	//MRTHODE ANNULER L'ENREGISTREMENT/CHANGEMENT
+//MRTHODE ANNULER L'ENREGISTREMENT/CHANGEMENT
 	public static void cancel(MainInterface MI) {
 		MI.showOnMainPanel("vehicule");	//revenir au menu precedent
 		ArrayList<Vehicule> vList = vehiculeDAO.fetchAll();
 		vehiculePanel.getTableModel().loadVehicules(vList);
 	}
-	//METHODE QUI AFFICHE TOUS LES INFORMATIONS D'UNE VEHICULE
+//METHODE QUI AFFICHE TOUS LES INFORMATIONS D'UNE VEHICULE
 	public static void DisplayAllVehiculeInfo(String matricule) {
 		// TODO Auto-generated method stub
 		AllVehiculeInfoPanel AVIP=new AllVehiculeInfoPanel(window);
@@ -92,7 +91,7 @@ public class VehiculeController {
 			AVIP.getLbl_disponibilite().setText("Non");
 	}
 	
-	// METHODE QUI SUPPRIME L'ENREGISTREMENT SELECTIONNE
+// METHODE QUI SUPPRIME L'ENREGISTREMENT SELECTIONNE
 	public static void removeVehicule() {
 		// TODO Auto-generated method stub
 		int i = vehiculeTable.getSelectedRow();
@@ -112,7 +111,7 @@ public class VehiculeController {
 			JOptionPane.showMessageDialog(null,e.getMessage(), "Echec de suppression", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	//METHODE QUI LANCE LE PANEL D EMODIFICATION
+//METHODE QUI LANCE LE PANEL D EMODIFICATION
 	public static void changeVehicle() {
 		// TODO Auto-generated method stub
 		int index=VehiculeController.vehiculeTable.getSelectedRow();
@@ -140,12 +139,12 @@ public class VehiculeController {
 			JOptionPane.showMessageDialog(null,"Aucun vehicule n'est selectionné", "Echec de modification", JOptionPane.ERROR_MESSAGE);
 	}
 	
-	//METHODE QUI ENREGISTRE LES MIDIFICATION SD'UN VEHICULE
+//METHODE QUI ENREGISTRE LES MIDIFICATION SD'UN VEHICULE
 	public static void saveChanges(Vehicule v,String oldId) {
 		// TODO Auto-generated method stub
 		
 		if(vehiculeDAO.verifyVehicle(v.getMatricule())&&!(v.getMatricule().equals(oldId))) {//SI LA MATRICULE EXITE DEJA MAIS DIFFERENT DE L'ANCIEN MATRICULE
-			JOptionPane.showMessageDialog(null,"the field 'matricule' exists already, change it then click save", "Id problem", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"le champ matricule existe deja, changer le", "problème d'identifiant", JOptionPane.ERROR_MESSAGE);
 		}else {
 			if(v.getCarburant().matches("[a-zA-Z]*") && v.getMatricule().matches("[a-zA-Z 0-9]*")&&v.getMarque().matches("[a-zA-Z 0-9]*")&&v.getType().matches("[a-zA-Z]*")) {
 				if(vehiculeDAO.ChangeVehicle(v,oldId)) {
@@ -161,23 +160,12 @@ public class VehiculeController {
 		}
 
 	}
-	//FONCTION QUI RETROURNE LES NOMS DES PARKINGS
+//FONCTION QUI RETROURNE LES NOMS DES PARKINGS
 		public static ArrayList<String> ParksNames(){
 			return vehiculeDAO.nomPark();
 		}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// FONCTIONS POUR LE CONTROLE DES CHAMPS RENSEIGNES
+// FONCTIONS POUR LE CONTROLE DES CHAMPS RENSEIGNES
 	@SuppressWarnings("deprecation")
 	public static boolean empty(AddNewVehicule ANV) {//VERIFIE SI LES CHAMPS DU NOUVEAU VEHICULE SONT VIDES
 		//[ON NE PEUT UTILISER DIRECTEMENT UN OBJET VEHCULE COMME ARGUMENT DE CETTE FONCTION CAR LA MTHD IsEmpty() N'EST PAS DEFINIE POUR CERTAIN ATTRIBUTS]
@@ -196,27 +184,21 @@ public class VehiculeController {
 	}
 	public static void changeDisponibility(AddNewVehicule ANV) {//CETTE METHODE AFFICHE OU NON LES LABEL DISPONIBLE/INDISPONIBLE SELON L'ETAT DE CHECKBOX
 		if(ANV.getDisponible().isSelected()) {
-			ANV.getLbl_disp().setVisible(true);
-			ANV.getLbl_indisp().setVisible(false);
+			ANV.getLbl_disp().setText("Disponible");
 		}
-		else {
-			ANV.getLbl_disp().setVisible(false);
-			ANV.getLbl_indisp().setVisible(true);
-		}
+		else
+			ANV.getLbl_disp().setText("Indisponible");
 	}
-	public static void changeDisponibility(ChangeExistingVehicle CEV) {
+	public static void changeDisponibility(ChangeExistingVehicle CEV) {//CETTE METHODE AFFICHE OU NON LES LABEL DISPONIBLE/INDISPONIBLE SELON L'ETAT DE CHECKBOX
 		// TODO Auto-generated method stub
 		if(CEV.getDisponible().isSelected()) {
-			CEV.getLbl_disp().setVisible(true);
-			CEV.getLbl_indisp().setVisible(false);
+			CEV.getLbl_disp().setText("Disponible");
 		}
-		else {
-			CEV.getLbl_disp().setVisible(false);
-			CEV.getLbl_indisp().setVisible(true);
-		}
+		else
+			CEV.getLbl_disp().setText("Indisponible");
 	}
-	
-	public static void emptyAddFields(AddNewVehicule ANV) {//CETTE METHODE VIDE TOU LES CHAMPS RENSEIGNES PAR L'UTILISATEUR
+
+	public static void emptyAddFields(AddNewVehicule ANV) {//CETTE METHODE VIDE TOUS LES CHAMPS RENSEIGNES PAR L'UTILISATEUR
 		ANV.getImmatriculationVehicule().setText("");
 		ANV.getMarqueVehicule().setText("");
 		ANV.getTypeVehicule().setText("");
@@ -224,8 +206,7 @@ public class VehiculeController {
 		ANV.getKilometrage().setText("");
 		ANV.getParkComboBox().setSelectedIndex(0);
 		ANV.getPrixLocation().setText("");
-		ANV.getLbl_disp().setVisible(true);
-		ANV.getLbl_indisp().setVisible(false);
+		ANV.getLbl_disp().setText("Disponible");;
 		ANV.getDisponible().setSelected(true);
 		ANV.getYcomboBox().setSelectedIndex(0);//ON FORCE LE CHOIX D'UNE DATE POUR QU'ON EVITE LA SEVAUGARDE SANS CHOISIR UNE
 		ANV.getMcomboBox().setSelectedIndex(0);
@@ -238,8 +219,7 @@ public class VehiculeController {
 		CEV.getKilometrage().setText("");
 		CEV.getParkComboBox().setSelectedIndex(0);;
 		CEV.getPrixLocation().setText("");
-		CEV.getLbl_disp().setVisible(true);
-		CEV.getLbl_indisp().setVisible(false);
+		CEV.getLbl_disp().setText("Disponible");
 		CEV.getDisponible().setSelected(true);
 		CEV.getYcomboBox().setSelectedIndex(0);//ON FORCE LE CHOIX D'UNE DATE POUR QU'ON EVITE LA SEVAUGARDE SANS CHOISIR UNE
 		CEV.getMcomboBox().setSelectedIndex(0);
@@ -256,11 +236,4 @@ public class VehiculeController {
 		VehiculeController.vehiculePanel=vehiculePanel;
 	}
 
-	
-	
-	
-	
-	
-	
-	
 }

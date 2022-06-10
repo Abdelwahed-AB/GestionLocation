@@ -40,7 +40,6 @@ public class AddNewVehicule  extends JPanel{
 	private JTextField prixLocation;
 	private JCheckBox disponible;
 	private JLabel lbl_disp ;
-	private JLabel lbl_indisp;
 	
 
 	private static VehiculePanel vehiculePanel;
@@ -187,10 +186,7 @@ public class AddNewVehicule  extends JPanel{
 		lbl_disp = new JLabel("Disponible");
 		lbl_disp.setBounds(523, 347, 120, 27);
 		add(lbl_disp);
-		
-		lbl_indisp = new JLabel("Indisponible");
-		lbl_indisp.setBounds(523, 347, 124, 27);
-		add(lbl_indisp);
+
 		
 		JLabel date_miseCirc_lbl = new JLabel("Date de mise en circulation:");
 		date_miseCirc_lbl.setHorizontalAlignment(SwingConstants.LEFT);
@@ -326,9 +322,7 @@ public class AddNewVehicule  extends JPanel{
 	public JLabel getLbl_disp() {
 		return lbl_disp;
 	}
-	public JLabel getLbl_indisp() {
-		return lbl_indisp;
-	}
+
 
 
 

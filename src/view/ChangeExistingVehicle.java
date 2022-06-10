@@ -40,7 +40,6 @@ public class ChangeExistingVehicle extends JPanel{
 	private JTextField prixLocation;
 	private JCheckBox disponible;
 	private JLabel lbl_disp ;
-	private JLabel lbl_indisp;
 	private static  String oldId;
 	
 
@@ -187,9 +186,6 @@ public class ChangeExistingVehicle extends JPanel{
 		lbl_disp.setBounds(478, 305, 120, 37);
 		add(lbl_disp);
 		
-		lbl_indisp = new JLabel("Indisponible");
-		lbl_indisp.setBounds(478, 305, 124, 37);
-		add(lbl_indisp);
 		
 		JLabel lblNewLabel_1_1_5_2_1 = new JLabel("Date de mise en circulation:");
 		lblNewLabel_1_1_5_2_1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -329,9 +325,6 @@ public class ChangeExistingVehicle extends JPanel{
 	}
 	public JLabel getLbl_disp() {
 		return lbl_disp;
-	}
-	public JLabel getLbl_indisp() {
-		return lbl_indisp;
 	}
 	public JComboBox getParkComboBox() {
 		return parkComboBox;

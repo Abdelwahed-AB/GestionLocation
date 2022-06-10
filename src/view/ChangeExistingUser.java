@@ -41,14 +41,12 @@ public class ChangeExistingUser extends JPanel{
 	private JTable table;
 	private JCheckBox StatusChkBox;
 	private JLabel userSuspendu;
-	private JLabel userActif;
 	private JPanel userPanel;
 	private static int oldId; //contains id of the row chosen on the main menu
 	private boolean statut;
-	private JLabel lblNewLabel;
 	private JTextField newPassword;
 	private JTextField username;
-	private JLabel lblNewLabel_5;
+
 	
 	
 	// constructor
@@ -189,22 +187,16 @@ public class ChangeExistingUser extends JPanel{
 		
 		userSuspendu = new JLabel("Suspendu");
 		userSuspendu.setBounds(543, 330, 164, 42);
-		userSuspendu.setVisible(false);
+		userSuspendu.setVisible(true);
 		userSuspendu.setHorizontalAlignment(SwingConstants.CENTER);
 		add(userSuspendu);
-		
-		userActif = new JLabel("Actif");
-		userActif.setBounds(558, 330, 164, 42);
-		userActif.setVisible(false);
-		userActif.setHorizontalAlignment(SwingConstants.CENTER);
-		add(userActif);
 		
 		JLabel lblNewLabel_7_1 = new JLabel("Matricule");
 		lblNewLabel_7_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_7_1.setBounds(44, 99, 92, 42);
 		add(lblNewLabel_7_1);
 		
-		lblNewLabel = new JLabel("Mot de passe");
+		JLabel  lblNewLabel = new JLabel("Mot de passe");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setBounds(44, 328, 92, 42);
 		add(lblNewLabel);
@@ -218,8 +210,8 @@ public class ChangeExistingUser extends JPanel{
 		username.setColumns(10);
 		username.setBounds(474, 258, 195, 42);
 		add(username);
-		
-		lblNewLabel_5 = new JLabel("Username");
+	
+		JLabel  lblNewLabel_5 = new JLabel("Username");
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_5.setBounds(371, 257, 82, 42);
 		add(lblNewLabel_5);
@@ -311,9 +303,6 @@ public class ChangeExistingUser extends JPanel{
 	//	GETTERS
 	public JCheckBox getChkBox() {
 		return this.StatusChkBox;
-	}
-	public JLabel getUserActif() {
-		return this.userActif;
 	}
 	public JLabel getUserSuspendu() {
 		return this.userSuspendu;
