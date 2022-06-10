@@ -135,12 +135,12 @@ public class ModifierParkingPanel extends JPanel {
 						boolean b = ParkingController.modifyParking(parking1);
 						//si le parking est bien créer dans la base de donnée afficher message "Opération Effectuée avce Succée"
 						if (b) {
-							JOptionPane.showConfirmDialog(null, "Opération Effectuée avce Succée", "Succée",
+							JOptionPane.showConfirmDialog(null, "Operation Effectuee avce Succee", "Succee",
 									JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
 							cl.show(panel, "parking");
 						} else {
 							//si non
-							JOptionPane.showConfirmDialog(null, "Opération Echouée! \n éssayer à nouveau", "Echoue",
+							JOptionPane.showConfirmDialog(null, "Operation Echouee! \n essayer a nouveau", "Echoue",
 									JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 						}
 					} else {

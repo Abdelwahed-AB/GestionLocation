@@ -68,17 +68,17 @@ public class ModifierClientPanel extends JPanel {
 		adresseClientTextField.setColumns(10);
 		adresseClientTextField.setText(client.getAddresseClient());
 		
-		JLabel nomClientlbl = new JLabel("nom client");
+		JLabel nomClientlbl = new JLabel("Nom Client");
 		nomClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		nomClientlbl.setBounds(25, 23, 139, 14);
 		this.add(nomClientlbl);
 		
-		JLabel prenomClientlbl = new JLabel("prenom client");
+		JLabel prenomClientlbl = new JLabel("Prenom Client");
 		prenomClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		prenomClientlbl.setBounds(371, 23, 139, 14);
 		this.add(prenomClientlbl);
 		
-		JLabel teleClientlbl = new JLabel("num Tel client");
+		JLabel teleClientlbl = new JLabel("Num Tel Client");
 		teleClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		teleClientlbl.setBounds(25, 76, 139, 14);
 		this.add(teleClientlbl);
@@ -118,7 +118,7 @@ public class ModifierClientPanel extends JPanel {
 				prenomClientTextField.setText("");
 				teleClientTextField.setText("");
 				adresseClientTextField.setText("");
-				imagePath.setText("image de taille 179x217");
+				imagePath.setText("Image de taille 179x217");
 				permisPath.setText("");
 				warningLabel.setText("");
 				imageClient.setIcon(null);
@@ -148,12 +148,12 @@ public class ModifierClientPanel extends JPanel {
 		imageClientlbl.setBounds(25, 125, 139, 14);
 		this.add(imageClientlbl);
 		
-		JLabel permisClientlbl = new JLabel("Permis Scan\u00E9e de Client");
+		JLabel permisClientlbl = new JLabel("Permis Scannee de Client");
 		permisClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		permisClientlbl.setBounds(371, 125, 139, 14);
 		this.add(permisClientlbl);
 		
-		JButton imageButton = new JButton("choisir un fichier");
+		JButton imageButton = new JButton("Choisir un fichier");
 		imageButton.setBackground(viewSettings.SECONDARY);
 		imageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -176,14 +176,14 @@ public class ModifierClientPanel extends JPanel {
 						warningLabel.setText("*Vous devez choisir une fichier png ou jpg");
 					}
 				} else {
-					warningLabel.setText("*Vous devez s�l�ctionn�e une image");
+					warningLabel.setText("*Vous devez selectionnee une image");
 				}
 			}
 		});
 		imageButton.setBounds(69, 421, 109, 23);
 		this.add(imageButton);
 		
-		JButton permisButton = new JButton("choisir un fichier");
+		JButton permisButton = new JButton("Choisir un fichier");
 		permisButton.setBackground(viewSettings.SECONDARY);
 		permisButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -206,7 +206,7 @@ public class ModifierClientPanel extends JPanel {
 						warningLabel.setText("*Vous devez choisir une fichier png ou jpg");
 					}
 				} else {
-					warningLabel.setText("*Vous devez s�l�ctionn�e une image");
+					warningLabel.setText("*Vous devez selectionnee une image");
 				}
 			}
 		});
@@ -235,12 +235,12 @@ public class ModifierClientPanel extends JPanel {
 								boolean b = ClientController.modifyClient(client1);
 								//si le client est bien cr�er dans la base de donn�e afficher message "Op�ration Effectu�e avce Succ�e"
 								if (b) {
-									JOptionPane.showConfirmDialog(null, "Op�ration Effectu�e avce Succ�e", "Succ�e",
+									JOptionPane.showConfirmDialog(null, "Operation Effectuee avce Succee", "Succee",
 											JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
 									cl.show(panel, "client");
 								} else {
 									//si non
-									JOptionPane.showConfirmDialog(null, "Op�ration Echou�e! \n �ssayer � nouveau", "Echoue",
+									JOptionPane.showConfirmDialog(null, "Operation Echouee! \n ressayer a nouveau", "Echoue",
 											JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 								}
 							} else {

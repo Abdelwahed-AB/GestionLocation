@@ -68,7 +68,7 @@ public class ClientMainView extends JPanel {
 							warninglbl.setText("");
 						}
 					} else {
-						warninglbl.setText("*Vous devez sélectionner un client pour le supprimer");
+						warninglbl.setText("*Vous devez selectionner un client pour le supprimer");
 					}
 				}
 			}
@@ -93,7 +93,7 @@ public class ClientMainView extends JPanel {
 					ClientController.findClientByName(string, clienttable);
 					warninglbl.setText("");
 				} else {
-					warninglbl.setText("*Vous deuvez remplir le nom de client tu as en train de chercher");
+					warninglbl.setText("*Vous deuvez remplir le nom de client vous etes en train de chercher");
 				}
 			}
 		});
@@ -125,7 +125,7 @@ public class ClientMainView extends JPanel {
 						ClientController.findClientByName(string, clienttable);
 						warninglbl.setText("");
 					} else {
-						warninglbl.setText("*Vous deuvez remplir le nom de client tu as en train de chercher");
+						warninglbl.setText("*Vous deuvez remplir le nom de client vous etes en train de chercher");
 					}
 				}
 			}
@@ -151,7 +151,7 @@ public class ClientMainView extends JPanel {
 					warninglbl.setText("");
 				} else {
 					// si l'utilisateur ne séléctionne aucun ligne de tableau
-					warninglbl.setText("*Vous devez sélectionner un client pour le modifier");
+					warninglbl.setText("*Vous devez selectionner un client pour le modifier");
 				}
 			}
 		});
@@ -185,7 +185,7 @@ public class ClientMainView extends JPanel {
 						warninglbl.setText("");
 					}
 				} else {
-					warninglbl.setText("*Vous devez sélectionner un client pour le supprimer");
+					warninglbl.setText("*Vous devez selectionner un client pour le supprimer");
 				}
 			}
 		});
@@ -207,7 +207,7 @@ public class ClientMainView extends JPanel {
 					cl.show(panel, "afficherClientPanel");
 					warninglbl.setText("");
 				} else {
-					warninglbl.setText("*Vous devez sélectionner un client pour l'afficher");
+					warninglbl.setText("*Vous devez selectionner un client pour l'afficher");
 				}
 			}
 		});

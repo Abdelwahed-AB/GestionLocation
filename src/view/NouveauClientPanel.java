@@ -57,22 +57,22 @@ public class NouveauClientPanel extends JPanel {
 		this.add(teleTextField);
 		teleTextField.setColumns(10);
 
-		JLabel nomClientlbl = new JLabel("nom client");
+		JLabel nomClientlbl = new JLabel("Nom Client");
 		nomClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		nomClientlbl.setBounds(25, 23, 139, 14);
 		this.add(nomClientlbl);
 
-		JLabel prenomClientlbl = new JLabel("prenom client");
+		JLabel prenomClientlbl = new JLabel("Prenom Client");
 		prenomClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		prenomClientlbl.setBounds(371, 23, 139, 14);
 		this.add(prenomClientlbl);
 
-		JLabel teleClientlbl = new JLabel("num Tel client");
+		JLabel teleClientlbl = new JLabel("Num Tel Client");
 		teleClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		teleClientlbl.setBounds(25, 76, 139, 14);
 		this.add(teleClientlbl);
 
-		JLabel imagePath = new JLabel("image de taille 179x217");
+		JLabel imagePath = new JLabel("Image de taille 179x217");
 		imagePath.setHorizontalAlignment(SwingConstants.CENTER);
 		imagePath.setBounds(25, 393, 202, 14);
 		this.add(imagePath);
@@ -105,7 +105,7 @@ public class NouveauClientPanel extends JPanel {
 				prenomTextField.setText("");
 				teleTextField.setText("");
 				adresseTextField.setText("");
-				imagePath.setText("image de taille 179x217");
+				imagePath.setText("Image de taille 179x217");
 				permisPath.setText("");
 				warningLabel.setText("");
 				imageClient.setIcon(null);
@@ -140,18 +140,18 @@ public class NouveauClientPanel extends JPanel {
 		imageClientlbl.setBounds(25, 125, 139, 14);
 		this.add(imageClientlbl);
 
-		JLabel permisClientlbl = new JLabel("Permis Scan\u00E9e de Client");
+		JLabel permisClientlbl = new JLabel("Permis Scanee de Client");
 		permisClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		permisClientlbl.setBounds(371, 125, 139, 14);
 		this.add(permisClientlbl);
 
-		JButton imageButton = new JButton("choisir un fichier");
+		JButton imageButton = new JButton("Choisir un fichier");
 		imageButton.setBackground(viewSettings.SECONDARY);
 		imageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir une fenetre pour s�l�ctionn� l'image
 				JFileChooser chooser = new JFileChooser();
-				chooser.setDialogTitle("Choisir une Image");
+				chooser.setDialogTitle("Choisir une image");
 				//ajouter un filtre � la fenetre de choix
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Image", "jpg", "png");
 				chooser.addChoosableFileFilter(filter);
@@ -168,7 +168,7 @@ public class NouveauClientPanel extends JPanel {
 						warningLabel.setText("*Vous devez choisir une fichier png ou jpg");
 					}
 				} else {
-					warningLabel.setText("*Vous devez s�l�ctionn�e une image");
+					warningLabel.setText("*Vous devez selectionnee une image");
 				}
 			}
 		});
@@ -198,7 +198,7 @@ public class NouveauClientPanel extends JPanel {
 						warningLabel.setText("*Vous devez choisir une fichier png ou jpg");
 					}
 				} else {
-					warningLabel.setText("*Vous devez s�l�ctionn�e une image");
+					warningLabel.setText("*Vous devez selectionnee une image");
 				}
 			}
 		});
@@ -226,18 +226,18 @@ public class NouveauClientPanel extends JPanel {
 								boolean b = ClientController.creatClient(client);
 								//si le client est bien cr�er dans la base de donn�e afficher message "Op�ration Effectu�e avce Succ�e"
 								if (b) {
-									JOptionPane.showConfirmDialog(null, "Op�ration Effectu�e avce Succ�e", "Succ�e",
+									JOptionPane.showConfirmDialog(null, "Operation Effectee avce Succee", "Succ�e",
 											JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
 								} else {
 									//si non
-									JOptionPane.showConfirmDialog(null, "Op�ration Echou�e! \n �ssayer � nouveau", "Echoue",
+									JOptionPane.showConfirmDialog(null, "Operation Echouee! \n ressayer a nouveau", "Echoue",
 											JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 								}
 								nomTextField.setText("");
 								prenomTextField.setText("");
 								teleTextField.setText("");
 								adresseTextField.setText("");
-								imagePath.setText("image de taille 179x217");
+								imagePath.setText("Image de taille 179x217");
 								permisPath.setText("");
 								warningLabel.setText("");
 								imageClient.setIcon(null);

@@ -89,12 +89,12 @@ public class AfficherClientPanel extends JPanel {
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("Matricule");
 		dtm.addColumn("Marque");
-		dtm.addColumn("Date de d�part");
+		dtm.addColumn("Date de depart");
 		dtm.addColumn("Date de retour");
 		table_1.setModel(dtm);
 		scrollPane.setViewportView(table_1);
 		
-		JLabel vehiculeAllouee = new JLabel("Les voitures Allou\u00E9es");
+		JLabel vehiculeAllouee = new JLabel("Les voitures Allouees");
 		vehiculeAllouee.setHorizontalAlignment(SwingConstants.CENTER);
 		vehiculeAllouee.setBounds(58, 267, 156, 32);
 		add(vehiculeAllouee);

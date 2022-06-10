@@ -114,7 +114,7 @@ public class ParkingDAO {
 	public static ResultSet chercherVehicule (int code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
-					"SELECT Immatriculation, marqueVehicule, typeVehicule, prixLocation FROM vehicule, parking, reservation WHERE vehicule.codePark=parking.codeParking AND vehicule.Immatriculation=reservation.codeVehicule AND parking.codeParking=? AND reservation.isValid=0");
+					"SELECT Immatriculation, marqueVehicule, typeVehicule, prixLocation FROM vehicule, parking WHERE vehicule.codePark=parking.codeParking AND parking.codeParking=? AND vehicule.disponible = 1");
 			prepared.setInt(1, code);
 			ResultSet result = prepared.executeQuery();
 			return result;

@@ -71,7 +71,7 @@ public class ParkingMainView extends JPanel {
 							warninglbl.setText("");
 						}
 					} else {
-						warninglbl.setText("*Vous devez séléctionnée un élément du tableau pour le supprimer!");
+						warninglbl.setText("*Vous devez selectionnee un element du tableau pour le supprimer!");
 					}
 					// rafraîchir le tableau
 					ParkingController.fetchAll(parkingtable);
@@ -79,6 +79,7 @@ public class ParkingMainView extends JPanel {
 			}
 		});
 		parkingtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		parkingtable.setSelectionBackground(viewSettings.SECONDARY);
 		Object[] parkingcolumns = { "code", "nom", "capacite" };
 		DefaultTableModel parkingmodel = new DefaultTableModel();
 		parkingmodel.setColumnCount(3);
@@ -87,6 +88,8 @@ public class ParkingMainView extends JPanel {
 		parkingscrollPane.setViewportView(parkingtable);
 
 		JButton parkingSearchButton = new JButton("Rechercher");
+		parkingSearchButton.setBackground(viewSettings.MAIN);
+		parkingSearchButton.setForeground(viewSettings.WHITE);
 		parkingSearchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					String string = searchParkingTextField.getText();
@@ -95,7 +98,7 @@ public class ParkingMainView extends JPanel {
 					ParkingController.findParkingByName(string, parkingtable);
 					warninglbl.setText("");
 				} else {
-					warninglbl.setText("*Vous deuvez remplir le nom du parking tu as en train de chercher");
+					warninglbl.setText("*Vous deuvez remplir le nom du parking vous etes en train de chercher");
 				}
 
 			}
@@ -104,6 +107,7 @@ public class ParkingMainView extends JPanel {
 		this.add(parkingSearchButton);
 
 		JButton nouveauParkingButton = new JButton("Nouveau Parking");
+		nouveauParkingButton.setBackground(viewSettings.SECONDARY);
 		nouveauParkingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir la fenetre créer nouveau parking
@@ -128,7 +132,7 @@ public class ParkingMainView extends JPanel {
 					ParkingController.findParkingByName(string, parkingtable);
 					warninglbl.setText("");
 				} else {
-					warninglbl.setText("*Vous deuvez remplir le nom du parking tu as en train de chercher");
+					warninglbl.setText("*Vous deuvez remplir le nom du parking vous etes en train de chercher");
 				}
 				}
 			}
@@ -138,6 +142,7 @@ public class ParkingMainView extends JPanel {
 		searchParkingTextField.setColumns(10);
 
 		JButton modifierParkingButton = new JButton("Modifier");
+		modifierParkingButton.setBackground(viewSettings.SECONDARY);
 		modifierParkingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// recuperer l'index de la ligne du tableau séléctionnée
@@ -151,15 +156,15 @@ public class ParkingMainView extends JPanel {
 					warninglbl.setText("");
 				} else {
 					// si l'utilisateur ne séléctionne aucun ligne de tableau
-					warninglbl.setText("*Vous devez séléctionnée un élément du tableau pour le modifier!");
+					warninglbl.setText("*Vous devez selectionnee un element du tableau pour le modifier!");
 				}
-				warninglbl.setText("");
 			}
 		});
 		modifierParkingButton.setBounds(594, 170, 128, 36);
 		this.add(modifierParkingButton);
 
 		JButton actualiserParkingButton = new JButton("Actualiser");
+		actualiserParkingButton.setBackground(viewSettings.SECONDARY);
 		actualiserParkingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// rafraîchir le tableau des clients
@@ -171,6 +176,7 @@ public class ParkingMainView extends JPanel {
 		this.add(actualiserParkingButton);
 
 		JButton supprimerParkingButton = new JButton("Supprimer");
+		supprimerParkingButton.setBackground(viewSettings.SECONDARY);
 		supprimerParkingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// tester si le client a séléctionné une ligne
@@ -184,7 +190,7 @@ public class ParkingMainView extends JPanel {
 						warninglbl.setText("");
 					}
 				} else {
-					warninglbl.setText("*Vous devez séléctionnée un élément du tableau pour le supprimer!");
+					warninglbl.setText("*Vous devez selectionnee un element du tableau pour le supprimer!");
 				}
 				// rafraîchir le tableau
 				ParkingController.fetchAll(parkingtable);
@@ -194,6 +200,7 @@ public class ParkingMainView extends JPanel {
 		this.add(supprimerParkingButton);
 
 		JButton afficherParkingButton = new JButton("Afficher");
+		afficherParkingButton.setBackground(viewSettings.SECONDARY);
 		afficherParkingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index = parkingtable.getSelectedRow();
@@ -205,7 +212,7 @@ public class ParkingMainView extends JPanel {
 					cl.show(panel, "afficherParkingPanel");
 					warninglbl.setText("");
 				} else {
-					warninglbl.setText("*Vous ddevez séléctionnée un élément du tableau pour l'afficher!");
+					warninglbl.setText("*Vous ddevez selectionnee un element du tableau pour l'afficher!");
 				}
 			}
 		});
@@ -213,6 +220,7 @@ public class ParkingMainView extends JPanel {
 		this.add(afficherParkingButton);
 		
 		JButton ajouterVehiculeButton = new JButton("Ajouter Vehicule");
+		ajouterVehiculeButton.setBackground(viewSettings.SECONDARY);
 		ajouterVehiculeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index = parkingtable.getSelectedRow();
@@ -225,10 +233,10 @@ public class ParkingMainView extends JPanel {
 						AjouterVehicule ajouterVehicule = new AjouterVehicule(codeParking, capacite);
 						warninglbl.setText("");
 					} else {
-						warninglbl.setText("*Le parking sélectionné n'a pas des places vides");
+						warninglbl.setText("*Le parking selectionnee n'a pas des places vides");
 					}
 				} else {
-					warninglbl.setText("*Vous devez séléctionnée un élément du tableau pour l'aafecter une vehicule");
+					warninglbl.setText("*Vous devez selectionnee un element du tableau pour l'afecter une vehicule");
 				}
 			}
 		});

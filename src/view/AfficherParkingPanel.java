@@ -65,7 +65,7 @@ public class AfficherParkingPanel extends JPanel {
 						cl.show(panel, "parking");
 					}
 				});
-				buttonRetour.setBounds(592, 457, 129, 43);
+				buttonRetour.setBounds(58, 457, 129, 43);
 				this.add(buttonRetour);
 
 				JLabel arrondissementParkinglbl = new JLabel("Arrondissement Parking");
@@ -108,13 +108,18 @@ public class AfficherParkingPanel extends JPanel {
 				add(placeVideParking);
 				placeVideParking.setText(parking.getNombrePlaceVide()+"");
 				
+				JLabel warninglbl = new JLabel("");
+				warninglbl.setForeground(Color.RED);
+				warninglbl.setBounds(68, 383, 466, 24);
+				add(warninglbl);
+				
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setBounds(58, 273, 663, 99);
 				add(scrollPane);
 				
 				vehiculeTable = new JTable();
-				vehiculeTable.setBackground(secondaryColor);
 				vehiculeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				vehiculeTable.setSelectionBackground(viewSettings.SECONDARY);
 				DefaultTableModel dtm = new DefaultTableModel();
 				dtm.addColumn("Matricule");
 				dtm.addColumn("Marque");
@@ -131,18 +136,18 @@ public class AfficherParkingPanel extends JPanel {
 						if (index >=0) {
 							String codeVehicule = vehiculeTable.getValueAt(index, 0).toString();
 							ParkingController.removeVehicule(codeVehicule, parking.getCodeParking());
+							warninglbl.setText("");
 						}else {
 							// si l'utilisateur ne séléctionne aucun ligne de tableau
-							JOptionPane.showConfirmDialog(null, "Tu dois séléctionnée une vehicule du tableau pour la retirer!",
-									"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+							warninglbl.setText("Tu dois selectionnee une vehicule du tableau pour la retirer!");
 						}
 						ParkingController.findVehicule(vehiculeTable, parking.getCodeParking());
 					}
 				});
-				removeVehiculeButton.setBounds(58, 383, 129, 35);
+				removeVehiculeButton.setBounds(592, 383, 129, 35);
 				add(removeVehiculeButton);
 				
-				JLabel lblNewLabel = new JLabel("Les voitures situ\u00E9es dans le parking");
+				JLabel lblNewLabel = new JLabel("Les voitures situees dans le parking");
 				lblNewLabel.setBounds(58, 227, 209, 35);
 				add(lblNewLabel);
 	}
