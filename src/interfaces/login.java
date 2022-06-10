@@ -67,11 +67,11 @@ public class login extends JFrame {
 		password = new JPasswordField();
 		password.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					//if fields are empty ( you can add type of conditions on data types)
 					if(emptyField()) {
-						JOptionPane.showMessageDialog(null,"username or password are empty", "missing information", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Champ nom d'utilisateur ou  mot de passe est vide", "Manque de données", JOptionPane.ERROR_MESSAGE);
 					}	
 					else {
 						if (UserDAO.verifyLogin(username.getText(),password.getText())){
@@ -82,7 +82,7 @@ public class login extends JFrame {
 							dispose();
 						}
 						else {
-							JOptionPane.showMessageDialog(null,"username or password is not correct", "NON EXISTING ACCOUNT", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null,"nom d'utilisateur ou  mot de passe est incorrecte", "Compte inexistant", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
@@ -114,7 +114,7 @@ public class login extends JFrame {
 						dispose();
 					}
 					else {
-						JOptionPane.showMessageDialog(login,"username or password is not correct", "NON EXISTING ACCOUNT", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(login,"nom d'utilisateur ou  mot de passe est incorrecte", "Compte inexistant", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
