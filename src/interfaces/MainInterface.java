@@ -38,15 +38,14 @@ import view.SanctionInfoPanel;
 import view.SanctionPanel;
 import view.UserPanel;
 import view.VehiculePanel;
+import view.viewSettings;
 import controller.ParkingController;
+import javax.swing.ImageIcon;
 
 
 public class MainInterface {
 
 	JFrame frame;
-	private Color mainColor;
-	private Color secondaryColor;
-	private Color highlight;
 
 	private int navFontSize;
 	private CardLayout cl;
@@ -69,6 +68,7 @@ public class MainInterface {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+
 			@Override
 			public void run() {
 				try {
@@ -107,15 +107,12 @@ public class MainInterface {
 		frame.getContentPane().setEnabled(false);
 		frame.setBounds(100, 100, 1000, 700);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		mainColor = new Color(75, 0, 130);
-		secondaryColor = new Color(224, 199, 242);
-		highlight = new Color(202, 168, 227);
+		
 		navFontSize = 12;
 		frame.getContentPane().setLayout(null);
 
 		JPanel titleBar = new JPanel();
-		titleBar.setBackground(mainColor);
+		titleBar.setBackground(viewSettings.MAIN);
 		titleBar.setBounds(0, 0, 986, 102);
 		frame.getContentPane().add(titleBar);
 		titleBar.setLayout(null);
@@ -129,17 +126,41 @@ public class MainInterface {
 
 		JPanel sideBar = new JPanel();
 		sideBar.setBounds(0, 94, 234, 569);
-		sideBar.setBackground(secondaryColor);
+		sideBar.setBackground(viewSettings.SECONDARY);
 		
 		
 		JPanel navigation = new JPanel();
 		navigation.setBounds(0, 80, 234, 388);
-		navigation.setBackground(secondaryColor);
+		navigation.setBackground(viewSettings.SECONDARY);
 		navigation.setLayout(new GridLayout(8, 1, 0, 0));
 		
 		frame.getContentPane().add(sideBar);
 		sideBar.setLayout(null);
 		sideBar.add(navigation);
+		
+		JLabel exit_lbl = new JLabel("Quitter");
+		exit_lbl.setBackground(viewSettings.SECONDARY);
+		exit_lbl.setOpaque(true);
+		exit_lbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				exit_lbl.setBackground(viewSettings.HIGHLIGHT);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				exit_lbl.setBackground(viewSettings.SECONDARY);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				login window = new login();
+				window.setVisible(true);
+				window.setLocationRelativeTo(null);
+				frame.dispose();
+			}
+		});
+		exit_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		exit_lbl.setBounds(0, 524, 234, 45);
+		sideBar.add(exit_lbl);
 		
 		mainPanel = new JPanel();
 		mainPanel.setBounds(234, 102, 752, 561);
@@ -241,12 +262,12 @@ public class MainInterface {
 		lab.setOpaque(true);
 		lab.setHorizontalAlignment(SwingConstants.CENTER);
 		lab.setFont(new Font("Tahoma", Font.BOLD, navFontSize));
-		lab.setBackground(secondaryColor);
+		lab.setBackground(viewSettings.SECONDARY);
 		lab.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// on hover change color
-				lab.setBackground(highlight);
+				lab.setBackground(viewSettings.HIGHLIGHT);
 			}
 
 			@Override
@@ -255,7 +276,7 @@ public class MainInterface {
 
 				// [ NOTE ] add condition to check if it's the current pane!
 				if (currentPane != name)
-					lab.setBackground(secondaryColor);
+					lab.setBackground(viewSettings.SECONDARY);
 			}
 
 			@Override
@@ -265,7 +286,7 @@ public class MainInterface {
 				for (String item : navItemList.keySet()) {
 					if (item != name) {
 						JLabel tmp = navItemList.get(item);
-						tmp.setBackground(secondaryColor);
+						tmp.setBackground(viewSettings.SECONDARY);
 					}
 				}
 			}
@@ -274,106 +295,6 @@ public class MainInterface {
 	//GETTERS
 	public JPanel getMainPanel() {
 		return this.mainPanel;
-	}
-	private void setupParkingPanel(JPanel panel) {
-		panel.setLayout(null);
-		JScrollPane parkingscrollPane = new JScrollPane();
-		parkingscrollPane.setBounds(10, 58, 574, 478);
-		panel.add(parkingscrollPane);
-
-		parkingtable = new JTable();
-		parkingtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		Object[] parkingcolumns = { "id", "nom", "prenom" };
-		DefaultTableModel parkingmodel = new DefaultTableModel();
-		parkingmodel.setColumnCount(3);
-		parkingmodel.setColumnIdentifiers(parkingcolumns);
-		parkingtable.setModel(parkingmodel);
-		parkingscrollPane.setViewportView(parkingtable);
-
-		JButton parkingbtnNewButton = new JButton("Rechercher");
-		parkingbtnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String string = parkingtextField.getText();
-				ParkingController.findParking(string, parkingtable);
-				parkingtextField.setText("");
-			}
-		});
-		parkingbtnNewButton.setBounds(594, 11, 128, 36);
-		panel.add(parkingbtnNewButton);
-
-		JButton parkingbtnNewButton_1 = new JButton("Nouveau Parking");
-		parkingbtnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CreerNouveauParking window = new CreerNouveauParking(parkingtable);
-			}
-		});
-		parkingbtnNewButton_1.setBounds(594, 76, 128, 36);
-		panel.add(parkingbtnNewButton_1);
-
-		JButton parkingbtnNewButton_5 = new JButton("Afficher");
-		parkingbtnNewButton_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index = parkingtable.getSelectedRow();
-				if (index >= 0) {
-
-				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois selectionner un element du tableau pour l'afficher!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-		parkingbtnNewButton_5.setBounds(594, 123, 128, 36);
-		panel.add(parkingbtnNewButton_5);
-
-		parkingtextField = new JTextField();
-		parkingtextField.setBounds(10, 11, 574, 36);
-		panel.add(parkingtextField);
-		parkingtextField.setColumns(10);
-
-		JButton parkingbtnNewButton_2 = new JButton("Modifier");
-		parkingbtnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index = parkingtable.getSelectedRow();
-				if (index >= 0) {
-					ModifierParking.setId(parkingtable.getModel().getValueAt(index, 0).toString());
-					ModifierParking window = new ModifierParking(parkingtable, index);
-				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois selectionner un element du tableau pour le modifier!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-		parkingbtnNewButton_2.setBounds(594, 170, 128, 36);
-		panel.add(parkingbtnNewButton_2);
-
-		JButton parkingbtnNewButton_3 = new JButton("Actualiser");
-		parkingbtnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ParkingController.fetchAll(parkingtable);
-			}
-		});
-		parkingbtnNewButton_3.setBounds(594, 217, 128, 36);
-		panel.add(parkingbtnNewButton_3);
-
-		JButton parkingbtnNewButton_4 = new JButton("Supprimer");
-		parkingbtnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index = parkingtable.getSelectedRow();
-				if (index >= 0) {
-					int result = JOptionPane.showConfirmDialog(null, "Avez-vous Sure?", "Confirmation",
-							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-					if (result == JOptionPane.YES_OPTION) {
-						ParkingController.deleteParking(parkingtable.getModel().getValueAt(index, 0).toString());
-						ParkingController.fetchAll(parkingtable);
-					}
-				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois selectionner un element du tableau pour le supprimer!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-		parkingbtnNewButton_4.setBounds(594, 264, 128, 36);
-		panel.add(parkingbtnNewButton_4);
 	}
 	// SETTERS  
 

@@ -49,7 +49,6 @@ public class login extends JFrame {
 		panel.setBackground(viewSettings.MAIN);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		ImageIcon img = new ImageIcon(login.class.getResource("/icons/3339206.png"));
 
 		JLabel username_lbl = new JLabel("Username:");
 		username_lbl.setBounds(128, 118, 106, 27);
