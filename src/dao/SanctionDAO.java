@@ -122,6 +122,44 @@ public interface SanctionDAO {
 			JOptionPane.showConfirmDialog(null, "Erreur Reglement Sanction", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Reglement Sanction", e);
 		}
+	}
+	
+	public static ArrayList<Sanction> findSanctionClient(String nom) {
+		String query = "SELECT client.codeClient, nomClient, prenomClient, SUM(DATEDIFF(dateRetActuel, dateEcheance) * 2000) AS montantSanction "
+				+ "FROM contrat, client, reservation "
+				+ "WHERE dateRetActuel IS NOT NULL "
+				+ "AND dateRetActuel > dateEcheance "
+				+ "AND contrat.codeReservation = reservation.codeReservation "
+				+ "AND reservation.codeClient = client.codeClient "
+				+ "AND sanctionRegle = 0 "
+				+ "AND nomClient LIKE ? "
+				+ "GROUP BY codeClient";
 		
+		ArrayList<Sanction> sList = new ArrayList<Sanction>();
+		
+		try {
+			PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
+			ps.setString(1, nom+"%");
+
+			ResultSet result = ps.executeQuery();
+			while(result.next()) {
+				Sanction s = new Sanction();
+				s.setMontant(result.getInt("montantSanction"));
+				
+				Client c = new Client();
+				c.setCodeClient(result.getInt("codeClient"));
+				c.setNomClient(result.getString("nomClient"));
+				c.setPrenomClient(result.getString("prenomClient"));
+				
+				s.setClient(c);
+				
+				sList.add(s);
+			}
+		} catch (SQLException e) {
+			JOptionPane.showConfirmDialog(null, "Erreur Recherche Sanction Client", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Recherche Sanction Client", e);
+		}
+		
+		return sList;
 	}
 }

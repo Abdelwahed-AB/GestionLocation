@@ -2,6 +2,8 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,6 +16,7 @@ import controller.SanctionController;
 import model.SanctionTableModel;
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
+import javax.swing.JTextField;
 
 public class SanctionPanel extends JPanel {
 	
@@ -22,6 +25,7 @@ public class SanctionPanel extends JPanel {
 	
 	private SanctionController cont;
 	private JLabel warning_lbl;
+	private JTextField sanction_search;
 
 	/**
 	 * Constructeur par defaut
@@ -34,7 +38,7 @@ public class SanctionPanel extends JPanel {
 		this.setLayout(null);
 		
 		JScrollPane sanction_scroll = new JScrollPane();
-		sanction_scroll.setBounds(10, 44, 484, 493);
+		sanction_scroll.setBounds(23, 57, 483, 462);
 		this.add(sanction_scroll);
 		
 		sanctions_table = new JTable(table_model);
@@ -43,8 +47,22 @@ public class SanctionPanel extends JPanel {
 		sanction_scroll.setViewportView(sanctions_table);
 		
 		JLabel sanctions_lbl = new JLabel("Les clients sanctionn\u00E9es :");
-		sanctions_lbl.setBounds(10, 10, 294, 25);
+		sanctions_lbl.setBounds(23, 22, 189, 25);
 		this.add(sanctions_lbl);
+		
+		sanction_search = new JTextField();
+		sanction_search.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!sanction_search.getText().isEmpty())
+					cont.findClient(sanction_search.getText());
+				else
+					cont.Actualiser();
+			}
+		});
+		sanction_search.setBounds(221, 22, 285, 25);
+		add(sanction_search);
+		sanction_search.setColumns(10);
 		
 		JButton actualiser_btn = new JButton("Actualiser");
 		actualiser_btn.setBackground(viewSettings.SECONDARY);
@@ -55,11 +73,11 @@ public class SanctionPanel extends JPanel {
 				warning_lbl.setText("");
 			}
 		});
-		actualiser_btn.setBounds(522, 200, 188, 50);
+		actualiser_btn.setBounds(522, 463, 193, 56);
 		this.add(actualiser_btn);
 		
 		JButton plusInfo_btn = new JButton("Plus d'informations");
-		plusInfo_btn.setBounds(522, 260, 188, 50);
+		plusInfo_btn.setBounds(522, 179, 193, 56);
 		plusInfo_btn.setBackground(viewSettings.SECONDARY);
 		
 		plusInfo_btn.addActionListener(new ActionListener() {
@@ -74,12 +92,12 @@ public class SanctionPanel extends JPanel {
 		warning_lbl = new JLabel("");
 		warning_lbl.setForeground(Color.RED);
 		warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
-		warning_lbl.setBounds(522, 43, 188, 110);
+		warning_lbl.setBounds(525, 57, 190, 88);
 		this.add(warning_lbl);
 		
 		JButton regler_btn = new JButton("Regler");
 		regler_btn.setBackground(viewSettings.SECONDARY);
-		regler_btn.setBounds(522, 320, 188, 50);
+		regler_btn.setBounds(522, 245, 193, 56);
 		regler_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

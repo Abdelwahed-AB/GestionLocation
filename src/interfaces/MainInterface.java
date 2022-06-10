@@ -40,15 +40,14 @@ import view.SanctionInfoPanel;
 import view.SanctionPanel;
 import view.UserPanel;
 import view.VehiculePanel;
+import view.viewSettings;
 import controller.ParkingController;
+import javax.swing.ImageIcon;
 
 
 public class MainInterface {
 
 	JFrame frame;
-	private Color mainColor;
-	private Color secondaryColor;
-	private Color highlight;
 
 	private int navFontSize;
 	private CardLayout cl;
@@ -64,13 +63,14 @@ public class MainInterface {
 	private JTextField parkingtextField;
 	private JTable contrat_table;
 
-	private boolean isAdmin;
+	private boolean isAdmin = false;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+
 			@Override
 			public void run() {
 				try {
@@ -94,7 +94,6 @@ public class MainInterface {
 	public MainInterface(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 		initialize();
-		
 	}
 	
 	
@@ -110,15 +109,12 @@ public class MainInterface {
 		frame.getContentPane().setEnabled(false);
 		frame.setBounds(140, 10, 1000, 700);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		mainColor = new Color(75, 0, 130);
-		secondaryColor = new Color(224, 199, 242);
-		highlight = new Color(202, 168, 227);
+		
 		navFontSize = 12;
 		frame.getContentPane().setLayout(null);
 
 		JPanel titleBar = new JPanel();
-		titleBar.setBackground(mainColor);
+		titleBar.setBackground(viewSettings.MAIN);
 		titleBar.setBounds(0, 0, 986, 102);
 		frame.getContentPane().add(titleBar);
 		titleBar.setLayout(null);
@@ -132,17 +128,41 @@ public class MainInterface {
 
 		JPanel sideBar = new JPanel();
 		sideBar.setBounds(0, 94, 234, 569);
-		sideBar.setBackground(secondaryColor);
+		sideBar.setBackground(viewSettings.SECONDARY);
 		
 		
 		JPanel navigation = new JPanel();
 		navigation.setBounds(0, 80, 234, 388);
-		navigation.setBackground(secondaryColor);
+		navigation.setBackground(viewSettings.SECONDARY);
 		navigation.setLayout(new GridLayout(8, 1, 0, 0));
 		
 		frame.getContentPane().add(sideBar);
 		sideBar.setLayout(null);
 		sideBar.add(navigation);
+		
+		JLabel exit_lbl = new JLabel("Quitter");
+		exit_lbl.setBackground(viewSettings.SECONDARY);
+		exit_lbl.setOpaque(true);
+		exit_lbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				exit_lbl.setBackground(viewSettings.HIGHLIGHT);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				exit_lbl.setBackground(viewSettings.SECONDARY);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				login window = new login();
+				window.setVisible(true);
+				window.setLocationRelativeTo(null);
+				frame.dispose();
+			}
+		});
+		exit_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		exit_lbl.setBounds(0, 524, 234, 45);
+		sideBar.add(exit_lbl);
 		
 		mainPanel = new JPanel();
 		mainPanel.setBounds(234, 102, 752, 561);
@@ -247,12 +267,12 @@ public class MainInterface {
 		lab.setOpaque(true);
 		lab.setHorizontalAlignment(SwingConstants.CENTER);
 		lab.setFont(new Font("Tahoma", Font.BOLD, navFontSize));
-		lab.setBackground(secondaryColor);
+		lab.setBackground(viewSettings.SECONDARY);
 		lab.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// on hover change color
-				lab.setBackground(highlight);
+				lab.setBackground(viewSettings.HIGHLIGHT);
 			}
 
 			@Override
@@ -261,7 +281,7 @@ public class MainInterface {
 
 				// [ NOTE ] add condition to check if it's the current pane!
 				if (currentPane != name)
-					lab.setBackground(secondaryColor);
+					lab.setBackground(viewSettings.SECONDARY);
 			}
 
 			@Override
@@ -271,7 +291,7 @@ public class MainInterface {
 				for (String item : navItemList.keySet()) {
 					if (item != name) {
 						JLabel tmp = navItemList.get(item);
-						tmp.setBackground(secondaryColor);
+						tmp.setBackground(viewSettings.SECONDARY);
 					}
 				}
 			}

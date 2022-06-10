@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -19,10 +18,8 @@ import javax.swing.SwingConstants;
 
 import controller.ReservationController;
 import interfaces.MainInterface;
-import model.Reservation;
 import model.Reservation.filtre;
 import model.ReservationTableModel;
-import model.Vehicule;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -48,7 +45,7 @@ public class ReservationPanel extends JPanel {
 
 		reserv_warning_lbl = new JLabel("");
 		reserv_warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
-		reserv_warning_lbl.setBounds(512, 57, 185, 88);
+		reserv_warning_lbl.setBounds(525, 57, 190, 88);
 		reserv_warning_lbl.setForeground(Color.RED);
 
 		JScrollPane reserv_scroll = new JScrollPane();
@@ -69,6 +66,11 @@ public class ReservationPanel extends JPanel {
 		reserv_scroll.setViewportView(reserv_table);
 
 		reserv_filtre = new JComboBox();
+		reserv_filtre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cont.ActualiserTableau();
+			}
+		});
 		reserv_filtre.setBackground(viewSettings.SECONDARY);
 		
 		reserv_filtre.setBounds(522, 432, 193, 21);
@@ -96,10 +98,7 @@ public class ReservationPanel extends JPanel {
 		newReserv_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//Open reservation creation panel
-				cl.show(mInterface.getMainPanel(), "newReserv");
-				//Reset warning label on succesful operation
-				reserv_warning_lbl.setText("");
+				cont.goToNewReserv();
 			}
 		});
 
@@ -119,7 +118,7 @@ public class ReservationPanel extends JPanel {
 		modReserv_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cont.goToNewReserv();
+				cont.goToModReserv();
 			}
 		});
 

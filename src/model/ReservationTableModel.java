@@ -15,9 +15,7 @@ public class ReservationTableModel extends AbstractTableModel{
 			"Prenom Client",
 			"Vehicule",
 			"Date Depart",
-			"Date Retour",
-			"Validéé",
-			"Annulée"
+			"Date Retour"
 	};
 	
 	private Vector<String[]> rows = new Vector<String[]>();
@@ -58,9 +56,7 @@ public class ReservationTableModel extends AbstractTableModel{
 					c.getPrenomClient(),
 					r.getVehicule().getCodeVehicule(),
 					r.getDateDepart().toString(),
-					r.getDateRetour().toString(),
-					Boolean.toString(r.isValid()),
-					Boolean.toString(r.isCanceled())
+					r.getDateRetour().toString()
 			};
 			
 			rows.add(row);

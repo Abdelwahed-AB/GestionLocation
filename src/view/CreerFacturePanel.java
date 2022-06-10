@@ -16,6 +16,8 @@ import controller.TempContratController;
 import interfaces.MainInterface;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import javax.swing.JTextPane;
+import javax.swing.JTextField;
 
 public class CreerFacturePanel extends JPanel {
 	
@@ -23,13 +25,14 @@ public class CreerFacturePanel extends JPanel {
 	private JLabel warning_lbl;
 	
 	private FactureController cont;
+	private JTextField search_contrat;
 
 	public CreerFacturePanel(MainInterface mInterface) {
 		
 		this.setLayout(null);
 		
 		JScrollPane contrat_scroll = new JScrollPane();
-		contrat_scroll.setBounds(10, 50, 484, 487);
+		contrat_scroll.setBounds(10, 51, 484, 486);
 		this.add(contrat_scroll);
 		
 		contrat_table = new JTable();
@@ -46,8 +49,21 @@ public class CreerFacturePanel extends JPanel {
 		
 		TempContratController.fetchAll(contrat_table);
 		
+		search_contrat = new JTextField();
+		search_contrat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+				}
+			}
+		});
+		search_contrat.setBounds(162, 22, 332, 19);
+		add(search_contrat);
+		search_contrat.setColumns(10);
+		
 		JLabel choisirContrat_lbl = new JLabel("Veuillez choisir un contrat:");
-		choisirContrat_lbl.setBounds(10, 10, 511, 31);
+		choisirContrat_lbl.setBounds(10, 22, 152, 19);
 		this.add(choisirContrat_lbl);
 		
 		JButton actualiser_btn = new JButton("Actualiser");
@@ -90,6 +106,7 @@ public class CreerFacturePanel extends JPanel {
 		warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		warning_lbl.setBounds(510, 192, 184, 124);
 		add(warning_lbl);
+		
 	}
 	
 	//GETTERS
@@ -105,5 +122,4 @@ public class CreerFacturePanel extends JPanel {
 	public void setFactureController(FactureController cont) {
 		this.cont = cont;
 	}
-	
 }

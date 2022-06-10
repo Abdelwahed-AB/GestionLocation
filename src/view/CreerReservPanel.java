@@ -4,6 +4,9 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Date;
 import java.time.Year;
 import java.util.Calendar;
@@ -22,9 +25,10 @@ import controller.ClientController;
 import controller.ReservationController;
 import interfaces.MainInterface;
 import model.VehiculeTableModel;
+import javax.swing.JTextField;
 
 public class CreerReservPanel extends JPanel {
-	private JTable reserv_client_table;
+	private JTable client_table;
 	private JTable reserv_table;
 
 	private String dateDepart, dateRetour;
@@ -36,6 +40,9 @@ public class CreerReservPanel extends JPanel {
 	private VehiculeTableModel vTable_model = new VehiculeTableModel();
 	private CardLayout cl;
 	private ReservationController cont;
+	private JTextField search_client;
+	private JTextField search_voiture;
+	private JButton sauvegarder_btn;
 
 	/**
 	 * Create the application.
@@ -67,20 +74,20 @@ public class CreerReservPanel extends JPanel {
 		this.add(warning_lbl);
 
 		//to make table cells uneditable
-		reserv_client_table = new JTable(){
+		client_table = new JTable(){
 			private static final long serialVersionUID = 1L;
 			@Override
 			public boolean isCellEditable(int row, int column){
 		          return false;
 		    }};
 
-		reserv_client_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		reserv_client_table.setSelectionBackground(viewSettings.SECONDARY);
-		reserv_client_table.setBackground(new Color(255, 255, 255));
-		reserv_client_Scroll.setViewportView(reserv_client_table);
+		client_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		client_table.setSelectionBackground(viewSettings.SECONDARY);
+		client_table.setBackground(new Color(255, 255, 255));
+		reserv_client_Scroll.setViewportView(client_table);
 
 		JLabel choice_lbl = new JLabel("Choisir un client :");
-		choice_lbl.setBounds(23, 11, 172, 13);
+		choice_lbl.setBounds(23, 11, 136, 13);
 		this.add(choice_lbl);
 
 		JLabel dateDepart_lbl = new JLabel("Date depart:");
@@ -90,25 +97,54 @@ public class CreerReservPanel extends JPanel {
 		JLabel dateRetour_lbl = new JLabel("Date Retour:");
 		dateRetour_lbl.setBounds(23, 382, 136, 13);
 		this.add(dateRetour_lbl);
-
+		
+		search_client = new JTextField();
+		search_client.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!search_client.getText().isEmpty()) {
+					cont.searchClient(search_client.getText());
+				}else {
+					cont.ActualiserTableClient();
+				}
+			}
+		});
+		search_client.setToolTipText("Rechercher Client");
+		search_client.setBounds(170, 5, 352, 24);
+		add(search_client);
+		search_client.setColumns(10);
+		
+		search_voiture = new JTextField();
+		search_voiture.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!search_voiture.getText().isEmpty()) {
+					cont.searchVehicle(search_voiture.getText());
+				}else {
+					cont.ActualiserTableVehicule();
+				}
+			}
+		});
+		search_voiture.setToolTipText("Rechercher Vehicule");
+		search_voiture.setColumns(10);
+		search_voiture.setBounds(170, 138, 352, 24);
+		add(search_voiture);
+		
 		JButton reserv_client_actualiser = new JButton("Actualiser");
 		reserv_client_actualiser.setBackground(viewSettings.SECONDARY);
 		reserv_client_actualiser.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//To refill client table
-				ClientController.fetchAll(reserv_client_table);
+				ClientController.fetchAll(client_table);
+				search_client.setText("");
 				warning_lbl.setText("");
 			}
 		});
 		reserv_client_actualiser.setBounds(570, 5, 152, 24);
 		this.add(reserv_client_actualiser);
 
-		ClientController.fetchAll(reserv_client_table);
-
-		//Creation des panels de choix de date
-		dateDep();
-		dateRet();
+		ClientController.fetchAll(client_table);
 
 		JScrollPane reserv_vehi_Scroll = new JScrollPane();
 		reserv_vehi_Scroll.setBounds(9, 165, 713, 79);
@@ -125,14 +161,15 @@ public class CreerReservPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cont.ActualiserTableVehicule();
+				search_voiture.setText("");
 				warning_lbl.setText("");
 			}
 		});
 		reserv_vehi_actualiser.setBackground(viewSettings.SECONDARY);
-		reserv_vehi_actualiser.setBounds(570, 141, 152, 21);
+		reserv_vehi_actualiser.setBounds(570, 138, 152, 24);
 		this.add(reserv_vehi_actualiser);
 
-		JButton sauvegarder_btn = new JButton("Sauvegarder");
+		sauvegarder_btn = new JButton("Sauvegarder");
 		sauvegarder_btn.setForeground(viewSettings.WHITE);
 		sauvegarder_btn.setBackground(viewSettings.MAIN);
 		sauvegarder_btn.addActionListener(new ActionListener() {
@@ -143,6 +180,10 @@ public class CreerReservPanel extends JPanel {
 		});
 		sauvegarder_btn.setBounds(598, 501, 124, 36);
 		this.add(sauvegarder_btn);
+		
+		//Creation des panels de choix de date
+		dateDep();
+		dateRet();
 
 		JButton Annuler_btn = new JButton("Annuler");
 		Annuler_btn.setForeground(new Color(255, 255, 255));
@@ -159,7 +200,7 @@ public class CreerReservPanel extends JPanel {
 		this.add(Annuler_btn);
 
 		JLabel choice_lbl_1 = new JLabel("Choisir une voiture:");
-		choice_lbl_1.setBounds(23, 145, 202, 13);
+		choice_lbl_1.setBounds(23, 142, 136, 13);
 		this.add(choice_lbl_1);
 
 	}
@@ -201,8 +242,14 @@ public class CreerReservPanel extends JPanel {
 					dateDepart = annee_comboBox.getSelectedItem() + "-" + mois_comboBox.getSelectedItem() + "-" + jour_comboBox.getSelectedItem();
 				}
 			});
-
 		}
+		
+		sauvegarder_btn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dateDepart = annee_comboBox.getSelectedItem() + "-" + mois_comboBox.getSelectedItem() + "-" + jour_comboBox.getSelectedItem();
+			}
+		});
 
 		JLabel anneeDep_lbl = new JLabel("Ann\u00E9e");
 		anneeDep_lbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -257,6 +304,14 @@ public class CreerReservPanel extends JPanel {
 			});
 
 		}
+		
+		sauvegarder_btn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dateRetour = annee_comboBox.getSelectedItem() + "-" + mois_comboBox.getSelectedItem() + "-" + jour_comboBox.getSelectedItem();
+			}
+		});
 
 		JLabel anneeDep_lbl = new JLabel("Ann\u00E9e");
 		anneeDep_lbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -281,6 +336,8 @@ public class CreerReservPanel extends JPanel {
 				setupJour(annee, mois, jour);			
 			}
 		});
+		annee.setSelectedIndex(0);
+		mois.setSelectedIndex(0);
 		setupJour(annee, mois, jour);
 	}
 	
@@ -310,14 +367,15 @@ public class CreerReservPanel extends JPanel {
 					"20", "21", "22", "23", "24", "25", "26", "27", "28", "29", 
 					"30"}));
 			break;
-	}
+		}
+		jour.setSelectedIndex(0);
 	}
 
 
 
 	//Getters
-	public JTable getReserv_client_table() {
-		return reserv_client_table;
+	public JTable getCient_table() {
+		return client_table;
 	}
 
 	public Date getDateDepart() {
@@ -344,5 +402,4 @@ public class CreerReservPanel extends JPanel {
 	public void setReservController(ReservationController reservCont) {
 		this.cont = reservCont;
 	}
-	
 }
