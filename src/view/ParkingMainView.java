@@ -16,10 +16,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ParkingController;
+import interfaces.AjouterVehicule;
 import model.Parking;
 
 import javax.swing.JLabel;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ParkingMainView extends JPanel {
 
@@ -45,8 +48,36 @@ public class ParkingMainView extends JPanel {
 		JScrollPane parkingscrollPane = new JScrollPane();
 		parkingscrollPane.setBounds(10, 76, 574, 478);
 		this.add(parkingscrollPane);
+		
+		JLabel warninglbl = new JLabel("");
+		warninglbl.setForeground(Color.RED);
+		warninglbl.setBounds(10, 51, 574, 21);
+		add(warninglbl);
 
 		parkingtable = new JTable();
+		parkingtable.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				//si l'utilisateur presse le button supprimer 
+				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+					// tester si le client a séléctionné une ligne
+					int index = parkingtable.getSelectedRow();
+					if (index >= 0) {
+						int result = JOptionPane.showConfirmDialog(null, "Etes-vous Sure?", "Confirmation",
+								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if (result == JOptionPane.YES_OPTION) {
+							ParkingController.deleteParking(Integer.parseInt(parkingtable.getModel().getValueAt(index, 0).toString()));
+							ParkingController.fetchAll(parkingtable);
+							warninglbl.setText("");
+						}
+					} else {
+						warninglbl.setText("*Vous devez séléctionnée un élément du tableau pour le supprimer!");
+					}
+					// rafraîchir le tableau
+					ParkingController.fetchAll(parkingtable);
+				}
+			}
+		});
 		parkingtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		Object[] parkingcolumns = { "code", "nom", "capacite" };
 		DefaultTableModel parkingmodel = new DefaultTableModel();
@@ -54,11 +85,6 @@ public class ParkingMainView extends JPanel {
 		parkingmodel.setColumnIdentifiers(parkingcolumns);
 		parkingtable.setModel(parkingmodel);
 		parkingscrollPane.setViewportView(parkingtable);
-		
-		JLabel warninglbl = new JLabel("");
-		warninglbl.setForeground(Color.RED);
-		warninglbl.setBounds(10, 51, 574, 21);
-		add(warninglbl);
 
 		JButton parkingSearchButton = new JButton("Rechercher");
 		parkingSearchButton.addActionListener(new ActionListener() {
@@ -67,7 +93,6 @@ public class ParkingMainView extends JPanel {
 					// si le champ de recherche est vide une message doit affiché
 					if (!string.isBlank()) {
 					ParkingController.findParkingByName(string, parkingtable);
-					searchParkingTextField.setText("");
 					warninglbl.setText("");
 				} else {
 					warninglbl.setText("*Vous deuvez remplir le nom du parking tu as en train de chercher");
@@ -92,6 +117,22 @@ public class ParkingMainView extends JPanel {
 		this.add(nouveauParkingButton);
 
 		searchParkingTextField = new JTextField();
+		searchParkingTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				//si l'utilisateur presse le button entrer
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					String string = searchParkingTextField.getText();
+					// si le champ de recherche est vide une message doit affiché
+					if (!string.isBlank()) {
+					ParkingController.findParkingByName(string, parkingtable);
+					warninglbl.setText("");
+				} else {
+					warninglbl.setText("*Vous deuvez remplir le nom du parking tu as en train de chercher");
+				}
+				}
+			}
+		});
 		searchParkingTextField.setBounds(10, 11, 574, 36);
 		this.add(searchParkingTextField);
 		searchParkingTextField.setColumns(10);
@@ -107,10 +148,10 @@ public class ParkingMainView extends JPanel {
 					ModifierParkingPanel modifierParkingPanel = new ModifierParkingPanel(panel, parkingtable, parking);
 					panel.add(modifierParkingPanel, "modifierParkingPanel");
 					cl.show(panel, "modifierParkingPanel");
+					warninglbl.setText("");
 				} else {
 					// si l'utilisateur ne séléctionne aucun ligne de tableau
-					JOptionPane.showConfirmDialog(null, "Tu dois séléctionnée un élément du tableau pour le modifier!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					warninglbl.setText("*Vous devez séléctionnée un élément du tableau pour le modifier!");
 				}
 				warninglbl.setText("");
 			}
@@ -135,19 +176,18 @@ public class ParkingMainView extends JPanel {
 				// tester si le client a séléctionné une ligne
 				int index = parkingtable.getSelectedRow();
 				if (index >= 0) {
-					int result = JOptionPane.showConfirmDialog(null, "Avez-vous Sure?", "Confirmation",
+					int result = JOptionPane.showConfirmDialog(null, "Etes-vous Sure?", "Confirmation",
 							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.YES_OPTION) {
 						ParkingController.deleteParking(Integer.parseInt(parkingtable.getModel().getValueAt(index, 0).toString()));
 						ParkingController.fetchAll(parkingtable);
+						warninglbl.setText("");
 					}
 				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois séléctionnée un élément du tableau pour le supprimer!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					warninglbl.setText("*Vous devez séléctionnée un élément du tableau pour le supprimer!");
 				}
 				// rafraîchir le tableau
 				ParkingController.fetchAll(parkingtable);
-				warninglbl.setText("");
 			}
 		});
 		supprimerParkingButton.setBounds(594, 217, 128, 36);
@@ -163,15 +203,37 @@ public class ParkingMainView extends JPanel {
 					AfficherParkingPanel afficherParkingPanel = new AfficherParkingPanel(panel, parking);
 					panel.add(afficherParkingPanel, "afficherParkingPanel");
 					cl.show(panel, "afficherParkingPanel");
+					warninglbl.setText("");
 				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois séléctionnée un élément du tableau pour l'afficher!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					warninglbl.setText("*Vous ddevez séléctionnée un élément du tableau pour l'afficher!");
 				}
-				warninglbl.setText("");
 			}
 		});
 		afficherParkingButton.setBounds(594, 123, 128, 36);
 		this.add(afficherParkingButton);
+		
+		JButton ajouterVehiculeButton = new JButton("Ajouter Vehicule");
+		ajouterVehiculeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = parkingtable.getSelectedRow();
+				if (index >= 0) {
+					int codeParking = Integer.parseInt(parkingtable.getValueAt(index, 0).toString());
+					int capacite = Integer.parseInt(parkingtable.getValueAt(index, 2).toString());
+					//calculer le nombre des places vides d'une park avant d'affecter la vehicule
+					int nombrePlaceVide = ParkingController.nombrePlaceVide(codeParking, capacite);
+					if (nombrePlaceVide > 0) {
+						AjouterVehicule ajouterVehicule = new AjouterVehicule(codeParking, capacite);
+						warninglbl.setText("");
+					} else {
+						warninglbl.setText("*Le parking sélectionné n'a pas des places vides");
+					}
+				} else {
+					warninglbl.setText("*Vous devez séléctionnée un élément du tableau pour l'aafecter une vehicule");
+				}
+			}
+		});
+		ajouterVehiculeButton.setBounds(594, 311, 128, 36);
+		add(ajouterVehiculeButton);
 
 	}
 }

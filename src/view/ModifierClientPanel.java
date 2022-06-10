@@ -16,10 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.ClientController;
 import interfaces.MainInterface;
 import model.Client;
+import java.awt.Color;
 
 public class ModifierClientPanel extends JPanel {
 
@@ -85,6 +87,11 @@ public class ModifierClientPanel extends JPanel {
 		JLabel permisPath = new JLabel(client.getPermisScannee());
 		permisPath.setBounds(336, 292, 289, 14);
 		this.add(permisPath);
+
+		JLabel warningLabel = new JLabel("");
+		warningLabel.setForeground(Color.RED);
+		warningLabel.setBounds(80, 422, 584, 43);
+		add(warningLabel);
 		
 		JButton buttonEffacer = new JButton("Effacer");
 		buttonEffacer.addMouseListener(new MouseAdapter() {
@@ -95,8 +102,10 @@ public class ModifierClientPanel extends JPanel {
 				prenomClientTextField.setText("");
 				teleClientTextField.setText("");
 				adresseClientTextField.setText("");
-				imagePath.setText("");
+				imagePath.setText("image de taille 179x217");
 				permisPath.setText("");
+				warningLabel.setText("");
+				
 			}
 		});
 		buttonEffacer.setBounds(272, 346, 129, 43);
@@ -130,16 +139,25 @@ public class ModifierClientPanel extends JPanel {
 		JButton imageButton = new JButton("choisir un fichier");
 		imageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//ouvrir une fenetre pour séléctionné l'image
+				// ouvrir une fenetre pour séléctionné l'image
 				JFileChooser chooser = new JFileChooser();
 				chooser.setDialogTitle("Choisir une Image");
+				//ajouter un filtre à la fenetre de choix
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Image", "jpg", "png");
+				chooser.addChoosableFileFilter(filter);
 				chooser.showOpenDialog(null);
+				// si l'utisitaeur ne séléctionne aucune image
 				File file = chooser.getSelectedFile();
-				//si l'utisitaeur ne séléctionne aucune image
 				if (file != null) {
-					imagePath.setText(file.getAbsolutePath());
+					//si l'utilisateur sélectionne un fichier d'autre type
+					if (file.getName().endsWith(".jpg") || file.getName().endsWith(".JPG") || file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) {
+						imagePath.setText(file.getAbsolutePath());
+						warningLabel.setText("");
+					} else {
+						warningLabel.setText("*Vous devez choisir une fichier png ou jpg");
+					}
 				} else {
-					JOptionPane.showConfirmDialog(null, "tu dois séléctionnée une image", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+					warningLabel.setText("*Vous devez séléctionnée une image");
 				}
 			}
 		});
@@ -149,14 +167,25 @@ public class ModifierClientPanel extends JPanel {
 		JButton permisButton = new JButton("choisir un fichier");
 		permisButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// ouvrir une fenetre pour séléctionné l'image
 				JFileChooser chooser = new JFileChooser();
 				chooser.setDialogTitle("Choisir une Image");
+				//ajouter un filtre à la fenetre de choix
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Image", "jpg", "png");
+				chooser.addChoosableFileFilter(filter);
 				chooser.showOpenDialog(null);
+				// si l'utisitaeur ne séléctionne aucune image
 				File file = chooser.getSelectedFile();
 				if (file != null) {
-					permisPath.setText(file.getAbsolutePath());
+					//si l'utilisateur sélectionne un fichier d'autre type
+					if (file.getName().endsWith(".jpg") || file.getName().endsWith(".JPG") || file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) {
+						permisPath.setText(file.getAbsolutePath());
+						warningLabel.setText("");
+					} else {
+						warningLabel.setText("*Vous devez choisir une fichier png ou jpg");
+					}
 				} else {
-					JOptionPane.showConfirmDialog(null, "tu dois séléctionnée une image", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+					warningLabel.setText("*Vous devez séléctionnée une image");
 				}
 			}
 		});
@@ -170,20 +199,31 @@ public class ModifierClientPanel extends JPanel {
 				//tester si l'utilisateur remplir tous les champs
 				if (!nomClientTextField.getText().isBlank() && !prenomClientTextField.getText().isBlank() && !adresseClientTextField.getText().isBlank() && !teleClientTextField.getText().isBlank() && !imagePath.getText().isBlank() && !permisPath.getText().isBlank()) {
 					//tester si l'utilisateur ne fait des fautes lors de saisie
-					if (nomClientTextField.getText().matches("[a-zA-Z -_'é]*") && prenomClientTextField.getText().matches("[a-zA-Z -_'é]*") && teleClientTextField.getText().matches("0[0-9]*|212[0-9]*")) {
-						Client client1 = new Client(nomClientTextField.getText(), prenomClientTextField.getText(), adresseClientTextField.getText(), teleClientTextField.getText(), imagePath.getText(), permisPath.getText());
-						client1.setCodeClient(client.getCodeClient());
-						boolean b = ClientController.modifyClient(client1);
-						if (b) {
-							JOptionPane.showConfirmDialog(null, "Opération Effectuée avce Succée", "Succée", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+					if (nomClientTextField.getText().matches("^[a-zA-Z _'é-]*")) {
+						if (prenomClientTextField.getText().matches("^[a-zA-Z _'é-]*")) {
+							if (teleClientTextField.getText().matches("0[0-9]*|212[0-9]*")) {
+								Client client1 = new Client(nomClientTextField.getText(), prenomClientTextField.getText(), adresseClientTextField.getText(), teleClientTextField.getText(), imagePath.getText(), permisPath.getText());
+								client1.setCodeClient(client.getCodeClient());
+								warningLabel.setText("");
+								boolean b = ClientController.modifyClient(client1);
+								if (b) {
+									JOptionPane.showConfirmDialog(null, "Opération Effectuée avce Succée", "Succée", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+									cl.show(panel, "client");
+								} else {
+									JOptionPane.showConfirmDialog(null, "Opération Echouée \n réssayer à nouveau", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+								}
+							} else {
+								warningLabel.setText("*Le num tele doit etre sous forme 0(611223344) ou 212(611223344)");
+							}
+							
 						} else {
-							JOptionPane.showConfirmDialog(null, "Opération Echouée", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+							warningLabel.setText("*Le prenom doit etre une chaine de caractere");
 						}
 					} else {
-						JOptionPane.showConfirmDialog(null, "le nom doit etre une chaine de caractere \n le prenom doit etre une chaine de caractere \n le num tele doit etre sous forme 0(611223344) ou 212(611223344)", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+						warningLabel.setText("*Le nom doit etre une chaine de caractere");
 					}
 				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois remplir tous les champs", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					warningLabel.setText("*Vous devez remplir tous les champs");
 				}
 				// rafraîchir le tableau
 				ClientController.fetchAll(table);
@@ -191,7 +231,7 @@ public class ModifierClientPanel extends JPanel {
 		});
 		buttonSauvgarder.setBounds(496, 346, 129, 43);
 		this.add(buttonSauvgarder);
-
+		
 	}
 
 }

@@ -88,9 +88,34 @@ public class ParkingController {
 		}
 	}
 	
+	public static void removeVehicule (String codeVehicule, int codeParking) {
+		ParkingDAO.removeVehiculeDAO(codeVehicule, codeParking);
+	}
+	
 	public static int nombrePlaceVide (int code, int capacite) {
 		int nombreVehicule = ParkingDAO.nombreVehicule(code);
 		return capacite - nombreVehicule;
+	}
+	
+	public static void findVehicule (JTable table) {
+		ResultSet result = ParkingDAO.chercherVehicule();
+		DefaultTableModel dtm = new DefaultTableModel();
+		dtm.addColumn("Matricule");
+		dtm.addColumn("Marque");
+		dtm.addColumn("Prix de Location");
+		try {
+			while (result.next()) {
+				Object[] object = { result.getString(1), result.getString(2), result.getString(3) };
+				dtm.addRow(object);
+			}
+			table.setModel(dtm);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void addVehicule (String codeVehicule, int codeParking) { 
+		ParkingDAO.addVehiculeDAO(codeVehicule, codeParking);
 	}
 
 }

@@ -98,7 +98,7 @@ public class ClientController {
 		Image newImage = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
 		
 		ImageIcon image = new ImageIcon(newImage);
-		
+		label.setIcon(image);
 	}
 	
 }

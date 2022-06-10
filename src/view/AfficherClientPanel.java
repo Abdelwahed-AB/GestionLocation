@@ -123,19 +123,11 @@ public class AfficherClientPanel extends JPanel {
 		btnNewButton.setBounds(615, 491, 105, 47);
 		this.add(btnNewButton);
 
-		try {
-			// charger l'image de client pour l'afficher
-			File fichier = new File(client.getImage());
-			BufferedImage image = ImageIO.read(fichier);
-			ImageIcon imageIcon = new ImageIcon(image);
-			// afficher l'image du client d'une manière simple
-			// je veux le refaire dans une autre manière s'il me reste le temps
-			JLabel lblNewLabel_5 = new JLabel(imageIcon, JLabel.CENTER);
-			lblNewLabel_5.setBounds(540, 33, 179, 217);
-			this.add(lblNewLabel_5);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//afficher l'image de client
+		JLabel lblNewLabel_5 = new JLabel();
+		lblNewLabel_5.setBounds(540, 33, 179, 217);
+		ClientController.prepareImage(client.getImage(), lblNewLabel_5);
+		this.add(lblNewLabel_5);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(51, 308, 649, 158);
