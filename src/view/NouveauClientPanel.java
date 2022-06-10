@@ -25,7 +25,8 @@ import java.awt.Color;
 
 public class NouveauClientPanel extends JPanel {
 
-	// on a besion de ces variables � l'interieur de plusieurs fonction donc on les
+	// on a besion de ces variables � l'interieur de plusieurs fonction donc on
+	// les
 	// rendre globals
 	private static JTextField nomTextField;
 	private static JTextField prenomTextField;
@@ -38,7 +39,7 @@ public class NouveauClientPanel extends JPanel {
 		this.cl = (CardLayout) panel.getLayout();
 		this.setLayout(null);
 		this.setBounds(0, 0, 766, 598);
-		
+
 		Color mainColor = new Color(75, 0, 130);
 		Color secondaryColor = new Color(224, 199, 242);
 
@@ -80,17 +81,17 @@ public class NouveauClientPanel extends JPanel {
 		JLabel permisPath = new JLabel("");
 		permisPath.setBounds(372, 393, 202, 14);
 		this.add(permisPath);
-		
+
 		JLabel warningLabel = new JLabel("");
 		warningLabel.setForeground(Color.RED);
 		warningLabel.setBounds(51, 518, 621, 30);
 		add(warningLabel);
-		
+
 		JLabel imageClient = new JLabel("");
 		imageClient.setHorizontalAlignment(SwingConstants.CENTER);
 		imageClient.setBounds(55, 150, 179, 217);
 		add(imageClient);
-		
+
 		JLabel permisClient = new JLabel("");
 		permisClient.setBounds(291, 150, 381, 224);
 		add(permisClient);
@@ -152,15 +153,16 @@ public class NouveauClientPanel extends JPanel {
 				// ouvrir une fenetre pour s�l�ctionn� l'image
 				JFileChooser chooser = new JFileChooser();
 				chooser.setDialogTitle("Choisir une image");
-				//ajouter un filtre � la fenetre de choix
+				// ajouter un filtre � la fenetre de choix
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Image", "jpg", "png");
 				chooser.addChoosableFileFilter(filter);
 				chooser.showOpenDialog(null);
 				// si l'utisitaeur ne s�l�ctionne aucune image
 				File file = chooser.getSelectedFile();
 				if (file != null) {
-					//si l'utilisateur s�lectionne un fichier d'autre type
-					if (file.getName().endsWith(".jpg") || file.getName().endsWith(".JPG") || file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) {
+					// si l'utilisateur s�lectionne un fichier d'autre type
+					if (file.getName().endsWith(".jpg") || file.getName().endsWith(".JPG")
+							|| file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) {
 						imagePath.setText(file.getAbsolutePath());
 						ClientController.prepareImage(file.getAbsolutePath(), imageClient);
 						warningLabel.setText("");
@@ -182,15 +184,16 @@ public class NouveauClientPanel extends JPanel {
 				// ouvrir une fenetre pour s�l�ctionn� l'image
 				JFileChooser chooser = new JFileChooser();
 				chooser.setDialogTitle("Choisir une Image");
-				//ajouter un filtre � la fenetre de choix
+				// ajouter un filtre � la fenetre de choix
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Image", "jpg", "png");
 				chooser.addChoosableFileFilter(filter);
 				chooser.showOpenDialog(null);
 				// si l'utisitaeur ne s�l�ctionne aucune image
 				File file = chooser.getSelectedFile();
 				if (file != null) {
-					//si l'utilisateur s�lectionne un fichier d'autre type
-					if (file.getName().endsWith(".jpg") || file.getName().endsWith(".JPG") || file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) {
+					// si l'utilisateur s�lectionne un fichier d'autre type
+					if (file.getName().endsWith(".jpg") || file.getName().endsWith(".JPG")
+							|| file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) {
 						permisPath.setText(file.getAbsolutePath());
 						ClientController.prepareImage(file.getAbsolutePath(), permisClient);
 						warningLabel.setText("");
@@ -215,19 +218,20 @@ public class NouveauClientPanel extends JPanel {
 						&& !adresseTextField.getText().isBlank() && !teleTextField.getText().isBlank()
 						&& !imagePath.getText().isBlank() && !permisPath.getText().isBlank()) {
 					// tester si l'utilisateur ne fait des fautes lors de saisie
-					if (nomTextField.getText().matches("^[a-zA-Z _'�-]*")) {
-						if (prenomTextField.getText().matches("^[a-zA-Z _'�-]*")) {
+					if (nomTextField.getText().matches("^[a-zA-Z _'-]*")) {
+						if (prenomTextField.getText().matches("^[a-zA-Z _'-]*")) {
 							if (teleTextField.getText().matches("0[0-9]*|212[0-9]*")) {
 								Client client = new Client(nomTextField.getText(), prenomTextField.getText(),
-										adresseTextField.getText(), teleTextField.getText(),
-										imagePath.getText(), permisPath.getText());
+										adresseTextField.getText(), teleTextField.getText(), imagePath.getText(),
+										permisPath.getText());
 								warningLabel.setText("");
-								//cr�ation du client
+								// cr�ation du client
 								ClientController.creatClient(client);
-								//si le client est bien cr�er dans la base de donn�e afficher message "Op�ration Effectu�e avce Succ�e"
-									JOptionPane.showConfirmDialog(null, "Operation Effectee avce Succee", "Succ�e",
-											JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-								
+								// si le client est bien cr�er dans la base de donn�e afficher message
+								// "Op�ration Effectu�e avce Succ�e"
+								JOptionPane.showConfirmDialog(null, "Operation Effectee avce Succee", "Succee",
+										JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
 								nomTextField.setText("");
 								prenomTextField.setText("");
 								teleTextField.setText("");
@@ -238,9 +242,10 @@ public class NouveauClientPanel extends JPanel {
 								imageClient.setIcon(null);
 								permisClient.setIcon(null);
 							} else {
-								warningLabel.setText("*Le num tele doit etre sous forme 0(611223344) ou 212(611223344)");
+								warningLabel
+										.setText("*Le num tele doit etre sous forme 0(611223344) ou 212(611223344)");
 							}
-							
+
 						} else {
 							warningLabel.setText("*Le prenom doit etre une chaine de caractere");
 						}

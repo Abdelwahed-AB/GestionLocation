@@ -201,7 +201,7 @@ public class ClientMainView extends JPanel {
 				if (index >= 0) {
 					int code = Integer.parseInt(clienttable.getModel().getValueAt(index, 0).toString());
 					Client client = ClientController.findClientByCode(code);
-					//ouvrir la fenetre d'affichage
+					// ouvrir la fenetre d'affichage
 					AfficherClientPanel afficherClientPanel = new AfficherClientPanel(panel, client);
 					panel.add(afficherClientPanel, "afficherClientPanel");
 					cl.show(panel, "afficherClientPanel");

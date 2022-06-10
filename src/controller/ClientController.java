@@ -73,7 +73,7 @@ public class ClientController {
 	}
 
 	public static void findVehicule(JTable table, String code) {
-		ResultSet result = ClientDAO.findVehiculeDAO (code);
+		ResultSet result = ClientDAO.findVehiculeDAO(code);
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("Matricule");
 		dtm.addColumn("Marque");
@@ -90,15 +90,15 @@ public class ClientController {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void prepareImage (String path, JLabel label) {
+
+	public static void prepareImage(String path, JLabel label) {
 		ImageIcon myImage = new ImageIcon(path);
-		
+
 		Image img = myImage.getImage();
 		Image newImage = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
-		
+
 		ImageIcon image = new ImageIcon(newImage);
 		label.setIcon(image);
 	}
-	
+
 }

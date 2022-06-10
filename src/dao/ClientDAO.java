@@ -22,14 +22,15 @@ public class ClientDAO {
 		try {
 			while (result.next()) {
 				Client client = new Client(Integer.parseInt(result.getString(1)), result.getString(2),
-						result.getString(3), result.getString(4), result.getString(5),
-						result.getString(6), result.getString(7));
+						result.getString(3), result.getString(4), result.getString(5), result.getString(6),
+						result.getString(7));
 				list.add(client);
 			}
 
 		} catch (SQLException e) {
 			// genere erreur si le tableau client dans la base de donnée est non validé
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Client.", e);
 
 		}
@@ -51,7 +52,8 @@ public class ClientDAO {
 			prepared.execute();
 		} catch (SQLException e) {
 			// genere erreur si le tableau client dans la base de donnée est non validé
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Creer Client.", e);
 		}
 
@@ -66,19 +68,20 @@ public class ClientDAO {
 			ResultSet result = prepared.executeQuery();
 			while (result.next()) {
 				Client client = new Client(Integer.parseInt(result.getString(1)), result.getString(2),
-						result.getString(3), result.getString(4), result.getString(5),
-						result.getString(6), result.getString(7));
+						result.getString(3), result.getString(4), result.getString(5), result.getString(6),
+						result.getString(7));
 				return client;
 			}
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Search Client By Code.", e);
 		}
 		return null;
 	}
 
 	// cette fonction pour trouver une client a partir de son nom
-	public static ArrayList<Client> findClientByNameDAO (String nom) {
+	public static ArrayList<Client> findClientByNameDAO(String nom) {
 		try {
 			ArrayList<Client> list = new ArrayList<Client>();
 			PreparedStatement prepared = ConnectionManager.getConnection()
@@ -87,18 +90,18 @@ public class ClientDAO {
 			ResultSet result = prepared.executeQuery();
 			while (result.next()) {
 				list.add(new Client(Integer.parseInt(result.getString(1)), result.getString(2), result.getString(3),
-						result.getString(4), result.getString(5), result.getString(6),
-						result.getString(7)));
+						result.getString(4), result.getString(5), result.getString(6), result.getString(7)));
 			}
 			return list;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Search Client By Name.", e);
 		}
 		return null;
 	}
 
-	public static boolean modifyClientDAO (Client client) {
+	public static boolean modifyClientDAO(Client client) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
 					"UPDATE `client` SET `nomClient` = ?, `prenomClient` = ?, `adresseClient` = ?, `telClient` = ?, `imageClient` = ?, `permisScanneeClient` = ? WHERE `client`.`codeClient` = ?");
@@ -112,26 +115,28 @@ public class ClientDAO {
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Modify Client.", e);
 		}
 		return false;
 	}
 
-	public static void deleteClientDAO (int code) {
+	public static void deleteClientDAO(int code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection()
 					.prepareStatement("DELETE FROM `client` WHERE `client`.`codeClient` = ?");
 			prepared.setInt(1, code);
 			prepared.execute();
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Delete Client.", e);
 		}
 	}
 
-	//chercher les vehicules loueé par une client pour les afficheés
-	public static ResultSet findVehiculeDAO (String code) {
+	// chercher les vehicules loueé par une client pour les afficheés
+	public static ResultSet findVehiculeDAO(String code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
 					"SELECT Immatriculation, marqueVehicule, dateDepReservation, dateRetReservation FROM vehicule, reservation, client WHERE reservation.codeVehicule=vehicule.Immatriculation AND reservation.codeClient=client.codeClient AND reservation.codeClient=? AND reservation.isValid=1");
@@ -139,7 +144,8 @@ public class ClientDAO {
 			ResultSet result = prepared.executeQuery();
 			return result;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Search Vehicule.", e);
 		}
 		return null;

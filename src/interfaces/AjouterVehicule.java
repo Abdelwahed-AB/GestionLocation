@@ -25,11 +25,12 @@ public class AjouterVehicule extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
+
 	/**
 	 * Create the dialog.
 	 */
 	public AjouterVehicule(int codeParking, int capacite) {
-		
+
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 		setBounds(100, 100, 607, 427);
@@ -37,11 +38,11 @@ public class AjouterVehicule extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(27, 73, 528, 202);
 		contentPanel.add(scrollPane);
-		
+
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setSelectionBackground(viewSettings.SECONDARY);
@@ -51,9 +52,9 @@ public class AjouterVehicule extends JDialog {
 		model.setColumnIdentifiers(columns);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
-		
+
 		ParkingController.findVehicule(table);
-		
+
 		JButton btnNewButton_1 = new JButton("Quitter");
 		btnNewButton_1.setForeground(viewSettings.WHITE);
 		btnNewButton_1.setBackground(viewSettings.MAIN);
@@ -64,13 +65,12 @@ public class AjouterVehicule extends JDialog {
 		});
 		btnNewButton_1.setBounds(27, 332, 115, 28);
 		contentPanel.add(btnNewButton_1);
-		
+
 		JLabel warningLabel = new JLabel("");
 		warningLabel.setForeground(Color.RED);
 		warningLabel.setBounds(37, 286, 507, 26);
 		contentPanel.add(warningLabel);
-		
-		
+
 		JButton btnNewButton = new JButton("Ajouter");
 		btnNewButton.setForeground(viewSettings.WHITE);
 		btnNewButton.setBackground(viewSettings.MAIN);
@@ -94,14 +94,14 @@ public class AjouterVehicule extends JDialog {
 		});
 		btnNewButton.setBounds(440, 330, 115, 33);
 		contentPanel.add(btnNewButton);
-		
+
 		JLabel lblNewLabel = new JLabel("Selectionner une vehicule");
 		lblNewLabel.setBounds(37, 36, 277, 26);
 		contentPanel.add(lblNewLabel);
 	}
-	
+
 	// on a besoin d'une référence vers la fenetre pour la fermé
-	public JDialog get () {
+	public JDialog get() {
 		return this;
 	}
 }
