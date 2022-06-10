@@ -38,6 +38,8 @@ public class SanctionController {
 		
 		this.sPanel.setSanctionController(this);
 		this.sInfoPanel.setSanctionController(this);
+		
+		Actualiser();
 	}
 	
 	/**
@@ -73,6 +75,9 @@ public class SanctionController {
 		sInfoPanel.loadContrats(cList);
 	}
 	
+	/**
+	 * Methode qui permet de regler les sanctions d'un client
+	 */
 	public void reglerSanction() {
 		int index = sPanel.getSanctionTable().getSelectedRow();
 		if(index < 0) {
@@ -100,6 +105,11 @@ public class SanctionController {
 		
 		SanctionDAO.reglerSanction(codeClient);
 		Actualiser();
+	}
+	
+	public void findClient(String nom) {
+		ArrayList<Sanction> sList = SanctionDAO.findSanctionClient(nom);
+		sPanel.getSanctionTableModel().loadSanctions(sList);
 	}
 	
 	/**

@@ -177,7 +177,6 @@ public interface FactureDAO {
 	 * Methode qui recherche une facture associe a une contrat
 	 * @param codeContrat
 	 */
-	
 	public static Facture findFactureByContrat(int codeContrat) {
 		String query= "SELECT * "
 				+ "FROM facture, contrat, client, reservation, vehicule "
@@ -231,5 +230,6 @@ public interface FactureDAO {
 		
 		return f;
 	}
+
 
 }

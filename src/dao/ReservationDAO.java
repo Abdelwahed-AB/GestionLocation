@@ -307,9 +307,35 @@ public interface ReservationDAO {
 			}
 			
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Erreur Recherche Vehicule, Reservation", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Recherche Vehicule, Reservation", e);
 		}
 		
 		return vList;
+	}
+	
+	/**
+	 * Methode qui recherches les client avec nom
+	 * @param nom
+	 * @return ArrayList<Client>
+	 */
+	public static ArrayList<Client> findClient(String nom){
+		try {
+			ArrayList<Client> list = new ArrayList<Client>();
+			PreparedStatement prepared = ConnectionManager.getConnection()
+					.prepareStatement("SELECT * FROM client WHERE nomClient LIKE ?");
+			prepared.setString(1, nom+"%");
+			ResultSet result = prepared.executeQuery();
+			while (result.next()) {
+				list.add(new Client(Integer.parseInt(result.getString(1)), result.getString(2), result.getString(3),
+						result.getString(4), Long.parseLong(result.getString(5)), result.getString(6),
+						result.getString(7)));
+			}
+			return list;
+		} catch (SQLException e) {
+			JOptionPane.showConfirmDialog(null, "Erreur Recherche Client, Reservation", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Recherche Client, Reservation", e);
+		}
+		return null;
 	}
 }

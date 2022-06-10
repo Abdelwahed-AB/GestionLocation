@@ -7,9 +7,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import dao.ReservationDAO;
+import dao.vehiculeDAO;
 import interfaces.MainInterface;
+import model.Client;
 import model.Reservation;
 import model.Vehicule;
 import model.Reservation.filtre;
@@ -49,7 +52,7 @@ public class ReservationController {
 		this.cl = (CardLayout) mInterface.getMainPanel().getLayout();
 		reserv_panel.setReservController(this);
 		creer_reserv.setReservController(this);
-
+		
 		ActualiserTableau();
 	}
 
@@ -66,7 +69,7 @@ public class ReservationController {
 	 * Methode qui recupere les donnés a partir de l'interface CreerReservation et les verifie, puis il les enregistre dans la BD
 	 */
 	public void CreerReservation() {
-		int indexClient = creer_reserv.getReserv_client_table().getSelectedRow();
+		int indexClient = creer_reserv.getCient_table().getSelectedRow();
 		int indexVehicule = creer_reserv.getReserv_vehi_table().getSelectedRow();
 
 		if(indexClient < 0) {
@@ -78,7 +81,7 @@ public class ReservationController {
 			return;
 		}
 
-		int codeClient = (int) creer_reserv.getReserv_client_table().getValueAt(indexClient, 0);
+		int codeClient = (int) creer_reserv.getCient_table().getValueAt(indexClient, 0);
 		String codeVehicule = (String) creer_reserv.getReserv_vehi_table().getValueAt(indexVehicule, 0);
 		Date dateDep, dateRet;
 
@@ -115,11 +118,18 @@ public class ReservationController {
 		}
 	}
 	
+	public void goToNewReserv() {
+		ActualiserTableClient();
+		ActualiserTableVehicule();
+		
+		cl.show(mInterface.getMainPanel(), "newReserv");
+		reserv_panel.getReserv_warning_lbl().setText("");
+	}
+	
 	/**
 	 * Methode pour creer la nouvelle panel de modification
 	 */
-	public void goToNewReserv() {
-		ActualiserTableVehicule();
+	public void goToModReserv() {
 		
 		int index = reserv_panel.getReserv_table().getSelectedRow();
 		if(index < 0) {
@@ -129,15 +139,9 @@ public class ReservationController {
 			return;
 		}
 
-		Reservation r = new Reservation();
+		int codeReserv = Integer.parseInt((String) reserv_panel.getReserv_table().getValueAt(index, 0));
 
-		r.setCodeReservation(Integer.parseInt((String) reserv_panel.getReserv_table().getValueAt(index, 0)));
-		r.setVehicule(new Vehicule());
-		r.getVehicule().setCodeVehicule((String) reserv_panel.getReserv_table().getValueAt(index, 3));
-		r.setDateDepart(Date.valueOf((String) reserv_panel.getReserv_table().getValueAt(index, 4)));
-		r.setDateRetour(Date.valueOf((String) reserv_panel.getReserv_table().getValueAt(index, 5)));
-		r.setValid(Boolean.parseBoolean((String) reserv_panel.getReserv_table().getValueAt(index, 6)));
-		r.setCanceled(Boolean.parseBoolean((String) reserv_panel.getReserv_table().getValueAt(index, 7)));
+		Reservation r = ReservationDAO.findReservation(codeReserv).get(0);
 
 		//Open reservation modification window
 		//ModifierReservation newReserv = new ModifierReservation(self, r);
@@ -267,6 +271,24 @@ public class ReservationController {
 	 */
 	public void ActualiserTableVehicule() {
 		ArrayList<Vehicule> vList = ReservationDAO.getAvailableVehicles();
+		creer_reserv.getVehiculeTableModel().loadVehicules(vList);
+	}
+	public void ActualiserTableClient() {
+		ClientController.fetchAll(creer_reserv.getCient_table());
+	}
+	
+	/**
+	 * Methode qui permet de rechercher un client dans le panel de creation de reservation
+	 * @param nom
+	 */
+	public void searchClient(String nom) {
+		ArrayList<Client> cList = ReservationDAO.findClient(nom);
+		DefaultTableModel dtm = ClientController.preparerModel(cList);
+		creer_reserv.getCient_table().setModel(dtm);
+	}
+	
+	public void searchVehicle(String matricule) {
+		ArrayList<Vehicule> vList = vehiculeDAO.findVehiculeAutoCompleting(matricule);
 		creer_reserv.getVehiculeTableModel().loadVehicules(vList);
 	}
 }

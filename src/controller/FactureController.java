@@ -18,8 +18,6 @@ public class FactureController {
 	private MainInterface mInterface;
 	private CardLayout cl;
 	
-	public FactureController() {
-	}
 	
 	public FactureController(FacturePanel fpanel, CreerFacturePanel cfPanel, MainInterface mInterface) {
 		this.fPanel = fpanel;
@@ -121,6 +119,11 @@ public class FactureController {
 		ActualiserTableau();
 	}
 	
+	public void searchContrat(int codeContrat) {
+		//
+	}
+	
+	//Methodes de navigation
 	public void goToNewFacture() {
 		cl.show(mInterface.getMainPanel(), "newFacture");
 	}

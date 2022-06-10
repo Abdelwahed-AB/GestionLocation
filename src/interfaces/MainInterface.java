@@ -62,7 +62,7 @@ public class MainInterface {
 	private JTextField parkingtextField;
 	private JTable contrat_table;
 
-	private boolean isAdmin;
+	private boolean isAdmin = false;
 	
 	/**
 	 * Launch the application.
@@ -88,7 +88,7 @@ public class MainInterface {
 	public MainInterface() {
 		initialize();
 		// ClientController.fetchAll(clienttable);
-		ParkingController.fetchAll(parkingtable);
+		//ParkingController.fetchAll(parkingtable);
 	}
 	
 	public MainInterface(boolean isAdmin) {
@@ -206,7 +206,7 @@ public class MainInterface {
 		
 
 		// Parking Panel generation
-		setupParkingPanel(parking);
+//		setupParkingPanel(parking);
 		
 		
 		navItemList = new LinkedHashMap<String, JLabel>();
