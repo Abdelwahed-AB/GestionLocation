@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.JTable;
-
 import connectionManager.ConnectionManager;
 import model.Parking;
 
@@ -89,6 +87,7 @@ public class ParkingDAO {
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
+			System.out.println(e.getLocalizedMessage());
 			return false;
 		}
 	}
@@ -115,7 +114,7 @@ public class ParkingDAO {
 	public static ResultSet chercherVehicule (int code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
-					"SELECT codeMatricule, marqueVehicule, typeVehicule, prixLocation FROM vehicule, parking, reservation WHERE vehicule.codePark=parking.codeParking AND vehicule.codeMatricule=reservation.codeVehicule AND parking.codeParking=? AND reservation.isValid=0");
+					"SELECT Immatriculation, marqueVehicule, typeVehicule, prixLocation FROM vehicule, parking, reservation WHERE vehicule.codePark=parking.codeParking AND vehicule.Immatriculation=reservation.codeVehicule AND parking.codeParking=? AND reservation.isValid=0");
 			prepared.setInt(1, code);
 			ResultSet result = prepared.executeQuery();
 			return result;
@@ -129,7 +128,7 @@ public class ParkingDAO {
 	//pour calculer le nombre de place vide dans une parking on a besion du nombre de vehicule situées dans ce park
 	public static int nombreVehicule (int code) {
 		try {
-			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("SELECT COUNT(codeMatricule) FROM vehicule, parking WHERE vehicule.codePark = parking.codeParking AND parking.codeParking = ?");
+			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("SELECT COUNT(Immatriculation) FROM vehicule, parking WHERE vehicule.codePark = parking.codeParking AND parking.codeParking = ?");
 			prepared.setInt(1, code);
 			ResultSet result = prepared.executeQuery();
 			if (result.next()) {
@@ -145,7 +144,7 @@ public class ParkingDAO {
 	public static void removeVehiculeDAO (String codeVehicule, int codeParking) {
 		try {
 			//supprimer la vehicule du park
-			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("UPDATE `vehicule` SET `codePark` = '0' WHERE `vehicule`.`codeMatricule` = ?");
+			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("UPDATE `vehicule` SET `codePark` = '0' WHERE `vehicule`.`Immatriculation` = ?");
 			prepared.setString(1, codeVehicule);
 			prepared.execute();
 			//augmenter le nombre de place vide dans le park
@@ -163,7 +162,7 @@ public class ParkingDAO {
 		public static ResultSet chercherVehicule () {
 			try {
 				PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
-						"SELECT codeMatricule, marqueVehicule, prixLocation FROM vehicule WHERE vehicule.codePark=0 ");
+						"SELECT Immatriculation, marqueVehicule, prixLocation FROM vehicule WHERE vehicule.codePark=0 ");
 				ResultSet result = prepared.executeQuery();
 				return result;
 			} catch (SQLException e) {
@@ -177,7 +176,7 @@ public class ParkingDAO {
 			try {
 				//ajouter la vehicule au park
 				PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
-						"UPDATE `vehicule` SET `codePark` = ? WHERE `vehicule`.`codeMatricule` = ?");
+						"UPDATE `vehicule` SET `codePark` = ? WHERE `vehicule`.`Immatriculation` = ?");
 				prepared.setInt(1, codeParking);
 				prepared.setString(2, codeVehicule);
 				prepared.execute();

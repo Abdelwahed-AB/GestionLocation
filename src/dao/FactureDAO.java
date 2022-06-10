@@ -22,7 +22,7 @@ public interface FactureDAO {
 				+ "WHERE facture.codeContrat = contrat.codeContrat "
 				+ "AND contrat.codeReservation = reservation.codeReservation "
 				+ "AND reservation.codeClient = client.codeClient "
-				+ "AND reservation.codeVehicule = vehicule.codeMatricule "
+				+ "AND reservation.codeVehicule = vehicule.Immatriculation "
 				+ "ORDER BY dateFacture DESC;";
 		
 		ResultSet result = ConnectionManager.execute(query);
@@ -152,7 +152,7 @@ public interface FactureDAO {
 				     + " 	CURRENT_DATE(),"
 				     + "	(SELECT DATEDIFF(dateEcheance, dateContrat)*prixLocation "
 				     + "	 FROM contrat, vehicule"
-				     + "	 WHERE contrat.codeMatricule = vehicule.codeMatricule"
+				     + "	 WHERE contrat.codeMatricule = vehicule.Immatriculation "
 				     + "	 AND contrat.codeContrat = ?),"
 				     + "	?);";
 		
