@@ -78,6 +78,7 @@ public class ModifierReserPanel extends JPanel {
 				isValid = valide_box.isSelected();
 			}
 		});
+		valide_box.setEnabled(false);
 		valide_box.setSelected(isValid);
 		valide_box.setBounds(81, 403, 270, 21);
 		this.add(valide_box);
