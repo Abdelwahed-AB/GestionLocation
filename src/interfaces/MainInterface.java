@@ -64,23 +64,23 @@ public class MainInterface {
 
 	private boolean isAdmin = false;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					MainInterface window = new MainInterface();
-					window.frame.setVisible(true);
-					window.frame.setLocationRelativeTo(null);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			@Override
+//			public void run() {
+//				try {
+//					MainInterface window = new MainInterface();
+//					window.frame.setVisible(true);
+//					window.frame.setLocationRelativeTo(null);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
