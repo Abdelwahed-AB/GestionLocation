@@ -7,9 +7,9 @@ import javax.swing.table.AbstractTableModel;
 
 public class ContractTableModel extends AbstractTableModel {
 		private String[] nomColonnes = new String[]{
-				"RÃ©fÃ©rence",
+				"Référence",
 				"Date contrat",
-				"Date Ã©chÃ©ance",
+				"Date échéance",
 				"Date retour"
 		};
 		

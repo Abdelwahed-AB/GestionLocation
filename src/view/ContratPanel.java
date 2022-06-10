@@ -27,7 +27,7 @@ public class ContratPanel extends JPanel {
 	private static ContractTableModel cTable ;
 	private JTable contratTable;
 	private static LinkedHashMap<String, JLabel> navItemList;
-			
+	private JTextField 	chercherContrat;
 //CONSTRUCTEUR DU PANEL
 	public ContratPanel(MainInterface mainInterface) {
 		setBounds(new Rectangle(0, 0, 732, 547));
@@ -44,11 +44,12 @@ public class ContratPanel extends JPanel {
 		contratTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				
 // ZONE DE RECHERCHE[UTILISE LA METHODE AUTOCOMPLETING A CHAQUE CLIQUE]
-		JTextField chercherContrat = new JTextField();
+		chercherContrat = new JTextField();
 		chercherContrat.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {// affiche les resultats qui commencent par le mot que l'utilisateur tappe
-				ContratController.autoCompleting(Integer.parseInt(chercherContrat.getText()));
+				ContratController.setTable(contratTable);
+				ContratController.autoCompleting();
 			}
 		});
 		chercherContrat.setBounds(0, 16, 595, 33);
@@ -61,6 +62,7 @@ public class ContratPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				AddNewContract.setPanel(ContratPanel.this);
 				ContratController.setWindow(mainInterface);// pour pouvoir instancier le panelAddNewContrat
+				ContratController.displayReservation();
 				ContratController.addContrat();
 			}
 		});
@@ -123,6 +125,9 @@ public class ContratPanel extends JPanel {
 	}
 	public static ContractTableModel getTableModel() { 
 		return cTable;
+	}
+	public JTextField getChercherContrat() {
+		return chercherContrat;
 	}
 
 }

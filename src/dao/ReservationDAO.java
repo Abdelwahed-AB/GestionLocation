@@ -97,10 +97,12 @@ public interface ReservationDAO {
 	}
 
 	/**methode qui retourne la liste des reservations correspondant au critere de recherche*/
-	public static ArrayList<Reservation> findUserAutoCompleting(int codeReservation) {
+	public static ArrayList<Reservation> findReservationAutoCompleting(int codeReservation) {
 		String query="SELECT *"
 				+" FROM reservation"
-				+" WHERE  codeReservation like ?;";
+				+" WHERE  codeReservation like ?"
+				+"AND isValid = false "
+				+ "AND isCanceled = false ;";
 	ArrayList<Reservation> reserv_list = new ArrayList<Reservation>();
 	try {
 		PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);

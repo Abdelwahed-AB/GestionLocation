@@ -98,8 +98,8 @@ public class AddUser extends JPanel{
 		saveNewUser.setBackground(viewSettings.SECONDARY);
 		saveNewUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserController.saveNewUsers(AddUser.this,newUserNom,newUserPrenom,newUserTel,newUserAdresse,newUserUsername,newUserPassword);
-//				AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
+				UserController.setAU(AddUser.this);
+				UserController.saveNewUsers();
 			}
 		});
 		this.add(saveNewUser);

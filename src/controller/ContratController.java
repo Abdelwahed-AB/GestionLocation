@@ -22,18 +22,30 @@ public class ContratController {
 	private static ContratPanel contratPanel;
 	private static AddNewContract addNewContract;
 // METHODE AUTOCOMPLETING version contrats
-	public static void autoCompleting(int codeContrat) {
-		ArrayList<Contrat> cList = ContratDAO.findContratAutoCompleting(codeContrat);//RETOURNE UNE ARRAYLIST
-		contratPanel.getTableModel().loadContracts(cList);//ATTACHE LA LISTE A LA TABLE DU PANEL ContratPANEL
+	public static void autoCompleting() {
+		if(!ContratController.contratPanel.getChercherContrat().getText().equals("")) {
+			try {
+				ArrayList<Contrat> contrat=ContratDAO.findContratAutoCompleting(Integer.parseInt(ContratController.contratPanel.getChercherContrat().getText()));
+				contratPanel.getTableModel().loadContracts(contrat);
+			}catch(NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null,"veuillez entrer un nombre", "Input error", JOptionPane.ERROR_MESSAGE);
+				contratPanel.getChercherContrat().setText("");
+				ContratController.fetchAll();
+			}
+		}else {
+			ContratController.fetchAll();
+		}
 	}
 // METHODE AUTOCOMPLETING version reservations
 	public static void autoCompleting1() {
 		if(!ContratController.addNewContract.getChercherReservation().getText().equals("")) {
 			try {
-				ArrayList<Reservation> reserv = ReservationDAO.findUserAutoCompleting(Integer.parseInt(ContratController.addNewContract.getChercherReservation().getText()));
+				ArrayList<Reservation> reserv = ReservationDAO.findReservationAutoCompleting(Integer.parseInt(ContratController.addNewContract.getChercherReservation().getText()));
 				AddNewContract.getRTableModel().loadReservations(reserv);
 			}catch(NumberFormatException ex) {
 				JOptionPane.showMessageDialog(null,"veuillez entrer un nombre", "Input error", JOptionPane.ERROR_MESSAGE);
+				ContratController.addNewContract.getChercherReservation().setText("");
+				ContratController.displayReservation();
 			}
 		}else {
 			ContratController.displayReservation();
@@ -113,7 +125,7 @@ public class ContratController {
 		int i = contratTable.getSelectedRow();
 		try {
 			if (i!=-1) {
-				int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer ce contrat?", "Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer le contrat : "+contratTable.getModel().getValueAt(i, 0).toString(), "Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.YES_OPTION) {
 					String id =contratTable.getModel().getValueAt(i, 0).toString();
 					ContratDAO.removeContrat(id);
@@ -128,10 +140,12 @@ public class ContratController {
 		}
 	}
 		
+	//METHODE QUI INITIALISE LES COMBOBOX PAR LA DATE ACTUELLE
 	public static void emptyContratFields(ChangeExistingContrat CEC) {
-		CEC.getYcomboBox().setSelectedIndex(0);
-		CEC.getMcomboBox().setSelectedIndex(0);
-		CEC.getDcomboBox().setSelectedIndex(0);
+		LocalDate LD=java.time.LocalDate.now();
+		CEC.getYcomboBox().setSelectedItem(LD.getYear()+"");
+		CEC.getMcomboBox().setSelectedItem(LD.getMonthValue()+"");
+		CEC.getDcomboBox().setSelectedItem(LD.getDayOfMonth()+"");
 	}
 	
 // setters
