@@ -40,6 +40,7 @@ public class ContratPanel extends JPanel {
 		this.add(CScrollPane);
 		cTable = new ContractTableModel();
 		contratTable=new JTable(cTable);
+		contratTable.setSelectionBackground(viewSettings.SECONDARY);
 		CScrollPane.setViewportView(contratTable);
 		contratTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				
@@ -58,6 +59,7 @@ public class ContratPanel extends JPanel {
 				
 //BOUTON AJOUTER UN NOUVEAU CONTRAT
 		JButton addContrat = new JButton("Ajouter ");
+		addContrat.setBackground(viewSettings.SECONDARY);
 		addContrat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddNewContract.setPanel(ContratPanel.this);
@@ -72,6 +74,7 @@ public class ContratPanel extends JPanel {
 //BOUTON SUPPRIMER UN CONTRAT ECXISTANT
 				
 		JButton removeContrat = new JButton("Suppimer");
+		removeContrat.setBackground(viewSettings.SECONDARY);
 		removeContrat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ContratController.setPanel(ContratPanel.this);
@@ -85,6 +88,7 @@ public class ContratPanel extends JPanel {
 //BOUTON MODIFIER LES ATTRIBUTS D'UN Contrat EXISTANT
 				
 		JButton changeContrat = new JButton("Modifier");
+		changeContrat.setBackground(viewSettings.SECONDARY);
 		changeContrat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ContratController.setPanel(ContratPanel.this);
@@ -99,6 +103,7 @@ public class ContratPanel extends JPanel {
 		
 //BOUTON AFFICHER TOUT LES ATTRIBUTS D'UN ENREGISTREMENT
 		JButton afficher = new JButton("Actualiser");
+		afficher.setBackground(viewSettings.SECONDARY);
 		afficher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ContratController.fetchAll();
