@@ -33,6 +33,7 @@ import view.ClientMainView;
 import view.CreerFacturePanel;
 import view.CreerReservPanel;
 import view.FacturePanel;
+import view.ParkingMainView;
 import view.ReservationPanel;
 import view.SanctionInfoPanel;
 import view.SanctionPanel;
@@ -87,8 +88,6 @@ public class MainInterface {
 	 */
 	public MainInterface() {
 		initialize();
-		// ClientController.fetchAll(clienttable);
-		ParkingController.fetchAll(parkingtable);
 	}
 	
 	public MainInterface(boolean isAdmin) {
@@ -108,7 +107,7 @@ public class MainInterface {
 		frame.setTitle("Gestion de location");
 		frame.setResizable(false);
 		frame.getContentPane().setEnabled(false);
-		frame.setBounds(100, 100, 1000, 700);
+		frame.setBounds(140, 10, 1000, 700);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		mainColor = new Color(75, 0, 130);
@@ -149,12 +148,17 @@ public class MainInterface {
 		mainPanel.setLayout(new CardLayout(0, 0));
 		cl = (CardLayout) mainPanel.getLayout();
 
-		// Client Panel generation
+		//Panel des clients ---------------------------------------------------------------------
 		ClientMainView client = new ClientMainView(getMainPanel());
 		mainPanel.add(client, "client");
 
-		JPanel parking = new JPanel();
+		//END PANEL clients ---------------------------------------------------------------------
+		
+		//Panel des parkings ---------------------------------------------------------------------
+		ParkingMainView parking = new ParkingMainView(getMainPanel());
 		mainPanel.add(parking, "parking");
+		
+		//END PANEL parkings ---------------------------------------------------------------------
 
 		//Panel des RESERVATIONS ---------------------------------------------------------------------
 
@@ -203,10 +207,6 @@ public class MainInterface {
 		factureController = new FactureController(factures, creerFacturePanel, this);
 		reservController = new ReservationController(reservPanel, createReservPanel, this);
 		sanctionController = new SanctionController(sanctions, sanctionInfo, this);
-		
-
-		// Parking Panel generation
-		setupParkingPanel(parking);
 		
 		
 		navItemList = new LinkedHashMap<String, JLabel>();
@@ -278,108 +278,6 @@ public class MainInterface {
 	public JPanel getMainPanel() {
 		return this.mainPanel;
 	}
-	private void setupParkingPanel(JPanel panel) {
-		panel.setLayout(null);
-		JScrollPane parkingscrollPane = new JScrollPane();
-		parkingscrollPane.setBounds(10, 58, 574, 478);
-		panel.add(parkingscrollPane);
-
-		parkingtable = new JTable();
-		parkingtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		Object[] parkingcolumns = { "id", "nom", "prenom" };
-		DefaultTableModel parkingmodel = new DefaultTableModel();
-		parkingmodel.setColumnCount(3);
-		parkingmodel.setColumnIdentifiers(parkingcolumns);
-		parkingtable.setModel(parkingmodel);
-		parkingscrollPane.setViewportView(parkingtable);
-
-		JButton parkingbtnNewButton = new JButton("Rechercher");
-		parkingbtnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String string = parkingtextField.getText();
-				ParkingController.findParking(string, parkingtable);
-				parkingtextField.setText("");
-			}
-		});
-		parkingbtnNewButton.setBounds(594, 11, 128, 36);
-		panel.add(parkingbtnNewButton);
-
-		JButton parkingbtnNewButton_1 = new JButton("Nouveau Parking");
-		parkingbtnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CreerNouveauParking window = new CreerNouveauParking(parkingtable);
-			}
-		});
-		parkingbtnNewButton_1.setBounds(594, 76, 128, 36);
-		panel.add(parkingbtnNewButton_1);
-
-		JButton parkingbtnNewButton_5 = new JButton("Afficher");
-		parkingbtnNewButton_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index = parkingtable.getSelectedRow();
-				if (index >= 0) {
-
-				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois selectionner un element du tableau pour l'afficher!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-		parkingbtnNewButton_5.setBounds(594, 123, 128, 36);
-		panel.add(parkingbtnNewButton_5);
-
-		parkingtextField = new JTextField();
-		parkingtextField.setBounds(10, 11, 574, 36);
-		panel.add(parkingtextField);
-		parkingtextField.setColumns(10);
-
-		JButton parkingbtnNewButton_2 = new JButton("Modifier");
-		parkingbtnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index = parkingtable.getSelectedRow();
-				if (index >= 0) {
-					ModifierParking.setId(parkingtable.getModel().getValueAt(index, 0).toString());
-					ModifierParking window = new ModifierParking(parkingtable, index);
-				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois selectionner un element du tableau pour le modifier!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-		parkingbtnNewButton_2.setBounds(594, 170, 128, 36);
-		panel.add(parkingbtnNewButton_2);
-
-		JButton parkingbtnNewButton_3 = new JButton("Actualiser");
-		parkingbtnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ParkingController.fetchAll(parkingtable);
-			}
-		});
-		parkingbtnNewButton_3.setBounds(594, 217, 128, 36);
-		panel.add(parkingbtnNewButton_3);
-
-		JButton parkingbtnNewButton_4 = new JButton("Supprimer");
-		parkingbtnNewButton_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index = parkingtable.getSelectedRow();
-				if (index >= 0) {
-					int result = JOptionPane.showConfirmDialog(null, "Avez-vous Sure?", "Confirmation",
-							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-					if (result == JOptionPane.YES_OPTION) {
-						ParkingController.deleteParking(parkingtable.getModel().getValueAt(index, 0).toString());
-						ParkingController.fetchAll(parkingtable);
-					}
-				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois selectionner un element du tableau pour le supprimer!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-		parkingbtnNewButton_4.setBounds(594, 264, 128, 36);
-		panel.add(parkingbtnNewButton_4);
-	}
-	// SETTERS  
-
 	// AJOUTE LES PANELS AU MAINPANEL
 	public void addToMainPanel(JPanel Panel,String key) {
 		this.mainPanel.add(Panel,key);
@@ -387,5 +285,8 @@ public class MainInterface {
 	}
 	public void showOnMainPanel(String key) {
 		cl.show(mainPanel,key);
+	}
+	public FactureController getFactureController() {
+		return factureController;
 	}
 }
