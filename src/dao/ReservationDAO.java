@@ -394,8 +394,12 @@ public interface ReservationDAO {
 			prepared.setString(1, nom+"%");
 			ResultSet result = prepared.executeQuery();
 			while (result.next()) {
-				list.add(new Client(Integer.parseInt(result.getString(1)), result.getString(2), result.getString(3),
-						result.getString(4), Long.parseLong(result.getString(5)), result.getString(6),
+				list.add(new Client(Integer.parseInt(result.getString(1)),
+						result.getString(2),
+						result.getString(3),
+						result.getString(4),
+						result.getString(5),
+						result.getString(6),
 						result.getString(7)));
 			}
 			return list;

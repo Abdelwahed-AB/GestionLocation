@@ -80,7 +80,7 @@ public interface FactureDAO {
 				+ "WHERE facture.codeContrat = contrat.codeContrat "
 				+ "AND contrat.codeReservation = reservation.codeReservation "
 				+ "AND reservation.codeClient = client.codeClient "
-				+ "AND contrat.codeMatricule = vehicule.Immatriculation "
+				+ "AND reservation.codeVehicule = vehicule.Immatriculation "
 				+ "AND codeFacture = ? "
 				+ "ORDER BY dateFacture DESC;";
 		
@@ -156,8 +156,9 @@ public interface FactureDAO {
 				     + "	NULL,"
 				     + " 	CURRENT_DATE(),"
 				     + "	(SELECT DATEDIFF(dateEcheance, dateContrat)*prixLocation "
-				     + "	 FROM contrat, vehicule"
-				     + "	 WHERE contrat.codeMatricule = vehicule.Immatriculation "
+				     + "	 FROM contrat, vehicule, reservation"
+				     + "	 WHERE reservation.codeVehicule = vehicule.Immatriculation "
+				     + "	 AND contrat.codeReservation = reservation.codeReservation"
 				     + "	 AND contrat.codeContrat = ?),"
 				     + "	?);";
 		
@@ -168,7 +169,8 @@ public interface FactureDAO {
 			prepared.setInt(2, codeContrat);
 			prepared.execute();
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, "Erreur Creation Facture", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			//TODO
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Creation Facture", e);
 		}
 	}
@@ -183,7 +185,7 @@ public interface FactureDAO {
 				+ "WHERE facture.codeContrat = contrat.codeContrat "
 				+ "AND contrat.codeReservation = reservation.codeReservation "
 				+ "AND reservation.codeClient = client.codeClient "
-				+ "AND contrat.codeMatricule = vehicule.Immatriculation "
+				+ "AND reservation.codeVehicule = vehicule.Immatriculation "
 				+ "AND contrat.codeContrat = ? "
 				+ "ORDER BY dateFacture DESC;";
 		

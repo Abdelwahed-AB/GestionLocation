@@ -69,7 +69,7 @@ public class VehiculePanel extends JPanel{
 					VehiculeController.addVehicule();
 				}
 			});
-			addVehicule.setBounds(605, 222, 117, 50);
+			addVehicule.setBounds(605, 60, 117, 50);
 			this.add(addVehicule);
 			
 		//BOUTON SUPPRIMER UN VEHICULE ECXISTANT
@@ -83,7 +83,7 @@ public class VehiculePanel extends JPanel{
 					VehiculeController.removeVehicule();
 				}
 			});
-			removeVehicule.setBounds(605, 299, 117, 50);
+			removeVehicule.setBounds(605, 180, 117, 50);
 			this.add(removeVehicule);
 			
 		//BOUTON MODIFIER LES ATTRIBUTS D'UN VEHICULE EXISTANT
@@ -98,7 +98,7 @@ public class VehiculePanel extends JPanel{
 					VehiculeController.changeVehicle();
 				}
 			});
-			changeVehicule.setBounds(605, 136, 117, 50);
+			changeVehicule.setBounds(605, 120, 117, 50);
 			this.add(changeVehicule);
 			this.setLayout(null);
 			
@@ -116,7 +116,7 @@ public class VehiculePanel extends JPanel{
 					}
 				}
 			});
-			afficher.setBounds(605, 378, 117, 50);
+			afficher.setBounds(605, 240, 117, 50);
 			this.add(afficher);
 			
 			

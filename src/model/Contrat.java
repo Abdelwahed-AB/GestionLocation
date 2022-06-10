@@ -22,11 +22,13 @@ public class Contrat {
 		this.dateEcheance = dateEcheance;
 		this.dateRetActuel=dateRetour;
 	}
-	public Contrat( Date dateContrat, Date dateEcheance,Reservation reservation) {
+	public Contrat( Date dateContrat, Date dateEcheance, Reservation reservation) {
 		this.dateContrat = dateContrat;
 		this.dateEcheance = dateEcheance;
 		this.reservation=reservation;
 	}
+	
+	
 	public int getCodeContrat() {
 		return codeContrat;
 	}

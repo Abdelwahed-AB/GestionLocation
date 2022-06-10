@@ -109,7 +109,7 @@ public class ContratController {
 			int i=Integer.parseInt(reservationTable.getValueAt(index,0).toString());
 			ArrayList<Reservation> RV=ReservationDAO.findReservation(i);
 			Reservation reserv=RV.get(0);
-			Contrat contrat=new Contrat(Date.valueOf(java.time.LocalDate.now().toString()),reserv.getDateRetour(),reserv);
+			Contrat contrat= new Contrat(Date.valueOf(java.time.LocalDate.now().toString()),reserv.getDateRetour(),reserv);
 			ContratDAO.createContrat(contrat);
 			ReservationDAO.setReservationValid(i,true);//VALIDER LA RESERVATION
 			ContratController.fetchAll();

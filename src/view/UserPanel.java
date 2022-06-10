@@ -46,7 +46,7 @@ public class UserPanel extends JPanel{
 		
 		// ZONE D'AFFICHAGE
 		JScrollPane UScrollPane = new JScrollPane();
-		UScrollPane.setBounds(10, 60, 585, 487);
+		UScrollPane.setBounds(10, 60, 585, 477);
 		this.add(UScrollPane);
 		uTable = new UserTableModel();
 		userTable=new JTable(uTable);
@@ -64,7 +64,7 @@ public class UserPanel extends JPanel{
 				UserController.createUser(UserPanel.this);
 			}
 		});
-		addUser.setBounds(605, 222, 117, 50);
+		addUser.setBounds(605, 60, 117, 50);
 		this.add(addUser);
 		
 		/**REMOVE USER*/
@@ -78,7 +78,7 @@ public class UserPanel extends JPanel{
 			}
 		});
 		removeUser.setBackground(viewSettings.SECONDARY);
-		removeUser.setBounds(605, 299, 117, 50);
+		removeUser.setBounds(605, 180, 117, 50);
 		this.add(removeUser);
 		
 		/**CHANGE USER DATA*/
@@ -94,7 +94,7 @@ public class UserPanel extends JPanel{
 			}
 		});
 		changeUser.setBackground(viewSettings.SECONDARY);
-		changeUser.setBounds(605, 136, 117, 50);
+		changeUser.setBounds(605, 120, 117, 50);
 		this.add(changeUser);
 		this.setLayout(null);
 		
@@ -105,7 +105,7 @@ public class UserPanel extends JPanel{
 			}
 		});
 		update.setBackground(viewSettings.SECONDARY);
-		update.setBounds(605, 378, 117, 50);
+		update.setBounds(605, 240, 117, 50);
 		this.add(update);
 		
 		/**DISPLAY ALL ROWS*/

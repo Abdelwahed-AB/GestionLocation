@@ -5,9 +5,11 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import dao.ContratDAO;
 import dao.FactureDAO;
 import interfaces.MainInterface;
 import metier.FactureMetier;
+import model.Contrat;
 import model.Facture;
 import view.CreerFacturePanel;
 import view.FacturePanel;
@@ -89,7 +91,7 @@ public class FactureController {
 			return;
 		}
 		
-		int codeContrat =  (int) cfPanel.getContrat_table().getValueAt(index, 0);
+		int codeContrat =  Integer.parseInt((String) cfPanel.getContrat_table().getValueAt(index, 0));
 		
 		FactureDAO.createFacture(codeContrat);
 		
@@ -119,12 +121,14 @@ public class FactureController {
 		ActualiserTableau();
 	}
 	
-	public void searchContrat(int codeContrat) {
-		//
+	public void ActualiserTableContrats() {
+		ArrayList<Contrat> cList = ContratDAO.getContratsNoFacture();
+		cfPanel.getContractTableModel().loadContracts(cList);
 	}
 	
 	//Methodes de navigation
 	public void goToNewFacture() {
+		ActualiserTableContrats();
 		cl.show(mInterface.getMainPanel(), "newFacture");
 	}
 	public void goBack() {

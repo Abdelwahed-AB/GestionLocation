@@ -47,7 +47,7 @@ public class FacturePanel extends JPanel {
 		facture_warning_lbl = new JLabel("");
 		facture_warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		facture_warning_lbl.setForeground(Color.RED);
-		facture_warning_lbl.setBounds(522, 57, 193, 113);
+		facture_warning_lbl.setBounds(522, 265, 193, 113);
 		this.add(facture_warning_lbl);
 		
 		facture_field = new JTextField();
@@ -84,7 +84,7 @@ public class FacturePanel extends JPanel {
 				cont.goToNewFacture();
 			}
 		});
-		newFacture_btn.setBounds(522, 190, 193, 56);
+		newFacture_btn.setBounds(522, 57, 193, 56);
 		this.add(newFacture_btn);
 		
 		JButton dltFacture_btn = new JButton("Supprimer");
@@ -94,7 +94,7 @@ public class FacturePanel extends JPanel {
 				cont.SupprimerFacture();
 			}
 		});
-		dltFacture_btn.setBounds(522, 322, 193, 56);
+		dltFacture_btn.setBounds(522, 189, 193, 56);
 		this.add(dltFacture_btn);
 		
 		JButton facture_actualiser_btn = new JButton("Actualiser");
@@ -109,7 +109,7 @@ public class FacturePanel extends JPanel {
 		
 		JButton imprimer_btn = new JButton("Imprimer");
 		imprimer_btn.setBackground(viewSettings.SECONDARY);
-		imprimer_btn.setBounds(522, 256, 193, 56);
+		imprimer_btn.setBounds(522, 123, 193, 56);
 		imprimer_btn.addActionListener(new ActionListener() {
 			
 			@Override

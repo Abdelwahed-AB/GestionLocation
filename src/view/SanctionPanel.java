@@ -77,7 +77,7 @@ public class SanctionPanel extends JPanel {
 		this.add(actualiser_btn);
 		
 		JButton plusInfo_btn = new JButton("Plus d'informations");
-		plusInfo_btn.setBounds(522, 179, 193, 56);
+		plusInfo_btn.setBounds(522, 57, 193, 56);
 		plusInfo_btn.setBackground(viewSettings.SECONDARY);
 		
 		plusInfo_btn.addActionListener(new ActionListener() {
@@ -92,12 +92,12 @@ public class SanctionPanel extends JPanel {
 		warning_lbl = new JLabel("");
 		warning_lbl.setForeground(Color.RED);
 		warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
-		warning_lbl.setBounds(525, 57, 190, 88);
+		warning_lbl.setBounds(525, 204, 190, 88);
 		this.add(warning_lbl);
 		
 		JButton regler_btn = new JButton("Regler");
 		regler_btn.setBackground(viewSettings.SECONDARY);
-		regler_btn.setBounds(522, 245, 193, 56);
+		regler_btn.setBounds(522, 123, 193, 56);
 		regler_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

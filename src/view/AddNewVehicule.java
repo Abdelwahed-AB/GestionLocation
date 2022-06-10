@@ -116,7 +116,7 @@ public class AddNewVehicule  extends JPanel{
 								carburant.getText(),
 								Long.parseLong(kilometrage.getText()),
 								Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
-								parkComboBox.getSelectedItem().toString(),
+								Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 								Integer.parseInt(prixLocation.getText()),
 								disponible.isSelected());
 						VehiculeController.saveNewVehicule(AddNewVehicule.this,V);

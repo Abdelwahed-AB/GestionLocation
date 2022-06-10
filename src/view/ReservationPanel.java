@@ -45,7 +45,7 @@ public class ReservationPanel extends JPanel {
 
 		reserv_warning_lbl = new JLabel("");
 		reserv_warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
-		reserv_warning_lbl.setBounds(525, 57, 190, 88);
+		reserv_warning_lbl.setBounds(516, 259, 190, 88);
 		reserv_warning_lbl.setForeground(Color.RED);
 
 		JScrollPane reserv_scroll = new JScrollPane();
@@ -94,7 +94,7 @@ public class ReservationPanel extends JPanel {
 
 		JButton newReserv_btn = new JButton("Nouveau reservation");
 		newReserv_btn.setBackground(viewSettings.SECONDARY);
-		newReserv_btn.setBounds(522, 155, 193, 56);
+		newReserv_btn.setBounds(516, 57, 193, 56);
 		newReserv_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -104,7 +104,7 @@ public class ReservationPanel extends JPanel {
 
 		JButton delReserv_btn = new JButton("Supprimer reservation");
 		delReserv_btn.setBackground(viewSettings.SECONDARY);
-		delReserv_btn.setBounds(522, 225, 193, 56);
+		delReserv_btn.setBounds(516, 127, 193, 56);
 		delReserv_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -114,7 +114,7 @@ public class ReservationPanel extends JPanel {
 
 		JButton modReserv_btn = new JButton("Modifier reservation");
 		modReserv_btn.setBackground(viewSettings.SECONDARY);
-		modReserv_btn.setBounds(522, 291, 193, 56);
+		modReserv_btn.setBounds(516, 193, 193, 56);
 		modReserv_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

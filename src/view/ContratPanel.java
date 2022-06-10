@@ -36,7 +36,7 @@ public class ContratPanel extends JPanel {
 				
 // ZONE D'AFFICHAGE
 		JScrollPane CScrollPane = new JScrollPane();
-		CScrollPane.setBounds(0, 60, 595, 503);
+		CScrollPane.setBounds(10, 60, 585, 477);
 		this.add(CScrollPane);
 		cTable = new ContractTableModel();
 		contratTable=new JTable(cTable);
@@ -52,7 +52,7 @@ public class ContratPanel extends JPanel {
 				ContratController.autoCompleting();
 			}
 		});
-		chercherContrat.setBounds(0, 16, 595, 33);
+		chercherContrat.setBounds(10, 16, 585, 33);
 		this.add(chercherContrat);
 		chercherContrat.setColumns(10);
 				
@@ -66,7 +66,7 @@ public class ContratPanel extends JPanel {
 				ContratController.addContrat();
 			}
 		});
-		addContrat.setBounds(605, 222, 117, 50);
+		addContrat.setBounds(605, 60, 117, 50);
 		this.add(addContrat);
 				
 //BOUTON SUPPRIMER UN CONTRAT ECXISTANT
@@ -79,7 +79,7 @@ public class ContratPanel extends JPanel {
 				ContratController.removeContrat();
 			}
 		});
-		removeContrat.setBounds(605, 299, 117, 50);
+		removeContrat.setBounds(605, 181, 117, 50);
 		this.add(removeContrat);
 				
 //BOUTON MODIFIER LES ATTRIBUTS D'UN Contrat EXISTANT
@@ -93,7 +93,7 @@ public class ContratPanel extends JPanel {
 				ContratController.changeContrat();
 			}
 		});
-		changeContrat.setBounds(605, 136, 117, 50);
+		changeContrat.setBounds(605, 121, 117, 50);
 		this.add(changeContrat);
 		this.setLayout(null);
 		
@@ -104,7 +104,7 @@ public class ContratPanel extends JPanel {
 				ContratController.fetchAll();
 			}
 		});
-		afficher.setBounds(605, 378, 117, 50);
+		afficher.setBounds(605, 241, 117, 50);
 		this.add(afficher);
 				
 				

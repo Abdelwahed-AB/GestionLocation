@@ -32,7 +32,7 @@ public class AddNewContract extends JPanel{
 		
 // ZONE D'AFFICHAGE
 		JScrollPane RScrollPane = new JScrollPane();
-		RScrollPane.setBounds(0, 60, 595, 503);
+		RScrollPane.setBounds(10, 60, 585, 477);
 		this.add(RScrollPane);
 		reservationTable=new JTable(rtm);
 		RScrollPane.setViewportView(reservationTable);
@@ -59,7 +59,7 @@ public class AddNewContract extends JPanel{
 				mainInterface.showOnMainPanel("contrat");
 			}
 		});
-		CancelAdding.setBounds(605, 306, 117, 50);
+		CancelAdding.setBounds(605, 120, 117, 50);
 		this.add(CancelAdding);
 					
 //BOUTON SAUVEGARDER LE NOUVEAU CONTRAT
@@ -72,7 +72,7 @@ public class AddNewContract extends JPanel{
 				ContratController.createContract();
 			}
 		});
-		boutonCreer.setBounds(605, 136, 117, 50);
+		boutonCreer.setBounds(605, 60, 117, 50);
 		this.add(boutonCreer);
 		this.setLayout(null);
 		

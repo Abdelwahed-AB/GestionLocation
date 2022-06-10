@@ -134,7 +134,10 @@ public class MainInterface {
 		JPanel navigation = new JPanel();
 		navigation.setBounds(0, 80, 234, 388);
 		navigation.setBackground(viewSettings.SECONDARY);
-		navigation.setLayout(new GridLayout(8, 1, 0, 0));
+		if(isAdmin)
+			navigation.setLayout(new GridLayout(8, 1, 0, 0));
+		else
+			navigation.setLayout(new GridLayout(7, 1, 0, 0));
 		
 		frame.getContentPane().add(sideBar);
 		sideBar.setLayout(null);

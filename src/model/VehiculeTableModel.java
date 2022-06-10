@@ -11,7 +11,7 @@ public class VehiculeTableModel extends AbstractTableModel{
 			"Matricule",
 			"Marque ",
 			"Type",
-			"Nom Park",
+			"code Park",
 			"Prix location",
 			"Disponible"
 	};
@@ -51,7 +51,7 @@ public class VehiculeTableModel extends AbstractTableModel{
 					v.getMatricule(),
 					v.getMarque(),
 					v.getType(),
-					v.getNomPark()+"",
+					v.getCodePark()+"",
 					v.getPrixLocation()+"",
 					v.getDisponible()+""
 			};

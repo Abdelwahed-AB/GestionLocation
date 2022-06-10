@@ -3,8 +3,11 @@ package controller;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+
+import dao.ParkingDAO;
 import dao.vehiculeDAO;
 import interfaces.MainInterface;
+import model.Parking;
 import model.Vehicule;
 import view.AddNewVehicule;
 import view.AllVehiculeInfoPanel;
@@ -83,7 +86,11 @@ public class VehiculeController {
 		AVIP.getLbl_carburant().setText(V.getCarburant());
 		AVIP.getLbl_kilometrage().setText(V.getKilometrage()+" KM");
 		AVIP.getLblDMC().setText(V.getDMC()+"");
-		AVIP.getLbl_codeParking().setText(V.getNomPark());
+		
+		Parking p = ParkingDAO.findParkingByCodeDAO(V.getCodePark());
+		AVIP.getLbl_codeParking().setText(p.getNomParking());
+		
+		
 		AVIP.getLbl_PLocation().setText(V.getPrixLocation()+" DH");
 		if(V.getDisponible())
 			AVIP.getLbl_disponibilite().setText("Oui");
@@ -127,7 +134,11 @@ public class VehiculeController {
 			CEV.getYcomboBox().setSelectedItem( LD.getYear()+"");
 			CEV.getMcomboBox().setSelectedItem( LD.getMonthValue()+"");
 			CEV.getDcomboBox().setSelectedItem( LD.getDayOfMonth()+"");
-			CEV.getParkComboBox().setSelectedItem(v.getNomPark());;
+			
+			Parking p = ParkingDAO.findParkingByCodeDAO(v.getCodePark());
+			CEV.getParkComboBox().setSelectedItem(p.getNomParking());
+			
+			
 			CEV.getPrixLocation().setText(v.getPrixLocation()+"");
 			CEV.getDisponible().setSelected(v.getDisponible());
 			VehiculeController.changeDisponibility(CEV);

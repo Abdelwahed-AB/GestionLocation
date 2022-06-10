@@ -6,8 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 import connectionManager.ConnectionManager;
+import model.Client;
 import model.Contrat;
+import model.Reservation;
+import model.Vehicule;
 
 public class ContratDAO {
 	
@@ -157,5 +163,48 @@ public class ContratDAO {
 			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Supression contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 		}
 		return false;
+	}
+	
+	
+	public static ArrayList<Contrat> getContratsNoFacture() {
+		String query= "SELECT * "
+					+ "FROM contrat C, client, reservation "
+					+ "WHERE C.codeReservation = reservation.codeReservation "
+					+ "AND reservation.codeClient = client.codeClient "
+					+ "AND NOT EXISTS(SELECT * FROM facture WHERE C.codeContrat = facture.codeContrat);";
+		// We dont need to order by date because they are ordered by id which auto increment when we add a new date in
+		
+		ResultSet result = ConnectionManager.execute(query);
+		
+		ArrayList<Contrat> cList = new ArrayList<Contrat>();
+		try {
+			while (result.next()) {
+				Contrat c = new Contrat();
+				c.setCodeContrat(result.getInt("codeContrat"));
+				c.setDateContrat(result.getDate("dateContrat"));
+				c.setDateEcheance(result.getDate("dateEcheance"));
+				c.setDateRetActuel(result.getDate("dateRetActuel"));
+				
+				Reservation r = new Reservation();
+				Client cli = new Client();
+				Vehicule v = new Vehicule();
+				
+				v.setCodeVehicule(result.getString("codeVehicule"));
+				
+				cli.setNomClient(result.getString("nomClient"));
+				cli.setPrenomClient(result.getString("prenomClient"));
+				
+				r.setClient(cli);
+				r.setVehicule(v);
+				c.setReservation(r);
+				
+				cList.add(c);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cList;
 	}
 }
