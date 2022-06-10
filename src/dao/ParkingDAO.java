@@ -5,12 +5,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import connectionManager.ConnectionManager;
+import log.LogMgr;
 import model.Parking;
 
 public class ParkingDAO {
 	
-	public static ArrayList<Parking> actualiserParking () {
+	public static ArrayList<Parking> fetchAllDAO () {
 		ArrayList<Parking> list = new ArrayList<Parking>();
 		// la requete a executer
 		String query = "SELECT * FROM parking";
@@ -23,7 +26,8 @@ public class ParkingDAO {
 			}
 		} catch (SQLException e) {
 			// genere erreur si le tableau parking dans la base de donnée est non validé
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Parking.", e);
 		}
 		return list;
 	}
@@ -40,7 +44,8 @@ public class ParkingDAO {
 				list.add(new Parking(Integer.parseInt(result.getString(1)), result.getString(2), Integer.parseInt(result.getString(3)), result.getString(4), result.getString(5), Integer.parseInt(result.getString(6))));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Find Parking By Name.", e);
 		}
 		
 		return list;
@@ -56,13 +61,13 @@ public class ParkingDAO {
 				return parking;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Find Parking By Code.", e);
 		}
 		return null;
 	}
 	
-	public static void deleteParking(int code) { 
+	public static void deleteParkingDAO (int code) { 
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("DELETE FROM `parking` WHERE `parking`.`codeParking` = ?");
 			prepared.setInt(1, code);
@@ -71,12 +76,12 @@ public class ParkingDAO {
 			prepared.setInt(1, code);
 			prepared.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Delete Parking.", e);
 		}
 	}
 	
-	public static boolean creatParkingDAO (Parking parking) {
+	public static void creatParkingDAO (Parking parking) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("INSERT INTO `parking` (`codeParking`, `nomParking`, `capaciteParking`, `rueParking`, `arrondissement`, `nombrePlaceVide`) VALUES (NULL, ?, ?, ?, ?, ?)");
 			prepared.setString(1, parking.getNomParking());
@@ -85,14 +90,13 @@ public class ParkingDAO {
 			prepared.setString(4, parking.getArrondissementParking());
 			prepared.setInt(5, parking.getNombrePlaceVide());
 			prepared.execute();
-			return true;
 		} catch (SQLException e) {
-			System.out.println(e.getLocalizedMessage());
-			return false;
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Creat Parking.", e);
 		}
 	}
 	
-	public static boolean modifyParkingDAO (Parking parking) {
+	public static void modifyParkingDAO (Parking parking) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("UPDATE `parking` SET `nomParking` = ?, `capaciteParking` = ?, `rueParking` = ?, `arrondissement` = ?, `nombrePlaceVide` = ? WHERE `parking`.`codeParking` = ?");
 			prepared.setString(1, parking.getNomParking());
@@ -102,16 +106,14 @@ public class ParkingDAO {
 			prepared.setInt(5, parking.getNombrePlaceVide());
 			prepared.setInt(6, parking.getCodeParking());
 			prepared.execute();
-			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Modify Parking.", e);
 		}
-		return false;
 	}
 	
 	//chercher l'ensemble des vehicules stationnées dans un park pour les afficheés 
-	public static ResultSet chercherVehicule (int code) {
+	public static ResultSet findVehiculeByCodeDAO (int code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
 					"SELECT Immatriculation, marqueVehicule, typeVehicule, prixLocation FROM vehicule, parking WHERE vehicule.codePark=parking.codeParking AND parking.codeParking=? AND vehicule.disponible = 1");
@@ -119,14 +121,14 @@ public class ParkingDAO {
 			ResultSet result = prepared.executeQuery();
 			return result;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Find Vehicule By Code.", e);
 		}
 		return null;
 	}
 	
 	//pour calculer le nombre de place vide dans une parking on a besion du nombre de vehicule situées dans ce park
-	public static int nombreVehicule (int code) {
+	public static int numberOfVehiculeDAO (int code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement("SELECT COUNT(Immatriculation) FROM vehicule, parking WHERE vehicule.codePark = parking.codeParking AND parking.codeParking = ?");
 			prepared.setInt(1, code);
@@ -135,8 +137,8 @@ public class ParkingDAO {
 				return Integer.parseInt(result.getString(1));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Number Of Vehicule.", e);
 		}
 		return 0;
 	}
@@ -153,21 +155,21 @@ public class ParkingDAO {
 			prepared.setInt(1, codeParking);
 			prepared.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Remove Vehicule.", e);
 		}
 	}
 	
 	//chercher l'ensemble des vehicules n'affecter à aucune park 
-		public static ResultSet chercherVehicule () {
+		public static ResultSet findAllVehiculeDAO () {
 			try {
 				PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
 						"SELECT Immatriculation, marqueVehicule, prixLocation FROM vehicule WHERE vehicule.codePark=0 ");
 				ResultSet result = prepared.executeQuery();
 				return result;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur Find All Vehicule.", e);
 			}
 			return null;
 		}
@@ -186,8 +188,8 @@ public class ParkingDAO {
 				prepared.setInt(1, codeParking);
 				prepared.execute();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur Add Vehicule.", e);
 			}
 		}
 

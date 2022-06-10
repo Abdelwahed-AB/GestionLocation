@@ -135,16 +135,11 @@ public class NouveauParkingPanel extends JPanel {
 									if (arrondissementTextField.getText().matches("^[a-zA-Z][a-zA-Z _'é0-9-]*")) {
 										Parking parking = new Parking (nomParkingTextField.getText(), Integer.parseInt(capaciteParkingcomboBox.getSelectedItem().toString()), rueteleTextField.getText(), arrondissementTextField.getText(), Integer.parseInt(capaciteParkingcomboBox.getSelectedItem().toString()));
 										//création du parking
-										boolean b = ParkingController.creatParking(parking);
+										ParkingController.creatParking(parking);
 										//si le parking est bien créer dans la base de donnée afficher message "Opération Effectuée avce Succée"
-										if (b) {
-											JOptionPane.showConfirmDialog(null, "Operation Effectuee avce Succee", "Succee",
+										JOptionPane.showConfirmDialog(null, "Operation Effectuee avce Succee", "Succee",
 													JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-										} else {
-											//si non
-											JOptionPane.showConfirmDialog(null, "Operation Echouee", "Echoue",
-													JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-										}
+										
 										nomParkingTextField.setText("");
 										capaciteParkingcomboBox.setSelectedIndex(0);
 										rueteleTextField.setText("");

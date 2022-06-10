@@ -232,17 +232,12 @@ public class ModifierClientPanel extends JPanel {
 								client1.setCodeClient(client.getCodeClient());
 								warningLabel.setText("");
 								//cr�ation du client
-								boolean b = ClientController.modifyClient(client1);
+								ClientController.modifyClient(client1);
 								//si le client est bien cr�er dans la base de donn�e afficher message "Op�ration Effectu�e avce Succ�e"
-								if (b) {
 									JOptionPane.showConfirmDialog(null, "Operation Effectuee avce Succee", "Succee",
 											JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
 									cl.show(panel, "client");
-								} else {
-									//si non
-									JOptionPane.showConfirmDialog(null, "Operation Echouee! \n ressayer a nouveau", "Echoue",
-											JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-								}
+								
 							} else {
 								warningLabel.setText("*Le num tele doit etre sous forme 0(611223344) ou 212(611223344)");
 							}

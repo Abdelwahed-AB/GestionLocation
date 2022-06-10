@@ -223,16 +223,11 @@ public class NouveauClientPanel extends JPanel {
 										imagePath.getText(), permisPath.getText());
 								warningLabel.setText("");
 								//cr�ation du client
-								boolean b = ClientController.creatClient(client);
+								ClientController.creatClient(client);
 								//si le client est bien cr�er dans la base de donn�e afficher message "Op�ration Effectu�e avce Succ�e"
-								if (b) {
 									JOptionPane.showConfirmDialog(null, "Operation Effectee avce Succee", "Succ�e",
 											JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-								} else {
-									//si non
-									JOptionPane.showConfirmDialog(null, "Operation Echouee! \n ressayer a nouveau", "Echoue",
-											JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-								}
+								
 								nomTextField.setText("");
 								prenomTextField.setText("");
 								teleTextField.setText("");

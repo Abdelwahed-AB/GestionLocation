@@ -132,17 +132,12 @@ public class ModifierParkingPanel extends JPanel {
 						Parking parking1 = new Parking (nomParkingTextField.getText(), Integer.parseInt(capaciteParkingcomboBox.getSelectedItem().toString()), rueteleTextField.getText(), arrondissementTextField.getText(), nombrePlaceVide);
 						parking1.setCodeParking(parking.getCodeParking());
 						//modification du parking
-						boolean b = ParkingController.modifyParking(parking1);
+						ParkingController.modifyParking(parking1);
 						//si le parking est bien créer dans la base de donnée afficher message "Opération Effectuée avce Succée"
-						if (b) {
-							JOptionPane.showConfirmDialog(null, "Operation Effectuee avce Succee", "Succee",
+						JOptionPane.showConfirmDialog(null, "Operation Effectuee avce Succee", "Succee",
 									JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
 							cl.show(panel, "parking");
-						} else {
-							//si non
-							JOptionPane.showConfirmDialog(null, "Operation Echouee! \n essayer a nouveau", "Echoue",
-									JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-						}
+						
 					} else {
 						warningLabel.setText("*Nom : chaine de caractere \n rue : chaine de caractere \n arrondissement : chaine de caractere");
 					}

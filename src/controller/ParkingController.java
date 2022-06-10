@@ -18,7 +18,7 @@ public class ParkingController {
 
 	public static void fetchAll(JTable parkingtable) {
 		// rederiger le travaille de recherche au couche DAO
-		ArrayList<Parking> list = ParkingDAO.actualiserParking();
+		ArrayList<Parking> list = ParkingDAO.fetchAllDAO();
 		// preparer le model
 		DefaultTableModel dtm = prepareModel(list);
 
@@ -41,16 +41,16 @@ public class ParkingController {
 	}
 
 	public static void deleteParking(int code) {
-		ParkingDAO.deleteParking(code);
+		ParkingDAO.deleteParkingDAO(code);
 		
 	}
 	
-	public static boolean creatParking (Parking parking) {
-		return ParkingDAO.creatParkingDAO(parking);
+	public static void creatParking (Parking parking) {
+		ParkingDAO.creatParkingDAO(parking);
 	}
 
-	public static boolean modifyParking(Parking parking) {
-		return ParkingDAO.modifyParkingDAO(parking);
+	public static void modifyParking(Parking parking) {
+		ParkingDAO.modifyParkingDAO(parking);
 	}
 	
 	public static DefaultTableModel prepareModel (ArrayList<Parking> list) {
@@ -70,7 +70,7 @@ public class ParkingController {
 	}
 	
 	public static void findVehicule (JTable table, int code) {
-		ResultSet result = ParkingDAO.chercherVehicule(code);
+		ResultSet result = ParkingDAO.findVehiculeByCodeDAO (code);
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("Matricule");
 		dtm.addColumn("Marque");
@@ -93,12 +93,12 @@ public class ParkingController {
 	}
 	
 	public static int nombrePlaceVide (int code, int capacite) {
-		int nombreVehicule = ParkingDAO.nombreVehicule(code);
+		int nombreVehicule = ParkingDAO.numberOfVehiculeDAO(code);
 		return capacite - nombreVehicule;
 	}
 	
 	public static void findVehicule (JTable table) {
-		ResultSet result = ParkingDAO.chercherVehicule();
+		ResultSet result = ParkingDAO.findAllVehiculeDAO();
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("Matricule");
 		dtm.addColumn("Marque");
