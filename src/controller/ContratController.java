@@ -111,7 +111,7 @@ public class ContratController {
 			Reservation reserv=RV.get(0);
 			Contrat contrat=new Contrat(Date.valueOf(java.time.LocalDate.now().toString()),reserv.getDateRetour(),reserv);
 			ContratDAO.createContrat(contrat);
-			ReservationDAO.setReservationValid(i);//VALIDER LA RESERVATION
+			ReservationDAO.setReservationValid(i,true);//VALIDER LA RESERVATION
 			ContratController.fetchAll();
 			ContratController.displayReservation();
 			JOptionPane.showMessageDialog(null,"Contrat creé avec succés", "Creation avec succés", JOptionPane.INFORMATION_MESSAGE);
@@ -128,7 +128,9 @@ public class ContratController {
 				int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer le contrat : "+contratTable.getModel().getValueAt(i, 0).toString(), "Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.YES_OPTION) {
 					String id =contratTable.getModel().getValueAt(i, 0).toString();
+					Contrat c=ContratDAO.findContract(Integer.parseInt(id));
 					ContratDAO.removeContrat(id);
+					ReservationDAO.setReservationValid(c.getCodeReservation(),false);//RENDRE LA RESERVATION INVLIDE
 					ContratController.fetchAll();
 					JOptionPane.showMessageDialog(null,"Contrat supprimé avec succés", "Suppression", JOptionPane.INFORMATION_MESSAGE);
 				}

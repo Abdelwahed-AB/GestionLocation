@@ -7,7 +7,8 @@ public class Contrat {
 	private Reservation reservation;
 	private Date dateContrat;
 	private Date dateEcheance;
-	
+	private int codeReservation;
+
 
 	private Date dateRetActuel;
 	
@@ -53,11 +54,17 @@ public void setCodeContrat(int codeContrat) {
 	public void setMontantSanction(int montantSanction) {
 		this.montantSanction = montantSanction;
 	}
+	public void setCodeReservation(int codeReservation) {
+		this.codeReservation = codeReservation;
+	}
 	//	public Date getDateRetActuel() {
 //		return dateRetActuel;
 //	}
 	public int getMontantSanction() {
 		return montantSanction;
+	}
+	public int getCodeReservation() {
+		return this.codeReservation ;
 	}
 	public Date getDateRetActuel() {
 		return dateRetActuel;

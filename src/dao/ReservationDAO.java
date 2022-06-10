@@ -214,13 +214,14 @@ public interface ReservationDAO {
 		return reservList;
 	}
 	/**METHODE QUI VALIDE UNE RESERVATION*/
-	public static void setReservationValid(int codeReservation) {
+	public static void setReservationValid(int codeReservation,boolean isValid) {
 		String query = "UPDATE `reservation`"
-				+ " SET  `isValid` = 1"
+				+ " SET  `isValid` = ? "
 				+ " WHERE `reservation`.`codeReservation` = ?;";
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
-			prepared.setInt(1, codeReservation);
+			prepared.setBoolean(1, isValid);
+			prepared.setInt(2, codeReservation);
 			prepared.execute();
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Validation de la Reservation", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);

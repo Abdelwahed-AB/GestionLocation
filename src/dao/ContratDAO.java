@@ -49,6 +49,7 @@ public class ContratDAO {
 							result.getDate("dateContrat"), 
 							result.getDate("dateEcheance"),
 							result.getDate("dateRetActuel"));
+					c.setCodeReservation(result.getInt("codeReservation"));
 				}
 				
 			} catch (SQLException e) {
