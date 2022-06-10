@@ -41,63 +41,80 @@ public class ModifierClientPanel extends JPanel {
 		this.setLayout(null);
 		this.setBounds(0, 0, 766, 598);
 		
+		Color mainColor = new Color(75, 0, 130);
+		Color secondaryColor = new Color(224, 199, 242);
+		
 		nomClientTextField = new JTextField();
-		nomClientTextField.setBounds(217, 40, 408, 20);
+		nomClientTextField.setBounds(142, 20, 202, 20);
 		this.add(nomClientTextField);
 		nomClientTextField.setColumns(10);
 		nomClientTextField.setText(client.getNomClient());
 		
 		prenomClientTextField = new JTextField();
-		prenomClientTextField.setBounds(217, 85, 408, 20);
+		prenomClientTextField.setBounds(488, 20, 202, 20);
 		this.add(prenomClientTextField);
 		prenomClientTextField.setColumns(10);
 		prenomClientTextField.setText(client.getPrenomClient());
 		
 		teleClientTextField = new JTextField();
-		teleClientTextField.setBounds(217, 131, 408, 20);
+		teleClientTextField.setBounds(142, 73, 202, 20);
 		this.add(teleClientTextField);
 		teleClientTextField.setColumns(10);
 		teleClientTextField.setText(client.getNumTelClient());
-
+		
 		adresseClientTextField = new JTextField();
-		adresseClientTextField.setBounds(217, 185, 408, 20);
+		adresseClientTextField.setBounds(488, 76, 202, 20);
 		this.add(adresseClientTextField);
 		adresseClientTextField.setColumns(10);
 		adresseClientTextField.setText(client.getAddresseClient());
 		
 		JLabel nomClientlbl = new JLabel("nom client");
 		nomClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		nomClientlbl.setBounds(0, 43, 197, 14);
+		nomClientlbl.setBounds(25, 23, 139, 14);
 		this.add(nomClientlbl);
 		
 		JLabel prenomClientlbl = new JLabel("prenom client");
 		prenomClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		prenomClientlbl.setBounds(10, 88, 197, 14);
+		prenomClientlbl.setBounds(371, 23, 139, 14);
 		this.add(prenomClientlbl);
 		
 		JLabel teleClientlbl = new JLabel("num Tel client");
 		teleClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		teleClientlbl.setBounds(10, 134, 197, 14);
+		teleClientlbl.setBounds(25, 76, 139, 14);
 		this.add(teleClientlbl);
 		
 		JLabel imagePath = new JLabel(client.getImage());
-		imagePath.setBounds(336, 240, 289, 14);
+		imagePath.setHorizontalAlignment(SwingConstants.CENTER);
+		imagePath.setBounds(25, 393, 202, 14);
 		this.add(imagePath);
 		
 		JLabel permisPath = new JLabel(client.getPermisScannee());
-		permisPath.setBounds(336, 292, 289, 14);
+		permisPath.setBounds(372, 393, 202, 14);
 		this.add(permisPath);
-
+		
 		JLabel warningLabel = new JLabel("");
 		warningLabel.setForeground(Color.RED);
-		warningLabel.setBounds(80, 422, 584, 43);
+		warningLabel.setBounds(51, 518, 621, 30);
 		add(warningLabel);
 		
-		JButton buttonEffacer = new JButton("Effacer");
+		JLabel imageClient = new JLabel();
+		imageClient.setHorizontalAlignment(SwingConstants.CENTER);
+		imageClient.setBounds(55, 150, 179, 217);
+		add(imageClient);
+		ClientController.prepareImage(client.getImage(), imageClient);
+		
+		JLabel permisClient = new JLabel();
+		permisClient.setBounds(291, 150, 381, 224);
+		add(permisClient);
+		ClientController.prepareImage(client.getPermisScannee(), permisClient);
+		
+		JButton buttonEffacer = new JButton("Effacer Tout");
+		buttonEffacer.setForeground(Color.WHITE);
+		buttonEffacer.setBackground(mainColor);
 		buttonEffacer.addMouseListener(new MouseAdapter() {
 			@Override
-			//effacer tous les informations pour les redéfinir
 			public void mouseClicked(MouseEvent e) {
+				// effacer tous les informations pour les redéfinir
 				nomClientTextField.setText("");
 				prenomClientTextField.setText("");
 				teleClientTextField.setText("");
@@ -105,38 +122,41 @@ public class ModifierClientPanel extends JPanel {
 				imagePath.setText("image de taille 179x217");
 				permisPath.setText("");
 				warningLabel.setText("");
-				
+				imageClient.setIcon(null);
+				permisClient.setIcon(null);
 			}
 		});
-		buttonEffacer.setBounds(272, 346, 129, 43);
+		buttonEffacer.setBounds(279, 465, 131, 42);
 		this.add(buttonEffacer);
 		
 		JButton buttonRetour = new JButton("Retour");
+		buttonRetour.setForeground(Color.WHITE);
+		buttonRetour.setBackground(mainColor);
 		buttonRetour.addActionListener(new ActionListener() {
-			//retour au page principale
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "client");
 			}
 		});
-		buttonRetour.setBounds(68, 346, 129, 43);
+		buttonRetour.setBounds(68, 465, 131, 42);
 		this.add(buttonRetour);
 		
 		JLabel adressrClientlbl = new JLabel("Adresse Client");
 		adressrClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		adressrClientlbl.setBounds(10, 188, 187, 14);
+		adressrClientlbl.setBounds(371, 76, 139, 14);
 		this.add(adressrClientlbl);
 		
 		JLabel imageClientlbl = new JLabel("Image Client");
 		imageClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		imageClientlbl.setBounds(10, 240, 187, 14);
+		imageClientlbl.setBounds(25, 125, 139, 14);
 		this.add(imageClientlbl);
 		
 		JLabel permisClientlbl = new JLabel("Permis Scan\u00E9e de Client");
 		permisClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		permisClientlbl.setBounds(10, 292, 187, 14);
+		permisClientlbl.setBounds(371, 125, 139, 14);
 		this.add(permisClientlbl);
 		
 		JButton imageButton = new JButton("choisir un fichier");
+		imageButton.setBackground(secondaryColor);
 		imageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir une fenetre pour séléctionné l'image
@@ -152,6 +172,7 @@ public class ModifierClientPanel extends JPanel {
 					//si l'utilisateur sélectionne un fichier d'autre type
 					if (file.getName().endsWith(".jpg") || file.getName().endsWith(".JPG") || file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) {
 						imagePath.setText(file.getAbsolutePath());
+						ClientController.prepareImage(file.getAbsolutePath(), imageClient);
 						warningLabel.setText("");
 					} else {
 						warningLabel.setText("*Vous devez choisir une fichier png ou jpg");
@@ -161,10 +182,11 @@ public class ModifierClientPanel extends JPanel {
 				}
 			}
 		});
-		imageButton.setBounds(217, 236, 109, 23);
+		imageButton.setBounds(69, 421, 109, 23);
 		this.add(imageButton);
 		
 		JButton permisButton = new JButton("choisir un fichier");
+		permisButton.setBackground(secondaryColor);
 		permisButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir une fenetre pour séléctionné l'image
@@ -180,6 +202,7 @@ public class ModifierClientPanel extends JPanel {
 					//si l'utilisateur sélectionne un fichier d'autre type
 					if (file.getName().endsWith(".jpg") || file.getName().endsWith(".JPG") || file.getName().endsWith(".png") || file.getName().endsWith(".PNG")) {
 						permisPath.setText(file.getAbsolutePath());
+						ClientController.prepareImage(file.getAbsolutePath(), permisClient);
 						warningLabel.setText("");
 					} else {
 						warningLabel.setText("*Vous devez choisir une fichier png ou jpg");
@@ -189,28 +212,39 @@ public class ModifierClientPanel extends JPanel {
 				}
 			}
 		});
-		permisButton.setBounds(217, 288, 109, 23);
+		permisButton.setBounds(418, 418, 109, 23);
 		this.add(permisButton);
 		
 		JButton buttonSauvgarder = new JButton("Sauvgarder");
+		buttonSauvgarder.setForeground(Color.WHITE);
+		buttonSauvgarder.setBackground(mainColor);
 		buttonSauvgarder.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//tester si l'utilisateur remplir tous les champs
-				if (!nomClientTextField.getText().isBlank() && !prenomClientTextField.getText().isBlank() && !adresseClientTextField.getText().isBlank() && !teleClientTextField.getText().isBlank() && !imagePath.getText().isBlank() && !permisPath.getText().isBlank()) {
-					//tester si l'utilisateur ne fait des fautes lors de saisie
+				// tester si l'utilisateur remplir tous les champs
+				if (!nomClientTextField.getText().isBlank() && !prenomClientTextField.getText().isBlank()
+						&& !adresseClientTextField.getText().isBlank() && !teleClientTextField.getText().isBlank()
+						&& !imagePath.getText().isBlank() && !permisPath.getText().isBlank()) {
+					// tester si l'utilisateur ne fait des fautes lors de saisie
 					if (nomClientTextField.getText().matches("^[a-zA-Z _'é-]*")) {
 						if (prenomClientTextField.getText().matches("^[a-zA-Z _'é-]*")) {
 							if (teleClientTextField.getText().matches("0[0-9]*|212[0-9]*")) {
-								Client client1 = new Client(nomClientTextField.getText(), prenomClientTextField.getText(), adresseClientTextField.getText(), teleClientTextField.getText(), imagePath.getText(), permisPath.getText());
+								Client client1 = new Client(nomClientTextField.getText(), prenomClientTextField.getText(),
+										adresseClientTextField.getText(), teleClientTextField.getText(),
+										imagePath.getText(), permisPath.getText());
 								client1.setCodeClient(client.getCodeClient());
 								warningLabel.setText("");
+								//création du client
 								boolean b = ClientController.modifyClient(client1);
+								//si le client est bien créer dans la base de donnée afficher message "Opération Effectuée avce Succée"
 								if (b) {
-									JOptionPane.showConfirmDialog(null, "Opération Effectuée avce Succée", "Succée", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showConfirmDialog(null, "Opération Effectuée avce Succée", "Succée",
+											JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
 									cl.show(panel, "client");
 								} else {
-									JOptionPane.showConfirmDialog(null, "Opération Echouée \n réssayer à nouveau", "Echoue", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+									//si non
+									JOptionPane.showConfirmDialog(null, "Opération Echouée! \n éssayer à nouveau", "Echoue",
+											JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 								}
 							} else {
 								warningLabel.setText("*Le num tele doit etre sous forme 0(611223344) ou 212(611223344)");
@@ -222,6 +256,7 @@ public class ModifierClientPanel extends JPanel {
 					} else {
 						warningLabel.setText("*Le nom doit etre une chaine de caractere");
 					}
+
 				} else {
 					warningLabel.setText("*Vous devez remplir tous les champs");
 				}
@@ -229,7 +264,7 @@ public class ModifierClientPanel extends JPanel {
 				ClientController.fetchAll(table);
 			}
 		});
-		buttonSauvgarder.setBounds(496, 346, 129, 43);
+		buttonSauvgarder.setBounds(520, 465, 131, 42);
 		this.add(buttonSauvgarder);
 		
 	}

@@ -18,19 +18,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import controller.ClientController;
 import model.Client;
 
 public class AfficherClientPanel extends JPanel {
-
-	// on a besion de ces variables à l'interieur de plusieurs fonction donc on les
-	// rendre globals
-	private JTextField idClientTextField;
-	private JTextField nomClientTextField;
-	private JTextField prenomClientTextField;
-	private JTextField adresseClientTextField;
-	private JTextField teleClientTextField;
 	private CardLayout cl;
 	private JTable table_1;
 
@@ -39,95 +32,51 @@ public class AfficherClientPanel extends JPanel {
 		this.cl = (CardLayout) panel.getLayout();
 		this.setLayout(null);
 		this.setBounds(0, 0, 766, 598);
+		
+		Color mainColor = new Color(75, 0, 130);
+		Color secondaryColor = new Color(224, 199, 242);
 
-		JLabel idClientlbl = new JLabel("Id");
-		idClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		idClientlbl.setBounds(41, 33, 67, 32);
-		this.add(idClientlbl);
+		JLabel codeClientlbl = new JLabel("Code Client");
+		codeClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
+		codeClientlbl.setBounds(41, 69, 156, 32);
+		this.add(codeClientlbl);
 
-		JLabel nomClientlbl = new JLabel("Nom");
+		JLabel nomClientlbl = new JLabel("Nom Client");
 		nomClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		nomClientlbl.setBounds(41, 76, 67, 32);
+		nomClientlbl.setBounds(41, 102, 156, 32);
 		this.add(nomClientlbl);
 
-		JLabel prenomClientlbl = new JLabel("Prenom");
+		JLabel prenomClientlbl = new JLabel("Prenom Client");
 		prenomClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		prenomClientlbl.setBounds(41, 119, 67, 32);
+		prenomClientlbl.setBounds(41, 134, 156, 32);
 		this.add(prenomClientlbl);
 
-		JLabel teleClientlbl = new JLabel("Num Tel");
+		JLabel teleClientlbl = new JLabel("Num Tel Client");
 		teleClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		teleClientlbl.setBounds(41, 218, 67, 32);
+		teleClientlbl.setBounds(41, 205, 156, 32);
 		this.add(teleClientlbl);
 
-		idClientTextField = new JTextField();
-		idClientTextField.setBackground(Color.WHITE);
-		idClientTextField.setEditable(false);
-		idClientTextField.setEnabled(false);
-		idClientTextField.setHorizontalAlignment(SwingConstants.LEFT);
-		idClientTextField.setBounds(118, 33, 398, 32);
-		this.add(idClientTextField);
-		idClientTextField.setColumns(10);
-		idClientTextField.setText("" + client.getCodeClient());
-
-		nomClientTextField = new JTextField();
-		nomClientTextField.setBackground(Color.WHITE);
-		nomClientTextField.setEditable(false);
-		nomClientTextField.setEnabled(false);
-		nomClientTextField.setHorizontalAlignment(SwingConstants.LEFT);
-		nomClientTextField.setBounds(118, 76, 398, 32);
-		this.add(nomClientTextField);
-		nomClientTextField.setColumns(10);
-		nomClientTextField.setText(client.getNomClient());
-
-		prenomClientTextField = new JTextField();
-		prenomClientTextField.setBackground(Color.WHITE);
-		prenomClientTextField.setEditable(false);
-		prenomClientTextField.setEnabled(false);
-		prenomClientTextField.setHorizontalAlignment(SwingConstants.LEFT);
-		prenomClientTextField.setBounds(118, 119, 398, 32);
-		this.add(prenomClientTextField);
-		prenomClientTextField.setColumns(10);
-		prenomClientTextField.setText(client.getPrenomClient());
-
-		adresseClientTextField = new JTextField();
-		adresseClientTextField.setBackground(Color.WHITE);
-		adresseClientTextField.setEditable(false);
-		adresseClientTextField.setEnabled(false);
-		adresseClientTextField.setHorizontalAlignment(SwingConstants.LEFT);
-		adresseClientTextField.setBounds(118, 162, 398, 32);
-		this.add(adresseClientTextField);
-		adresseClientTextField.setColumns(10);
-		adresseClientTextField.setText(client.getAddresseClient());
-
-		JLabel adresseClientlbl = new JLabel("Addresse");
+		JLabel adresseClientlbl = new JLabel("Adresse Client");
 		adresseClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
-		adresseClientlbl.setBounds(41, 162, 67, 32);
+		adresseClientlbl.setBounds(41, 170, 156, 32);
 		this.add(adresseClientlbl);
 
-		teleClientTextField = new JTextField();
-		teleClientTextField.setBackground(Color.WHITE);
-		teleClientTextField.setEnabled(false);
-		teleClientTextField.setEditable(false);
-		teleClientTextField.setBounds(118, 212, 398, 38);
-		this.add(teleClientTextField);
-		teleClientTextField.setColumns(10);
-		teleClientTextField.setText(client.getNumTelClient());
-
 		JButton btnNewButton = new JButton("Retour");
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(mainColor);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "client");
 			}
 		});
-		btnNewButton.setBounds(615, 491, 105, 47);
+		btnNewButton.setBounds(576, 477, 124, 45);
 		this.add(btnNewButton);
 
 		//afficher l'image de client
-		JLabel lblNewLabel_5 = new JLabel();
-		lblNewLabel_5.setBounds(540, 33, 179, 217);
-		ClientController.prepareImage(client.getImage(), lblNewLabel_5);
-		this.add(lblNewLabel_5);
+		JLabel imageClient = new JLabel();
+		imageClient.setBounds(518, 69, 179, 217);
+		ClientController.prepareImage(client.getImage(), imageClient);
+		this.add(imageClient);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(51, 308, 649, 158);
@@ -135,10 +84,44 @@ public class AfficherClientPanel extends JPanel {
 
 		// table de voiture louée
 		table_1 = new JTable();
+		table_1.setBackground(secondaryColor);
+		DefaultTableModel dtm = new DefaultTableModel();
+		dtm.addColumn("Matricule");
+		dtm.addColumn("Marque");
+		dtm.addColumn("Date de départ");
+		dtm.addColumn("Date de retour");
+		table_1.setModel(dtm);
 		scrollPane.setViewportView(table_1);
-
-		// rafraîchir le tableau des voitures louée
-		ClientController.findVehicule(table_1, idClientTextField.getText());
+		
+		JLabel vehiculeAllouee = new JLabel("Les voitures Allou\u00E9es");
+		vehiculeAllouee.setHorizontalAlignment(SwingConstants.CENTER);
+		vehiculeAllouee.setBounds(58, 267, 156, 32);
+		add(vehiculeAllouee);
+		
+		JLabel codeClient = new JLabel(client.getCodeClient()+"");
+		codeClient.setHorizontalAlignment(SwingConstants.CENTER);
+		codeClient.setBounds(229, 69, 279, 32);
+		add(codeClient);
+		
+		JLabel nomClient = new JLabel(client.getNomClient());
+		nomClient.setHorizontalAlignment(SwingConstants.CENTER);
+		nomClient.setBounds(229, 102, 279, 32);
+		add(nomClient);
+		
+		JLabel prenomClient = new JLabel(client.getPrenomClient());
+		prenomClient.setHorizontalAlignment(SwingConstants.CENTER);
+		prenomClient.setBounds(229, 134, 279, 32);
+		add(prenomClient);
+		
+		JLabel adresseClient = new JLabel(client.getAddresseClient());
+		adresseClient.setHorizontalAlignment(SwingConstants.CENTER);
+		adresseClient.setBounds(229, 170, 279, 32);
+		add(adresseClient);
+		
+		JLabel numTelClient = new JLabel(client.getNumTelClient());
+		numTelClient.setHorizontalAlignment(SwingConstants.CENTER);
+		numTelClient.setBounds(229, 205, 279, 32);
+		add(numTelClient);
 
 	}
 }

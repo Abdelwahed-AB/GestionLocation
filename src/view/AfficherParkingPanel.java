@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import controller.ParkingController;
 import dao.ParkingDAO;
@@ -37,78 +38,93 @@ public class AfficherParkingPanel extends JPanel {
 				this.cl = (CardLayout) panel.getLayout();
 				this.setLayout(null);
 				this.setBounds(0, 0, 766, 598);
+				
+				Color mainColor = new Color(75, 0, 130);
+				Color secondaryColor = new Color(224, 199, 242);
 
-				JLabel nomParkinglbl = new JLabel("nom parking");
+				JLabel nomParkinglbl = new JLabel("Nom Parking");
 				nomParkinglbl.setHorizontalAlignment(SwingConstants.CENTER);
-				nomParkinglbl.setBounds(122, 76, 209, 35);
+				nomParkinglbl.setBounds(163, 40, 209, 35);
 				this.add(nomParkinglbl);
 
-				JLabel capaciteParkingtlbl = new JLabel("capacite");
+				JLabel capaciteParkingtlbl = new JLabel("Capacite Parking");
 				capaciteParkingtlbl.setHorizontalAlignment(SwingConstants.CENTER);
-				capaciteParkingtlbl.setBounds(122, 124, 209, 35);
+				capaciteParkingtlbl.setBounds(163, 75, 209, 35);
 				this.add(capaciteParkingtlbl);
 
-				JLabel rueParkinglbl = new JLabel("rue");
+				JLabel rueParkinglbl = new JLabel("Rue Parking");
 				rueParkinglbl.setHorizontalAlignment(SwingConstants.CENTER);
-				rueParkinglbl.setBounds(122, 170, 209, 35);
+				rueParkinglbl.setBounds(163, 107, 209, 35);
 				this.add(rueParkinglbl);
 
 				JButton buttonRetour = new JButton("Retour");
-				buttonRetour.setBackground(new Color(75, 0, 130));
+				buttonRetour.setBackground(mainColor);
 				buttonRetour.setForeground(Color.WHITE);
 				buttonRetour.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						cl.show(panel, "parking");
 					}
 				});
-				buttonRetour.setBounds(592, 508, 129, 43);
+				buttonRetour.setBounds(592, 457, 129, 43);
 				this.add(buttonRetour);
 
-				JLabel arrondissementParkinglbl = new JLabel("arrondissement");
+				JLabel arrondissementParkinglbl = new JLabel("Arrondissement Parking");
 				arrondissementParkinglbl.setHorizontalAlignment(SwingConstants.CENTER);
-				arrondissementParkinglbl.setBounds(122, 227, 209, 35);
+				arrondissementParkinglbl.setBounds(163, 142, 209, 35);
 				this.add(arrondissementParkinglbl);
 				
 				JLabel nomParking = new JLabel("");
-				nomParking.setBounds(385, 76, 209, 35);
+				nomParking.setHorizontalAlignment(SwingConstants.CENTER);
+				nomParking.setBounds(382, 40, 209, 35);
 				add(nomParking);
 				nomParking.setText(parking.getNomParking());
 				
 				JLabel capaciteParking = new JLabel("");
-				capaciteParking.setBounds(385, 126, 209, 35);
+				capaciteParking.setHorizontalAlignment(SwingConstants.CENTER);
+				capaciteParking.setBounds(382, 75, 209, 35);
 				add(capaciteParking);
 				capaciteParking.setText(parking.getCapaciteParking()+"");
 				
 				JLabel rueParking = new JLabel("");
-				rueParking.setBounds(385, 172, 209, 35);
+				rueParking.setHorizontalAlignment(SwingConstants.CENTER);
+				rueParking.setBounds(382, 107, 209, 35);
 				add(rueParking);
 				rueParking.setText(parking.getRueParking());
 				
 				JLabel arrondissementParking = new JLabel("");
-				arrondissementParking.setBounds(385, 229, 209, 35);
+				arrondissementParking.setHorizontalAlignment(SwingConstants.CENTER);
+				arrondissementParking.setBounds(382, 142, 209, 35);
 				add(arrondissementParking);
 				arrondissementParking.setText(parking.getArrondissementParking());
 				
-				JLabel nobrePlaceVidelbl = new JLabel("nombre de place vide");
+				JLabel nobrePlaceVidelbl = new JLabel("Nombre de place vide");
 				nobrePlaceVidelbl.setHorizontalAlignment(SwingConstants.CENTER);
-				nobrePlaceVidelbl.setBounds(122, 285, 209, 35);
+				nobrePlaceVidelbl.setBounds(163, 176, 209, 35);
 				add(nobrePlaceVidelbl);
 				
 				JLabel placeVideParking = new JLabel("");
-				placeVideParking.setBounds(385, 285, 209, 35);
+				placeVideParking.setHorizontalAlignment(SwingConstants.CENTER);
+				placeVideParking.setBounds(382, 176, 209, 35);
 				add(placeVideParking);
 				placeVideParking.setText(parking.getNombrePlaceVide()+"");
 				
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(73, 347, 663, 138);
+				scrollPane.setBounds(58, 273, 663, 99);
 				add(scrollPane);
 				
 				vehiculeTable = new JTable();
+				vehiculeTable.setBackground(secondaryColor);
 				vehiculeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				DefaultTableModel dtm = new DefaultTableModel();
+				dtm.addColumn("Matricule");
+				dtm.addColumn("Marque");
+				dtm.addColumn("Prix de Location");
+				vehiculeTable.setModel(dtm);
 				scrollPane.setViewportView(vehiculeTable);
 				ParkingController.findVehicule(vehiculeTable, parking.getCodeParking());
 				
 				JButton removeVehiculeButton = new JButton("Retirer Vehicule");
+				removeVehiculeButton.setBackground(secondaryColor);
 				removeVehiculeButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int index = vehiculeTable.getSelectedRow();
@@ -123,7 +139,11 @@ public class AfficherParkingPanel extends JPanel {
 						ParkingController.findVehicule(vehiculeTable, parking.getCodeParking());
 					}
 				});
-				removeVehiculeButton.setBounds(73, 496, 129, 35);
+				removeVehiculeButton.setBounds(58, 383, 129, 35);
 				add(removeVehiculeButton);
+				
+				JLabel lblNewLabel = new JLabel("Les voitures situ\u00E9es dans le parking");
+				lblNewLabel.setBounds(58, 227, 209, 35);
+				add(lblNewLabel);
 	}
 }
