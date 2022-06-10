@@ -88,8 +88,10 @@ public class VehiculeController {
 		AVIP.getLblDMC().setText(V.getDMC()+"");
 		
 		Parking p = ParkingDAO.findParkingByCodeDAO(V.getCodePark());
-		AVIP.getLbl_codeParking().setText(p.getNomParking());
-		
+		if(p != null)
+			AVIP.getLbl_codeParking().setText(p.getNomParking());
+		else
+			AVIP.getLbl_codeParking().setText("pas dans un park");
 		
 		AVIP.getLbl_PLocation().setText(V.getPrixLocation()+" DH");
 		if(V.getDisponible())
@@ -136,7 +138,9 @@ public class VehiculeController {
 			CEV.getDcomboBox().setSelectedItem( LD.getDayOfMonth()+"");
 			
 			Parking p = ParkingDAO.findParkingByCodeDAO(v.getCodePark());
-			CEV.getParkComboBox().setSelectedItem(p.getNomParking());
+			if(p != null) {
+				CEV.getParkComboBox().setSelectedItem(p.getNomParking());
+			}
 			
 			
 			CEV.getPrixLocation().setText(v.getPrixLocation()+"");

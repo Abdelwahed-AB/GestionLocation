@@ -65,6 +65,35 @@ public class login extends JFrame {
 		
 		// password text field
 		password = new JPasswordField();
+		password.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					//if fields are empty ( you can add type of conditions on data types)
+					if(emptyField()) {
+						JOptionPane.showMessageDialog(null,"username or password are empty", "missing information", JOptionPane.ERROR_MESSAGE);
+					}	
+					else {
+						if (UserDAO.verifyLogin(username.getText(),password.getText())){
+							boolean isAdmin1 = UserDAO.checkAdmin(username.getText());
+							MainInterface window = new MainInterface(isAdmin1);
+							window.frame.setVisible(true);
+							window.frame.setLocationRelativeTo(null);
+							dispose();
+						}
+						else {
+							JOptionPane.showMessageDialog(null,"username or password is not correct", "NON EXISTING ACCOUNT", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			}
+			// Verify if text fields are empty
+			private boolean emptyField() {
+				if(username.getText().equals("")||password.getText().equals(""))
+					return true;
+				else return false;
+			}
+		});
 		password.setBounds(128, 232, 238, 27);
 		password.setColumns(10);
 		contentPane.add(password);
