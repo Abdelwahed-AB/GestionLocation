@@ -23,6 +23,8 @@ import model.Reservation;
 import model.Reservation.filtre;
 import model.ReservationTableModel;
 import model.Vehicule;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ReservationPanel extends JPanel {
 
@@ -53,6 +55,14 @@ public class ReservationPanel extends JPanel {
 		reserv_scroll.setBounds(23, 57, 483, 462);
 
 		reserv_table = new JTable(reserv_model);
+		reserv_table.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_DELETE) {
+					cont.SupprimerReservation();
+				}
+			}
+		});
 
 		reserv_table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		reserv_table.setSelectionBackground(viewSettings.SECONDARY);
@@ -109,37 +119,19 @@ public class ReservationPanel extends JPanel {
 		modReserv_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int index = reserv_table.getSelectedRow();
-				if(index < 0) {
-					// if user hasnt selected any row :
-					reserv_warning_lbl.setText("<html>Veuillez Selectionner une reservation à modifier.</html>");
-					// ^ html tag is for automatic text wrapping
-					return;
-				}
-
-				Reservation r = new Reservation();
-
-				r.setCodeReservation(Integer.parseInt((String) reserv_table.getValueAt(index, 0)));
-				r.setVehicule(new Vehicule());
-				r.getVehicule().setCodeVehicule((String) reserv_table.getValueAt(index, 3));
-				r.setDateDepart(Date.valueOf((String) reserv_table.getValueAt(index, 4)));
-				r.setDateRetour(Date.valueOf((String) reserv_table.getValueAt(index, 5)));
-				r.setValid(Boolean.parseBoolean((String) reserv_table.getValueAt(index, 6)));
-				r.setCanceled(Boolean.parseBoolean((String) reserv_table.getValueAt(index, 7)));
-
-				//Open reservation modification window
-				//ModifierReservation newReserv = new ModifierReservation(self, r);
-				ModifierReserPanel modR = new ModifierReserPanel(mInterface, r, cont);
-				cont.setReservModPanel(modR);
-				mInterface.getMainPanel().add(modR, "modReserv");
-				cl.show(mInterface.getMainPanel(), "modReserv");
-
-				//Reset warning label on succesful operation
-				reserv_warning_lbl.setText("");
+				cont.goToNewReserv();
 			}
 		});
 
 		reserv_field = new JTextField();
+		reserv_field.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					cont.RechercherReservation();
+				}
+			}
+		});
 		reserv_field.setBounds(23, 10, 371, 37);
 		reserv_field.setColumns(10);
 

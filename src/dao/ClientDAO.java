@@ -1,18 +1,9 @@
 package dao;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
 import connectionManager.ConnectionManager;
 import model.Client;
@@ -28,7 +19,7 @@ public class ClientDAO {
 		try {
 			while (result.next()) {
 				Client client = new Client(Integer.parseInt(result.getString(1)), result.getString(2),
-						result.getString(3), result.getString(4), Long.parseLong(result.getString(5)),
+						result.getString(3), result.getString(4), result.getString(5),
 						result.getString(6), result.getString(7));
 				list.add(client);
 			}
@@ -49,7 +40,7 @@ public class ClientDAO {
 			prepared.setString(1, client.getNomClient());
 			prepared.setString(2, client.getPrenomClient());
 			prepared.setString(3, client.getAddresseClient());
-			prepared.setLong(4, client.getNumTelClient());
+			prepared.setString(4, client.getNumTelClient());
 			prepared.setString(5, client.getImage());
 			prepared.setString(6, client.getPermisScannee());
 			// executer la requete
@@ -67,12 +58,12 @@ public class ClientDAO {
 	public static Client chercherClient(int code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection()
-					.prepareStatement("SELECT * FROM client WHERE codeClient LIKE ?");
-			prepared.setString(1, "" + code);
+					.prepareStatement("SELECT * FROM client WHERE codeClient = ?");
+			prepared.setInt(1, code);
 			ResultSet result = prepared.executeQuery();
 			while (result.next()) {
 				Client client = new Client(Integer.parseInt(result.getString(1)), result.getString(2),
-						result.getString(3), result.getString(4), Long.parseLong(result.getString(5)),
+						result.getString(3), result.getString(4), result.getString(5),
 						result.getString(6), result.getString(7));
 				return client;
 			}
@@ -92,7 +83,7 @@ public class ClientDAO {
 			ResultSet result = prepared.executeQuery();
 			while (result.next()) {
 				list.add(new Client(Integer.parseInt(result.getString(1)), result.getString(2), result.getString(3),
-						result.getString(4), Long.parseLong(result.getString(5)), result.getString(6),
+						result.getString(4), result.getString(5), result.getString(6),
 						result.getString(7)));
 			}
 			return list;
@@ -109,7 +100,7 @@ public class ClientDAO {
 			prepared.setString(1, client.getNomClient());
 			prepared.setString(2, client.getPrenomClient());
 			prepared.setString(3, client.getAddresseClient());
-			prepared.setLong(4, client.getNumTelClient());
+			prepared.setString(4, client.getNumTelClient());
 			prepared.setString(5, client.getImage());
 			prepared.setString(6, client.getPermisScannee());
 			prepared.setInt(7, client.getCodeClient());
@@ -132,10 +123,11 @@ public class ClientDAO {
 		}
 	}
 
+	//chercher les vehicules loueé par une client pour les afficheés
 	public static ResultSet chercherVehicule(String code) {
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(
-					"SELECT codeMatricule, marqueVehicule, dateDepReservation, dateRetReservation FROM vehicule, reservation, client WHERE reservation.codeVehicule=vehicule.codeMatricule AND reservation.codeClient=client.codeClient AND reservation.codeClient=? AND reservation.isValid=1");
+					"SELECT Immatriculation, marqueVehicule, dateDepReservation, dateRetReservation FROM vehicule, reservation, client WHERE reservation.codeVehicule=vehicule.Immatriculation AND reservation.codeClient=client.codeClient AND reservation.codeClient=? AND reservation.isValid=1");
 			prepared.setString(1, code);
 			ResultSet result = prepared.executeQuery();
 			return result;

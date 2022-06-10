@@ -19,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import controller.ClientController;
 import model.Client;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ClientMainView extends JPanel {
 
@@ -40,10 +42,37 @@ public class ClientMainView extends JPanel {
 		this.setBounds(0, 0, 766, 598);
 
 		JScrollPane clientscrollPane = new JScrollPane();
-		clientscrollPane.setBounds(10, 76, 574, 478);
+		clientscrollPane.setBounds(10, 76, 574, 463);
 		this.add(clientscrollPane);
 
+		JLabel warninglbl = new JLabel("");
+		warninglbl.setForeground(new Color(255, 0, 0));
+		warninglbl.setHorizontalAlignment(SwingConstants.LEFT);
+		warninglbl.setBounds(10, 51, 574, 22);
+		this.add(warninglbl);
+
 		clienttable = new JTable();
+		clienttable.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// tester si l'utilisateur presse le button de suppression
+				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+					int index = clienttable.getSelectedRow();
+					// tester si le client a séléctionné une ligne
+					if (index >= 0) {
+						int result = JOptionPane.showConfirmDialog(null, "Etes-vous Sure?", "Confirmation",
+								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if (result == JOptionPane.YES_OPTION) {
+							ClientController.deleteClient(clienttable.getModel().getValueAt(index, 0).toString());
+							ClientController.fetchAll(clienttable);
+							warninglbl.setText("");
+						}
+					} else {
+						warninglbl.setText("*Vous devez selectionner un client pour le supprimer");
+					}
+				}
+			}
+		});
 		clienttable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		clienttable.setSelectionBackground(viewSettings.SECONDARY);
 		Object[] clientcolumns = { "id", "nom", "prenom", "numTel" };
@@ -52,12 +81,6 @@ public class ClientMainView extends JPanel {
 		clientmodel.setColumnIdentifiers(clientcolumns);
 		clienttable.setModel(clientmodel);
 		clientscrollPane.setViewportView(clienttable);
-
-		JLabel warninglbl = new JLabel("");
-		warninglbl.setForeground(new Color(255, 0, 0));
-		warninglbl.setHorizontalAlignment(SwingConstants.LEFT);
-		warninglbl.setBounds(10, 51, 574, 22);
-		this.add(warninglbl);
 
 		JButton buttonRecherche = new JButton("Rechercher");
 		buttonRecherche.setBackground(viewSettings.MAIN);
@@ -68,10 +91,9 @@ public class ClientMainView extends JPanel {
 				// si le champ de recherche est vide une message doit affiché
 				if (!string.isBlank()) {
 					ClientController.findClientByName(string, clienttable);
-					searchclienttextField.setText("");
 					warninglbl.setText("");
 				} else {
-					warninglbl.setText("*Vous deuvez remplir le nom de client tu as en train de chercher");
+					warninglbl.setText("*Vous deuvez remplir le nom de client vous etes en train de chercher");
 				}
 			}
 		});
@@ -93,6 +115,21 @@ public class ClientMainView extends JPanel {
 		this.add(nouveauClientButton);
 
 		searchclienttextField = new JTextField();
+		searchclienttextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String string = searchclienttextField.getText();
+				// tester si l'utilisateur presse la button entrée
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (!string.isBlank()) {
+						ClientController.findClientByName(string, clienttable);
+						warninglbl.setText("");
+					} else {
+						warninglbl.setText("*Vous deuvez remplir le nom de client vous etes en train de chercher");
+					}
+				}
+			}
+		});
 		searchclienttextField.setBounds(10, 11, 574, 36);
 		this.add(searchclienttextField);
 		searchclienttextField.setColumns(10);
@@ -102,7 +139,7 @@ public class ClientMainView extends JPanel {
 		modifierClientButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// recuperer la ligne du tableau séléctionnée
+				// recuperer l'index de la ligne du tableau séléctionnée
 				int index = clienttable.getSelectedRow();
 				if (index >= 0) {
 					int code = (int) clienttable.getModel().getValueAt(index, 0);
@@ -111,12 +148,11 @@ public class ClientMainView extends JPanel {
 					ModifierClientPanel modifierClientPanel = new ModifierClientPanel(panel, client, clienttable);
 					panel.add(modifierClientPanel, "modifierClientPanel");
 					cl.show(panel, "modifierClientPanel");
+					warninglbl.setText("");
 				} else {
 					// si l'utilisateur ne séléctionne aucun ligne de tableau
-					JOptionPane.showConfirmDialog(null, "Tu dois séléctionnée un élément du tableau pour le modifier!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					warninglbl.setText("*Vous devez selectionner un client pour le modifier");
 				}
-				warninglbl.setText("");
 			}
 		});
 		modifierClientButton.setBounds(594, 170, 128, 36);
@@ -141,17 +177,16 @@ public class ClientMainView extends JPanel {
 				int index = clienttable.getSelectedRow();
 				// tester si le client a séléctionné une ligne
 				if (index >= 0) {
-					int result = JOptionPane.showConfirmDialog(null, "Avez-vous Sure?", "Confirmation",
+					int result = JOptionPane.showConfirmDialog(null, "Etes-vous Sure?", "Confirmation",
 							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.YES_OPTION) {
 						ClientController.deleteClient(clienttable.getModel().getValueAt(index, 0).toString());
 						ClientController.fetchAll(clienttable);
+						warninglbl.setText("");
 					}
 				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois séléctionnée un élément du tableau pour le supprimer!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					warninglbl.setText("*Vous devez selectionner un client pour le supprimer");
 				}
-				warninglbl.setText("");
 			}
 		});
 		supprimerClientButton.setBounds(594, 217, 128, 36);
@@ -161,18 +196,19 @@ public class ClientMainView extends JPanel {
 		afficherClientButton.setBackground(viewSettings.SECONDARY);
 		afficherClientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// recuperer l'index de la ligne du tableau séléctionnée
 				int index = clienttable.getSelectedRow();
 				if (index >= 0) {
 					int code = Integer.parseInt(clienttable.getModel().getValueAt(index, 0).toString());
 					Client client = ClientController.findClientByCode(code);
+					//ouvrir la fenetre d'affichage
 					AfficherClientPanel afficherClientPanel = new AfficherClientPanel(panel, client);
 					panel.add(afficherClientPanel, "afficherClientPanel");
 					cl.show(panel, "afficherClientPanel");
+					warninglbl.setText("");
 				} else {
-					JOptionPane.showConfirmDialog(null, "Tu dois séléctionnée un élément du tableau pour l'afficher!",
-							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					warninglbl.setText("*Vous devez selectionner un client pour l'afficher");
 				}
-				warninglbl.setText("");
 			}
 		});
 		afficherClientButton.setBounds(594, 123, 128, 36);

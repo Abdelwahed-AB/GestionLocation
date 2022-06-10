@@ -19,7 +19,7 @@ import model.Vehicule;
 public interface ReservationDAO {
 	
 	/**
-	 * Recherche tous les reservations stockées dans la base de donnees
+	 * Recherche tous les reservations stockï¿½es dans la base de donnees
 	 * @param fil
 	 * @return list of reservations 
 	 */
@@ -64,7 +64,7 @@ public interface ReservationDAO {
 				r.setValid(result.getBoolean("isValid"));
 				r.setCanceled(result.getBoolean("isCanceled"));
 				
-				//Rechercher les informations liees au client associee à la reservation
+				//Rechercher les informations liees au client associee ï¿½ la reservation
 				query = "SELECT * FROM client WHERE codeClient = ?;";
 				PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setInt(1, r.getClient().getCodeClient());
@@ -123,7 +123,7 @@ public interface ReservationDAO {
 				
 				r.setValid(result.getBoolean("isValid"));
 				r.setCanceled(result.getBoolean("isCanceled"));
-				//Rechercher les informations liees au client associee à la reservation
+				//Rechercher les informations liees au client associee ï¿½ la reservation
 				query = "SELECT * FROM client WHERE codeClient = ?;";
 				PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setInt(1, r.getClient().getCodeClient());
@@ -181,7 +181,7 @@ public interface ReservationDAO {
 				r.setValid(result.getBoolean("isValid"));
 				r.setCanceled(result.getBoolean("isCanceled"));
 				
-				//Rechercher les informations liees au client associee à la reservation
+				//Rechercher les informations liees au client associee ï¿½ la reservation
 				query = "SELECT * FROM client WHERE codeClient = ?;";
 				PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setInt(1, r.getClient().getCodeClient());
@@ -230,7 +230,7 @@ public interface ReservationDAO {
 	}
 
 	/**
-	 * Methode qui créee une nouvelle reservation dans la bd
+	 * Methode qui crï¿½ee une nouvelle reservation dans la bd
 	 * @param codeClient
 	 * @param codeVoiture
 	 * @param dateDep
@@ -257,7 +257,7 @@ public interface ReservationDAO {
 	}
 	
 	/**
-	 * Méthode qui modifie une réservation dans la BD
+	 * Mï¿½thode qui modifie une rï¿½servation dans la BD
 	 * @param codeReservation
 	 * @param dateDep
 	 * @param dateRet
@@ -288,7 +288,7 @@ public interface ReservationDAO {
 		}
 	}
 	/**
-	 * Supprime la reservation qui correspond aux codeReserv passé comme argument
+	 * Supprime la reservation qui correspond aux codeReserv passï¿½ comme argument
 	 * @param codeReserv
 	 */
 	public static void deleteReservation (int codeReserv) {
@@ -346,7 +346,37 @@ public interface ReservationDAO {
 		}
 		return false;
 	}
-
-
 	
+	/**
+	 * Methode qui cherche les vehicules disponibles
+	 * @return ArrayList<Vehicule>
+	 */
+	public static ArrayList<Vehicule> getAvailableVehicles(){
+		String query= "SELECT * "
+				+ "FROM  vehicule WHERE disponible = true;";
+		
+		ResultSet result = ConnectionManager.execute(query);
+		
+		ArrayList<Vehicule> vList = new ArrayList<Vehicule>();
+		
+		try {
+			while (result.next()) {
+				Vehicule V = new Vehicule(result.getString("Immatriculation"),
+						result.getString("marqueVehicule"),
+						result.getString("typeVehicule"),
+						result.getString("carburant"),
+						result.getInt("kilometrage"),
+						result.getDate("dateMiseCirculation"),
+						result.getInt("codePark"),
+						result.getInt("prixLocation"),
+						result.getBoolean("disponible"));
+				vList.add(V);
+			}
+			
+		} catch (SQLException e) {
+			JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return vList;
+	}
 }

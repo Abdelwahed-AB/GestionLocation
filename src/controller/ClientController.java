@@ -1,11 +1,15 @@
 package controller;
 
+import java.awt.Image;
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -86,5 +90,15 @@ public class ClientController {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static void prepareImage (String path, JLabel label) {
+		ImageIcon myImage = new ImageIcon(path);
+		
+		Image img = myImage.getImage();
+		Image newImage = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+		
+		ImageIcon image = new ImageIcon(newImage);
+		label.setIcon(image);
+	}
+	
 }
