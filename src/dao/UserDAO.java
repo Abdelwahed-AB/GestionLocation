@@ -5,21 +5,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
+
 import connectionManager.ConnectionManager;
 import controller.UserController;
+import log.LogMgr;
 import model.User;
 
 public class UserDAO {
-		
-// AFFICHER TOUS LES ENREGISTREMENTS 
-	
+
+// AFFICHER TOUS LES ENREGISTREMENTS
+
 		public static ArrayList<User> fetchAll () {
 			String query ="SELECT *"
 						+" FROM utilisateur"
 						+" WHERE username NOT LIKE 'root'";
 			ResultSet result = ConnectionManager.execute(query);
-			ArrayList<User> User_list = new ArrayList<User>();
+			ArrayList<User> User_list = new ArrayList<>();
 			try {
 				while (result.next()) {
 					User u=new User(result.getInt("matricule"), result.getString("nomUtilisateur"), result.getString("prenomUtilisateur"),
@@ -27,52 +30,48 @@ public class UserDAO {
 							result.getBoolean("IsAdmin"),result.getString("username"),result.getString("password"));
 					User_list.add(u);
 				}
-				
+
 			} catch (SQLException e) {
-				JOptionPane.showConfirmDialog(null, e.getMessage(), "User display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showConfirmDialog(null, "Erreur affichage utilisateurs", "Erreur utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("User display error", e);
 			}
 			return User_list;
 		}
 //METHODE AUTOCOMPLETING
-		
+
 		public static ArrayList<User> findUserAutoCompleting (String nom) {
 			String query="SELECT *"
 						+" FROM utilisateur"
 						+" WHERE username NOT LIKE 'root'"
 						+" and (nomUtilisateur like ? OR prenomUtilisateur like ?);";
-			ArrayList<User> User_list = new ArrayList<User>();
+			ArrayList<User> User_list = new ArrayList<>();
 			try {
 				PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 				prepared.setString(1, nom+"%");
 				prepared.setString(2, nom+"%");
 				ResultSet result = prepared.executeQuery();
-				try {
-					while (result.next()) {
-						User  u=new User(result.getInt("matricule"), result.getString("nomUtilisateur"), result.getString("prenomUtilisateur"),
-								result.getString("TelUtilisateur"), result.getString("adresseUtilisateur"), result.getBoolean("IsActive"),
-								result.getBoolean("IsAdmin"),result.getString("username"),result.getString("password"));
-						User_list.add(u);
-					}
-					
-				} catch (SQLException e) {
-					JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur d'affichage", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				while (result.next()) {
+					User  u=new User(result.getInt("matricule"), result.getString("nomUtilisateur"), result.getString("prenomUtilisateur"),
+							result.getString("TelUtilisateur"), result.getString("adresseUtilisateur"), result.getBoolean("IsActive"),
+							result.getBoolean("IsAdmin"),result.getString("username"),result.getString("password"));
+					User_list.add(u);
 				}
-				
+
 			} catch (SQLException e) {
-				JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur d'affichage", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur recherche utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("User Autocomplete error", e);
 			}
-			
+
 			return User_list;
-			
+
 		}
 //VERIFIE SI L'UTILISATEUR EXISTE DEJA [ON TESTE SUR SA MATRICULE]
-		
+
 		public static User findUser (int id) {
 			String query="SELECT *"
 						+" FROM utilisateur"
 						+" WHERE matricule LIKE ?";
-			
+
 			User user=null;
 			try {
 				PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
@@ -84,34 +83,36 @@ public class UserDAO {
 							result.getBoolean("IsAdmin"),result.getString("username"),result.getString("password"));
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur recherche utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur recherche utilisateur par id", e);
 			}
 			return user;
 		}
-		
+
 //VERIFIER SI UN UTILISATEUR EXISTE EN TESTANT SUR SON CODE MATRICULE? LE RETOUR EST UN BOOLEAN
-		
+
 		public static boolean verifyUser(int id) {
 			String query="SELECT *"
 					+" FROM utilisateur"
 					+" WHERE matricule LIKE ?";
-		
+
 			try {
 				PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 				prepared.setInt(1, id);
 				ResultSet result = prepared.executeQuery();
-			if(result.next())
-				return true;
-			else 
-				return false;
-		} catch (SQLException e) {
-			e.printStackTrace();
+				if(result.next())
+					return true;
+				else
+					return false;
+			} catch (SQLException e) {
+				JOptionPane.showConfirmDialog(null, "Erreur verification utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur verification utilisateur", e);
+			}
+			return false;
 		}
-		return false;
-		}
-		
+
 //VERIFIE SI L'UTILISATEUR EXISTE DEJA [ON TESTE SUR SON USERNAME]
-		
+
 		public static boolean findUser (String username) {
 			String query="SELECT *"
 						+" FROM utilisateur"
@@ -121,16 +122,17 @@ public class UserDAO {
 				prepared.setString(1, username);
 				ResultSet result = prepared.executeQuery();
 				if( result.next()) return true;
-				else return false;//RETURNS FALSE IF THE RESULT IS EMPTY, TRUE OTHERWISE			
+				else return false;//RETURNS FALSE IF THE RESULT IS EMPTY, TRUE OTHERWISE
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur recherche utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur recherche utilisateur par username", e);
 			}
 			return true;
 		}
-		
+
 //ON TESTE LE CHAMP IsAdmin DE L'UTILISATEUR POUR AFFICHER/(OU PAS) LE BOUTON UTILISATEUR DANS LA BARRE DE NAVIGATION
 //LA CLE DE RECHERCHE ETANT username
-		
+
 		public static boolean checkAdmin(String username) {
 			String query="SELECT isAdmin"
 						+" FROM utilisateur"
@@ -143,20 +145,21 @@ public class UserDAO {
 					return result.getBoolean("isAdmin");
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur verification admin", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur verification admin", e);
 			}
 			return false;
-		}		
-		
-		
+		}
+
+
 //METHODE QUI AJOUTE UN UTILISATEUR A LA BASE DE DONNEES
-		
+
 		public static boolean createUser(String nom, String prenom, String numTel,String adresse,String username,String password) {
 			String query="INSERT INTO `utilisateur` ( `nomUtilisateur`, `prenomUtilisateur`, `TelUtilisateur`, `adresseUtilisateur`, `IsActive`, `IsAdmin`,`username`,`password`)"
 						+" VALUES ( ?, ?, ?, ?, true, false,?,?);";
 			try {
 				PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
-				
+
 				prepared.setString(1, nom);
 				prepared.setString(2, prenom);
 				prepared.setString(3, numTel);
@@ -166,15 +169,16 @@ public class UserDAO {
 				prepared.execute();
 				return true;
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur creation utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur creation utilisateur", e);
 			}
 			return false;
 		}
-		
-		
-//METHIDE QUI MET A JOUR LES ATTRIBUTS D'UN UTILISATEUR 
+
+
+//METHIDE QUI MET A JOUR LES ATTRIBUTS D'UN UTILISATEUR
 //LA MTHD COMPORTE 2 VERSION (SI L'ADMINISTRATEUR TENTE DE CHANGER LE MOT DE PASSE OU PAS)
-		
+
 		public static boolean modifyUser (User u,int oldId, String newPassword) {
 			if(newPassword.equals("null")) {
 				String query1="UPDATE `utilisateur`"
@@ -194,8 +198,8 @@ public class UserDAO {
 					prepared.execute();
 					return true;
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showConfirmDialog(null, "Erreur modification utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+					LogMgr.error("Erreur modification utilisateur", e);
 				}
 			}else {
 				String query="UPDATE `utilisateur`"
@@ -216,16 +220,16 @@ public class UserDAO {
 					prepared.execute();
 					return true;
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showConfirmDialog(null, "Erreur modification utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+					LogMgr.error("Erreur modification utilisateur", e);
 				}
-				
+
 			}
 			return false;
 		}
-		
+
 //METHODE SUPPRIMANT UN UTILIDATEUR CONNU PAR SON Id
-		
+
 		public static boolean removeUser(int id) {
 			String query="DELETE FROM `utilisateur`"
 						+" WHERE (`matricule` = ?);";
@@ -235,14 +239,14 @@ public class UserDAO {
 				prepared.execute();
 				return true;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur supression utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur supression utilisateur", e);
 			}
 			return false;
 		}
-		
+
 // METHODE PERMETTANT DE SUSPENDRE UN UTILISATEUR
-		
+
 		public static boolean suspendUser(int id, boolean NewStateValue) {//RETOURNE TRUE SI ON A BIEN CHANGER L'ATTRIBUT STATUT DE 'UTILISATEUR
 			String query="UPDATE `utilisateur`"
 						+" SET `IsActive` = ?"
@@ -254,13 +258,14 @@ public class UserDAO {
 				prepared.execute();
 				return true;
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur suspension utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur suspension utilisateur", e);
 			}
 			return false;
 		}
-		
-//METHODE VERIFIANT SI LE COMPTE UTILISATEUR EST DEJA DANS LA BASE DE DONNEES 
-		
+
+//METHODE VERIFIANT SI LE COMPTE UTILISATEUR EST DEJA DANS LA BASE DE DONNEES
+
 		public static boolean verifyLogin(String username,String password) {
 			String query="SELECT *"
 						+" FROM utilisateur"
@@ -274,13 +279,13 @@ public class UserDAO {
 				if (result.next()) return true;
 				else return false;
 			} catch (SQLException e) {
-				e.printStackTrace();
-			
+				JOptionPane.showConfirmDialog(null, "Erreur verification login", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur verification login", e);
 			}
-			
+
 			return false;
 		}
-		
+
 	}
 
 

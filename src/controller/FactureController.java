@@ -19,47 +19,47 @@ public class FactureController {
 	private CreerFacturePanel cfPanel;
 	private MainInterface mInterface;
 	private CardLayout cl;
-	
-	
+
+
 	public FactureController(FacturePanel fpanel, CreerFacturePanel cfPanel, MainInterface mInterface) {
 		this.fPanel = fpanel;
 		this.cfPanel = cfPanel;
 		this.mInterface = mInterface;
 		this.cl = (CardLayout) mInterface.getMainPanel().getLayout();
-		
+
 		this.fPanel.setFactureController(this);
 		this.cfPanel.setFactureController(this);
 		ActualiserTableau();
 	}
-	
+
 	/**
 	 * Methode qui actualise le tableau des factures
 	 */
 	public void ActualiserTableau() {
 		ArrayList<Facture> fList = FactureDAO.fetchAll();
 		fPanel.getFactureTableModel().loadFactures(fList);
-		
+
 		//reset warning message
 		fPanel.getFacture_warning_lbl().setText("");
 	}
-	
+
 	/**
 	 * Methode qui recupére l'identifiant de la facture a partir de barre de recherche, et rempli le tableau avec l'entree correspondant
 	 */
 	public void RechercherFacture() {
 		String input = fPanel.getFacture_field().getText();
-		
+
 		//verifier si l'entree est seulement des entier et qu'il n'est pas vide
 		if(input.isEmpty() || !input.matches("^[0-9]+$")) {
 			fPanel.getFacture_warning_lbl().setText("<html>Veuillez entrer un code valid.</html>");
 			return;
 		}
-		
+
 		ArrayList<Facture> fList = FactureDAO.findFacture(Integer.parseInt(input));
 		fPanel.getFactureTableModel().loadFactures(fList);
 		fPanel.getFacture_warning_lbl().setText("");
 	}
-	
+
 	/**
 	 * Methode qui recuperere la facture selectionnée dans le tableau des factures
 	 * et le supprime.
@@ -70,15 +70,15 @@ public class FactureController {
 			fPanel.getFacture_warning_lbl().setText("<html>Veuillez choisir une facture à supprimer.</html>");
 			return;
 		}
-		
+
 		int result = JOptionPane.showConfirmDialog(null, "Êtes vous sûr?", "Verification", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if(result == JOptionPane.YES_OPTION) {
-			FactureDAO.deleteFacture(Integer.parseInt((String) fPanel.getFacture_table().getValueAt(index, 0)));			
+			FactureDAO.deleteFacture(Integer.parseInt((String) fPanel.getFacture_table().getValueAt(index, 0)));
 		}
 		ActualiserTableau();
 	}
-	
-	
+
+
 	/**
 	 * Methode qui recupere le contrat selectionné dans le panel de creation des factures
 	 * puis le crée dans la bd (Calcule automatique)
@@ -90,13 +90,13 @@ public class FactureController {
 			cfPanel.getWarning_lbl().setText("<html>Veuillez choisir un contrat pour creer une facture.</html>");
 			return;
 		}
-		
+
 		int codeContrat =  Integer.parseInt((String) cfPanel.getContrat_table().getValueAt(index, 0));
-		
+
 		FactureDAO.createFacture(codeContrat);
-		
+
 		Facture fact = FactureDAO.findFactureByContrat(codeContrat);
-		
+
 		if(fact == null) {
 			JOptionPane.showConfirmDialog(null, "facture : " + fact, "Erreur Creation Facture", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 		}
@@ -104,7 +104,7 @@ public class FactureController {
 		goBack();
 		ActualiserTableau();
 	}
-	
+
 	/**
 	 * Methode qui recupére la facture selectionnee et l'imprime
 	 */
@@ -114,18 +114,30 @@ public class FactureController {
 			fPanel.getFacture_warning_lbl().setText("<html>Veuillez choisir une facture à imprimer.</html>");
 			return;
 		}
-		
+
 		Facture f = FactureDAO.findFacture(Integer.parseInt((String) fPanel.getFacture_table().getValueAt(index, 0))).get(0);
-		
+
 		FactureMetier.createPdf(f);
 		ActualiserTableau();
 	}
-	
+
+	/*
+	 * Methode qui actualise le tableau des contrats dans la fenetre de creation de facture
+	 */
 	public void ActualiserTableContrats() {
 		ArrayList<Contrat> cList = ContratDAO.getContratsNoFacture();
 		cfPanel.getContractTableModel().loadContracts(cList);
 	}
-	
+
+	public void searchContrat(String input) {
+		if(!input.matches("^[0-9]+$")) {
+			return;
+		}
+		int codeContrat = Integer.parseInt(input);
+		ArrayList<Contrat> cList = ContratDAO.searchContratNoFacture(codeContrat);
+		cfPanel.getContractTableModel().loadContracts(cList);
+	}
+
 	//Methodes de navigation
 	public void goToNewFacture() {
 		ActualiserTableContrats();

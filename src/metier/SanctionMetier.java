@@ -27,11 +27,11 @@ import model.Sanction;
 
 public interface SanctionMetier {
 	public static void createPdf(Sanction s){
-		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");  
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		String today = dtf.format(now);
-		
+
 		String path = ".\\sanctions\\sanction_"+s.getClient().getCodeClient()+"_"+today+".pdf";
 		PdfWriter writer = null;
 		try {
@@ -41,17 +41,17 @@ public interface SanctionMetier {
 			e.printStackTrace();
 		}
 		PdfDocument pdfDoc = new PdfDocument(writer);
-		
+
 		pdfDoc.setDefaultPageSize(PageSize.A4);
-		
+
 		Document doc = new Document(pdfDoc);
-		
+
 		float columnWidth[] = {450, 150};
-		
+
 		Table header = new Table(columnWidth);
 		header.setBackgroundColor(new DeviceRgb(75, 0, 130))
 				.setFontColor(new DeviceRgb(255,255,255));
-		
+
 		header.addCell(
 				 new Cell().add(new Paragraph("Sanction").setPadding(15f))
 				.setTextAlignment(TextAlignment.CENTER)
@@ -59,7 +59,7 @@ public interface SanctionMetier {
 				.setFontSize(16f)
 				.setBorder(Border.NO_BORDER)
 				);
-		
+
 		header.addCell(
 				 new Cell().add(new Paragraph("Gestion de Location\nICE: 123456789\nEnsa AGADIR\nG.INFO\nAbdelwahed Ait Brik\nMohamed Nait Moussa\n Nour-Eddine Ait Elhadj").setPadding(15f))
 				 .setTextAlignment(TextAlignment.LEFT)
@@ -67,15 +67,15 @@ public interface SanctionMetier {
 				.setFontSize(7f)
 				.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 				);
-		
+
 		doc.add(header);
-		
+
 		float colWidth[] = {80, 300, 80, 100};
-		
+
 		Table clientInfo = new Table(colWidth);
-		
+
 		clientInfo.setMargins(60f, 0, 60f, 0);
-		
+
 		//title
 		clientInfo.addCell(
 				new Cell(0,4).add(new Paragraph("Informations: ").setBold())
@@ -83,7 +83,7 @@ public interface SanctionMetier {
 					.setBorder(Border.NO_BORDER)
 					.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 				);
-		
+
 		//first row
 		clientInfo.addCell(
 				new Cell().add(new Paragraph("Nom: ").setBold())
@@ -91,13 +91,13 @@ public interface SanctionMetier {
 					.setBorder(Border.NO_BORDER)
 					.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 				);
-		
+
 		clientInfo.addCell(
 				new Cell().add(new Paragraph(s.getClient().getNomClient()))
 					.setFontSize(7f)
 					.setBorder(Border.NO_BORDER)
 				);
-		
+
 		clientInfo.addCell(
 				new Cell().add(new Paragraph("Date Sanction: ").setBold())
 				.setFontSize(7f)
@@ -116,33 +116,33 @@ public interface SanctionMetier {
 					.setBorder(Border.NO_BORDER)
 					.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 				);
-		
+
 		clientInfo.addCell(
 				new Cell().add(new Paragraph(s.getClient().getPrenomClient()))
 					.setFontSize(7f)
 					.setBorder(Border.NO_BORDER)
 				);
-		
-		
+
+
 		clientInfo.addCell(
 				new Cell().add(new Paragraph("N° Client:").setBold())
 					.setFontSize(7f)
 					.setBorder(Border.NO_BORDER)
 					.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 				);
-		
+
 		clientInfo.addCell(
 				new Cell().add(new Paragraph(Integer.toString(s.getClient().getCodeClient())))
 					.setFontSize(7f)
 					.setBorder(Border.NO_BORDER)
 				);
-		
-		
+
+
 		doc.add(clientInfo);
-		
+
 		float locationCol[] = {120, 120, 120, 120, 120};
 		Table location = new Table(locationCol);
-		
+
 		location.addCell(
 				new Cell().add(new Paragraph("Vehicule"))
 					.setFontSize(9f)
@@ -178,7 +178,7 @@ public interface SanctionMetier {
 					.setBorder(Border.NO_BORDER)
 					.setBackgroundColor(new DeviceRgb(224, 199, 242))
 				);
-		
+
 		for(Contrat c : s.getContratList()) {
 			location.addCell(
 					//TODO change code vehicule into vehicule object
@@ -210,9 +210,9 @@ public interface SanctionMetier {
 					.setFontSize(7f)
 					.setTextAlignment(TextAlignment.CENTER)
 					.setBorder(Border.NO_BORDER)
-					);		
+					);
 		}
-		
+
 		location.addCell(
 				new Cell(0,4).add(new Paragraph("Total"))
 					.setFontSize(9f)
@@ -220,7 +220,7 @@ public interface SanctionMetier {
 					.setBorder(Border.NO_BORDER)
 					.setBackgroundColor(new DeviceRgb(224, 199, 242))
 				);
-		
+
 		location.addCell(
 				new Cell(0,3).add(new Paragraph(Integer.toString(s.getMontant())))
 					.setFontSize(9f)
@@ -228,13 +228,13 @@ public interface SanctionMetier {
 					.setBorder(Border.NO_BORDER)
 					.setBackgroundColor(new DeviceRgb(224, 199, 242))
 				);
-		
+
 		doc.add(location);
-		
-		
-		
+
+
+
 		doc.close();
-		
+
 		try {
 			Desktop.getDesktop().open(new File(path));
 		} catch (IOException e) {

@@ -12,9 +12,9 @@ public class Vehicule {
 	private int codePark;
 	private int PrixLocation;
 	private boolean disponible;
-	
+
 // constructor
-	
+
 	public Vehicule() {
 	}
 	public Vehicule(String a, String  b ,String  c ,String d, long  e,Date f,int g ,int h,boolean i) {
@@ -28,53 +28,53 @@ public class Vehicule {
 		this.PrixLocation=h;
 		this.disponible=i;
 	}
-	
+
 	//Getters & Setters
-	
+
 	public String getMatricule() {
 		return Matricule;
 	}
-	
+
 	public String getMarque() {
 		return Marque;
 	}
-	
+
 	public String getType() {
 		return Type;
 	}
-	
+
 	public String getCarburant() {
 		return Carburant;
 	}
-	
+
 	public long getKilometrage() {
 		return Kilometrage;
 	}
-	
+
 	public Date getDMC() {
 		return DMC;
 	}
-	
+
 	public int getCodePark() {
 		return codePark;
 	}
-	
+
 	public boolean getDisponible() {
 		return this.disponible;
 	}
-	
-	public void setCodeVehicule(String codeVehicule) {
+
+	public void setMatricule(String codeVehicule) {
 		this.Matricule = codeVehicule;
 	}
-	
+
 	public int getPrixLocation() {
 		return this.PrixLocation;
 	}
-	
+
 	public boolean isDisponible() {
 		return disponible;
 	}
-	
+
 
 	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
@@ -83,7 +83,7 @@ public class Vehicule {
 	public void setPrixLocation(int prixLocation) {
 		this.PrixLocation = prixLocation;
 	}
-	
+
 	public void setCodePark(int code) {
 		this.codePark = code;
 	}

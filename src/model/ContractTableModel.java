@@ -6,15 +6,20 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 public class ContractTableModel extends AbstractTableModel {
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 		private String[] nomColonnes = new String[]{
 				"Référence",
 				"Date contrat",
 				"Date échéance",
 				"Code reservation"
 		};
-		
-		private Vector<String[]> rows = new Vector<String[]>();
-		
+
+		private Vector<String[]> rows = new Vector<>();
+
 		@Override
 		public int getRowCount() {
 			return rows.size();
@@ -30,17 +35,17 @@ public class ContractTableModel extends AbstractTableModel {
 			// TODO Auto-generated method stub
 			return rows.get(rowIndex)[columnIndex];
 		}
-		
+
 		@Override
 		public String getColumnName(int index) {
 			return nomColonnes[index];
 		}
-		
+
 		@Override
-		public boolean isCellEditable(int row, int column){  
-	        return false;  
+		public boolean isCellEditable(int row, int column){
+	        return false;
 		}
-		
+
 		public void loadContracts(ArrayList<Contrat> list) {
 			rows.clear();
 			for(Contrat c : list) {
@@ -50,10 +55,10 @@ public class ContractTableModel extends AbstractTableModel {
 						c.getDateEcheance()+"",
 						c.getCodeReservation()+""
 				};
-				
+
 				rows.add(row);
 			}
-			
+
 			fireTableChanged(null);
 		}
 

@@ -11,7 +11,7 @@ public class Contrat {
 
 
 	private Date dateRetActuel;
-	
+
 	private int montantSanction;
 //CONSTRUCTEURS DE LA CLASSE
 	public Contrat() {
@@ -28,8 +28,8 @@ public class Contrat {
 		this.dateEcheance = dateEcheance;
 		this.reservation=reservation;
 	}
-	
-	
+
+
 	public int getCodeContrat() {
 		return codeContrat;
 	}
@@ -72,5 +72,5 @@ public class Contrat {
 	public void setDateRetActuel(Date dateRetActuel) {
 		this.dateRetActuel = dateRetActuel;
 	}
-	
+
 }

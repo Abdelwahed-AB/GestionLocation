@@ -9,10 +9,14 @@ import javax.swing.JOptionPane;
 
 import connectionManager.ConnectionManager;
 import log.LogMgr;
-import model.*;
+import model.Client;
+import model.Contrat;
+import model.Reservation;
+import model.Sanction;
+import model.Vehicule;
 
 public interface SanctionDAO {
-	
+
 	/**
 	 * Methode qui recherche tous les clients sanctionnees et le montant a payer
 	 * @return ArrayList<Sanction>
@@ -26,43 +30,43 @@ public interface SanctionDAO {
 				+ "AND reservation.codeClient = client.codeClient "
 				+ "AND sanctionRegle = 0 "
 				+ "GROUP BY codeClient";
-		
+
 		ResultSet result = ConnectionManager.execute(query);
-		
-		ArrayList<Sanction> sList = new ArrayList<Sanction>();
-		
+
+		ArrayList<Sanction> sList = new ArrayList<>();
+
 		try {
 			while(result.next()) {
 				Sanction s = new Sanction();
 				s.setMontant(result.getInt("montantSanction"));
-				
+
 				Client c = new Client();
 				c.setCodeClient(result.getInt("codeClient"));
 				c.setNomClient(result.getString("nomClient"));
 				c.setPrenomClient(result.getString("prenomClient"));
-				
+
 				s.setClient(c);
-				
+
 				sList.add(s);
 			}
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Sanction", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Sanction", e);
 		}
-		
+
 		return sList;
 	}
-	
-	
+
+
 	/**
 	 * Methode qui recherche tous les contrats d'une sanction d'un client
 	 * @param codeClient
 	 * @return ArrayList<Contrat>
 	 */
-	
+
 	public static ArrayList<Contrat> getContracts(int codeClient) {
-		ArrayList<Contrat> cList = new ArrayList<Contrat>();
-		
+		ArrayList<Contrat> cList = new ArrayList<>();
+
 		String query = "SELECT *, DATEDIFF(dateRetActuel, dateEcheance) * 2000 AS montantSanction "
 		+ "FROM contrat, client, reservation "
 		+ "WHERE dateRetActuel IS NOT NULL "
@@ -76,7 +80,7 @@ public interface SanctionDAO {
 		try {
 			ps = ConnectionManager.getConnection().prepareStatement(query);
 			ps.setInt(1, codeClient);
-			
+
 			ResultSet result = ps.executeQuery();
 			while(result.next()) {
 				Contrat cont = new Contrat();
@@ -85,15 +89,15 @@ public interface SanctionDAO {
 				cont.setDateEcheance(result.getDate("dateEcheance"));
 				cont.setDateRetActuel(result.getDate("dateRetActuel"));
 				cont.setMontantSanction(result.getInt("montantSanction"));
-				
+
 				Vehicule v = new Vehicule();
-				v.setCodeVehicule(result.getString("codeMatricule"));
-				
+				v.setMatricule(result.getString("codeMatricule"));
+
 				Reservation reserv = new Reservation();
 				reserv.setVehicule(v);
-				
+
 				cont.setReservation(reserv);
-				
+
 				cList.add(cont);
 			}
 		} catch (SQLException e) {
@@ -113,7 +117,7 @@ public interface SanctionDAO {
 				+ "AND dateRetActuel > dateEcheance "
 				+ "AND contrat.codeReservation = (SELECT codeReservation from reservation WHERE reservation.codeClient = ?) "
 				+ "AND sanctionRegle = 0;";
-		
+
 		try {
 			PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 			ps.setInt(1, codeClient);
@@ -123,7 +127,7 @@ public interface SanctionDAO {
 			LogMgr.error("Erreur Reglement Sanction", e);
 		}
 	}
-	
+
 	public static ArrayList<Sanction> findSanctionClient(String nom) {
 		String query = "SELECT client.codeClient, nomClient, prenomClient, SUM(DATEDIFF(dateRetActuel, dateEcheance) * 2000) AS montantSanction "
 				+ "FROM contrat, client, reservation "
@@ -134,9 +138,9 @@ public interface SanctionDAO {
 				+ "AND sanctionRegle = 0 "
 				+ "AND nomClient LIKE ? "
 				+ "GROUP BY codeClient";
-		
-		ArrayList<Sanction> sList = new ArrayList<Sanction>();
-		
+
+		ArrayList<Sanction> sList = new ArrayList<>();
+
 		try {
 			PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 			ps.setString(1, nom+"%");
@@ -145,21 +149,21 @@ public interface SanctionDAO {
 			while(result.next()) {
 				Sanction s = new Sanction();
 				s.setMontant(result.getInt("montantSanction"));
-				
+
 				Client c = new Client();
 				c.setCodeClient(result.getInt("codeClient"));
 				c.setNomClient(result.getString("nomClient"));
 				c.setPrenomClient(result.getString("prenomClient"));
-				
+
 				s.setClient(c);
-				
+
 				sList.add(s);
 			}
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Recherche Sanction Client", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Recherche Sanction Client", e);
 		}
-		
+
 		return sList;
 	}
 }

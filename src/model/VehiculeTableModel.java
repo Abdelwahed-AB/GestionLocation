@@ -6,7 +6,7 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 public class VehiculeTableModel extends AbstractTableModel{
-	
+
 	private String[] nomColonnes = new String[]{
 			"Matricule",
 			"Marque ",
@@ -15,9 +15,9 @@ public class VehiculeTableModel extends AbstractTableModel{
 			"Prix location",
 			"Disponible"
 	};
-	
-	private Vector<String[]> rows = new Vector<String[]>();
-	
+
+	private Vector<String[]> rows = new Vector<>();
+
 	@Override
 	public int getRowCount() {
 		return rows.size();
@@ -33,15 +33,15 @@ public class VehiculeTableModel extends AbstractTableModel{
 		// TODO Auto-generated method stub
 		return rows.get(rowIndex)[columnIndex];
 	}
-	
+
 	@Override
 	public String getColumnName(int index) {
 		return nomColonnes[index];
 	}
-	
+
 	@Override
-	public boolean isCellEditable(int row, int column){  
-        return false;  
+	public boolean isCellEditable(int row, int column){
+        return false;
 	}
 	public void loadVehicules(ArrayList<Vehicule> list) {
 		rows.clear();
@@ -54,10 +54,10 @@ public class VehiculeTableModel extends AbstractTableModel{
 					v.getPrixLocation()+"",
 					v.getDisponible()+""
 			};
-			
+
 			rows.add(row);
 		}
-		
+
 		fireTableChanged(null);
 	}
 

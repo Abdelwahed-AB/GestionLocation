@@ -23,9 +23,9 @@ import com.itextpdf.layout.properties.VerticalAlignment;
 import model.Facture;
 
 public interface FactureMetier {
-	public static void createPdf(Facture f){	
-			
-			String path = ".\\factures\\facture_"+f.getCodeFacture()+".pdf";
+	public static void createPdf(Facture f){
+
+			String path = ".\\factures\\facture_"+f.getCodeFacture()+"_"+f.getContrat().getReservation().getClient().getCodeClient()+".pdf";
 			PdfWriter writer = null;
 			try {
 				writer = new PdfWriter(path);
@@ -34,17 +34,17 @@ public interface FactureMetier {
 				e.printStackTrace();
 			}
 			PdfDocument pdfDoc = new PdfDocument(writer);
-			
+
 			pdfDoc.setDefaultPageSize(PageSize.A4);
-			
+
 			Document doc = new Document(pdfDoc);
-			
+
 			float columnWidth[] = {450, 150};
-			
+
 			Table header = new Table(columnWidth);
 			header.setBackgroundColor(new DeviceRgb(75, 0, 130))
 					.setFontColor(new DeviceRgb(255,255,255));
-			
+
 			header.addCell(
 					 new Cell().add(new Paragraph("Facture").setPadding(15f))
 					.setTextAlignment(TextAlignment.CENTER)
@@ -52,7 +52,7 @@ public interface FactureMetier {
 					.setFontSize(16f)
 					.setBorder(Border.NO_BORDER)
 					);
-			
+
 			header.addCell(
 					 new Cell().add(new Paragraph("Gestion de Location\nICE: 123456789\nEnsa AGADIR\nG.INFO\nAbdelwahed Ait Brik\nMohamed Nait Moussa\n Nour-Eddine Ait Elhadj").setPadding(15f))
 					 .setTextAlignment(TextAlignment.LEFT)
@@ -60,15 +60,15 @@ public interface FactureMetier {
 					.setFontSize(7f)
 					.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 					);
-			
+
 			doc.add(header);
-			
+
 			float colWidth[] = {80, 300, 80, 100};
-			
+
 			Table clientInfo = new Table(colWidth);
-			
+
 			clientInfo.setMargins(60f, 0, 60f, 0);
-			
+
 			//title
 			clientInfo.addCell(
 					new Cell(0,4).add(new Paragraph("Informations: ").setBold())
@@ -76,7 +76,7 @@ public interface FactureMetier {
 						.setBorder(Border.NO_BORDER)
 						.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 					);
-			
+
 			//first row
 			clientInfo.addCell(
 					new Cell().add(new Paragraph("Nom: ").setBold())
@@ -84,26 +84,26 @@ public interface FactureMetier {
 						.setBorder(Border.NO_BORDER)
 						.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 					);
-			
+
 			clientInfo.addCell(
 					new Cell().add(new Paragraph(f.getContrat().getReservation().getClient().getNomClient()))
 						.setFontSize(7f)
 						.setBorder(Border.NO_BORDER)
 					);
-			
+
 			clientInfo.addCell(
 					new Cell().add(new Paragraph("N° Facture:").setBold())
 						.setFontSize(7f)
 						.setBorder(Border.NO_BORDER)
 						.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 					);
-			
+
 			clientInfo.addCell(
 					new Cell().add(new Paragraph(Integer.toString(f.getCodeFacture())))
 						.setFontSize(7f)
 						.setBorder(Border.NO_BORDER)
 					);
-			
+
 			//Second row
 			clientInfo.addCell(
 					new Cell().add(new Paragraph("Prenom:").setBold())
@@ -111,26 +111,26 @@ public interface FactureMetier {
 						.setBorder(Border.NO_BORDER)
 						.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 					);
-			
+
 			clientInfo.addCell(
 					new Cell().add(new Paragraph(f.getContrat().getReservation().getClient().getPrenomClient()))
 						.setFontSize(7f)
 						.setBorder(Border.NO_BORDER)
 					);
-			
+
 			clientInfo.addCell(
 					new Cell().add(new Paragraph("Date Facture: ").setBold())
 						.setFontSize(7f)
 						.setBorder(Border.NO_BORDER)
 						.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 					);
-			
+
 			clientInfo.addCell(
 					new Cell().add(new Paragraph(f.getDateFacture().toString()))
 						.setFontSize(7f)
 						.setBorder(Border.NO_BORDER)
 					);
-			
+
 			//Third Row
 			clientInfo.addCell(
 					new Cell().add(new Paragraph("N° Client:").setBold())
@@ -138,7 +138,7 @@ public interface FactureMetier {
 						.setBorder(Border.NO_BORDER)
 						.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 					);
-			
+
 			clientInfo.addCell(
 					new Cell().add(new Paragraph(Integer.toString(f.getContrat().getReservation().getClient().getCodeClient())))
 						.setFontSize(7f)
@@ -150,19 +150,19 @@ public interface FactureMetier {
 						.setBorder(Border.NO_BORDER)
 						.setBorderLeft(new SolidBorder(new DeviceRgb(224, 199, 242), 1.5f))
 					);
-			
+
 			clientInfo.addCell(
 					new Cell().add(new Paragraph(Integer.toString(f.getContrat().getCodeContrat())))
 						.setFontSize(7f)
 						.setBorder(Border.NO_BORDER)
 					);
-			
-			
+
+
 			doc.add(clientInfo);
-			
+
 			float locationCol[] = {120, 120, 120, 120, 120};
 			Table location = new Table(locationCol);
-			
+
 			location.addCell(
 					new Cell().add(new Paragraph("Vehicule"))
 						.setFontSize(9f)
@@ -198,7 +198,7 @@ public interface FactureMetier {
 						.setBorder(Border.NO_BORDER)
 						.setBackgroundColor(new DeviceRgb(224, 199, 242))
 					);
-			
+
 			//Second Row
 			location.addCell(
 					//TODO change code vehicule into vehicule object
@@ -231,13 +231,13 @@ public interface FactureMetier {
 						.setTextAlignment(TextAlignment.CENTER)
 						.setBorder(Border.NO_BORDER)
 					);
-			
+
 			doc.add(location);
-			
-			
-			
+
+
+
 			doc.close();
-			
+
 			try {
 				Desktop.getDesktop().open(new File(path));
 			} catch (IOException e) {

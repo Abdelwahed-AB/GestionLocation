@@ -2,10 +2,12 @@ package view;
 
 import java.awt.CardLayout;
 import java.awt.Cursor;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -14,10 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import controller.UserController;
 import interfaces.MainInterface;
 import model.User;
-import java.awt.Rectangle;
 
 
 public class ChangeExistingUser extends JPanel{
@@ -41,8 +43,8 @@ public class ChangeExistingUser extends JPanel{
 	private JTextField newPassword;
 	private JTextField username;
 
-	
-	
+
+
 // constructor
 	public ChangeExistingUser(MainInterface mInterface) {
 		setBounds(new Rectangle(0, 0, 732, 547));
@@ -50,13 +52,13 @@ public class ChangeExistingUser extends JPanel{
 		this.cl = (CardLayout) mInterface.getMainPanel().getLayout();
 		initialize();
 	}
-	
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
-		
+
+
 		newMatricule = new JTextField();
 		newMatricule.setBounds(140, 102, 183, 42);
 		setBounds(0,0, 732, 547);
@@ -90,17 +92,17 @@ public class ChangeExistingUser extends JPanel{
 				}
 			}
 		});
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Veuillez remplir les nouveaux donn\u00E9es");
 		lblNewLabel_1.setBounds(152, 23, 483, 42);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		this.add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Prenom");
 		lblNewLabel_2.setBounds(44, 181, 92, 42);
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(lblNewLabel_2);
-		
+
 		newNom = new JTextField();
 		newNom.setBounds(474, 102, 195, 42);
 		newNom.setColumns(10);
@@ -132,12 +134,12 @@ public class ChangeExistingUser extends JPanel{
 				}
 			}
 		});
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Telephone");
 		lblNewLabel_3.setBounds(371, 180, 82, 42);
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(lblNewLabel_3);
-		
+
 		newPrenom = new JTextField();
 		newPrenom.setBounds(140, 184, 183, 42);
 		newPrenom.setColumns(10);
@@ -169,17 +171,17 @@ public class ChangeExistingUser extends JPanel{
 				}
 			}
 		});
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Adresse");
 		lblNewLabel_4.setBounds(44, 256, 92, 42);
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(lblNewLabel_4);
-		
+
 		newTel = new JTextField();
 		newTel.setBounds(474, 183, 195, 42);
 		newTel.setColumns(10);
 		this.add(newTel);
-		
+
 //ENREGISTRER EN CLIQUANT SUR ENTRER
 		newTel.addKeyListener(new KeyAdapter() {
 			@Override
@@ -207,12 +209,12 @@ public class ChangeExistingUser extends JPanel{
 				}
 			}
 		});
-		
+
 		newAdresse = new JTextField();
 		newAdresse.setBounds(140, 259, 183, 42);
 		newAdresse.setColumns(10);
 		this.add(newAdresse);
-		
+
 //ENREGISTRER EN CLIQUANT SUR ENTRER
 		newAdresse.addKeyListener(new KeyAdapter() {
 			@Override
@@ -240,18 +242,19 @@ public class ChangeExistingUser extends JPanel{
 				}
 			}
 		});
-		
+
 		lblNewLabel_7 = new JLabel("Nom");
 		lblNewLabel_7.setBounds(371, 102, 82, 42);
 		lblNewLabel_7.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(lblNewLabel_7);
-		
-		
+
+
 // check box for user status
 		StatusChkBox = new JCheckBox("Statut d'utilisateur");
 		StatusChkBox.setBounds(362, 330, 177, 40);
 		StatusChkBox.setSelected(true);
 		StatusChkBox.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserController.changeStatus(ChangeExistingUser.this);
 			}
@@ -261,12 +264,13 @@ public class ChangeExistingUser extends JPanel{
 		StatusChkBox.setIconTextGap(20);
 		StatusChkBox.setHorizontalAlignment(SwingConstants.LEFT);
 		this.add(StatusChkBox);
-		
+
 // button to save modifications
-		
+
 		saveModification = new JButton("Enregistrer");
 		saveModification.setBounds(540, 471, 164, 42);
 		saveModification.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!UserController.empty(ChangeExistingUser.this)) {
 					try {
@@ -289,47 +293,49 @@ public class ChangeExistingUser extends JPanel{
 				}
 			}
 		});
-		
+
 		saveModification.setBackground(viewSettings.SECONDARY);
 		this.add(saveModification);
-		
+
 		btnEffacerTout = new JButton("Effacer tout");
 		btnEffacerTout.setBounds(281, 471, 164, 42);
 		/** REMOVES ANY INPUT FROM THE TEXT FIELDS*/
 		btnEffacerTout.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserController.emptyUpdateFields(ChangeExistingUser.this);
 			}
 		});
 		btnEffacerTout.setBackground(viewSettings.SECONDARY);
 		this.add(btnEffacerTout);
-		
+
 		btnAnnuler = new JButton("Annuler");
 		btnAnnuler.setBounds(25, 471, 164, 42);
 		btnAnnuler.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				mInterface.showOnMainPanel("user");
 			}
 		});
 		btnAnnuler.setBackground(viewSettings.SECONDARY);
 		this.add(btnAnnuler);
-		
+
 		userSuspendu = new JLabel("Suspendu");
 		userSuspendu.setBounds(543, 330, 164, 42);
 		userSuspendu.setVisible(true);
 		userSuspendu.setHorizontalAlignment(SwingConstants.CENTER);
 		add(userSuspendu);
-		
+
 		JLabel lblNewLabel_7_1 = new JLabel("Matricule");
 		lblNewLabel_7_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_7_1.setBounds(44, 99, 92, 42);
 		add(lblNewLabel_7_1);
-		
+
 		JLabel  lblNewLabel = new JLabel("Mot de passe");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setBounds(44, 328, 92, 42);
 		add(lblNewLabel);
-		
+
 		newPassword = new JTextField();
 		newPassword.setColumns(10);
 		newPassword.setBounds(140, 329, 183, 42);
@@ -361,14 +367,14 @@ public class ChangeExistingUser extends JPanel{
 				}
 			}
 		});
-		
+
 		username = new JTextField();
 		username.setColumns(10);
 		username.setBounds(474, 258, 195, 42);
 		add(username);
-		
+
 //ENREGISTRER EN CLIQUANT SUR ENTRER
-		
+
 		username.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -395,15 +401,15 @@ public class ChangeExistingUser extends JPanel{
 				}
 			}
 		});
-	
+
 		JLabel  lblNewLabel_5 = new JLabel("Username");
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_5.setBounds(371, 257, 82, 42);
 		add(lblNewLabel_5);
-			
+
 	}
 
-	
+
 //GETTERS
 	public JTextField getUsername() {
 		return username;
@@ -448,7 +454,7 @@ public class ChangeExistingUser extends JPanel{
 	public boolean isStatut() {
 		return statut;
 	}
-	
+
 	public JCheckBox getChkBox() {
 		return this.StatusChkBox;
 	}
@@ -459,7 +465,7 @@ public class ChangeExistingUser extends JPanel{
 	public void setNewMatricule( int i) {
 		this.newMatricule.setText(i+"");
 	}
-	
+
 
 	public void setNewPasword(String newPasword) {
 		this.newPassword.setText(newPasword);
@@ -484,9 +490,9 @@ public class ChangeExistingUser extends JPanel{
 	public void setNewAdresse(String newAdresse) {
 		this.newAdresse.setText(newAdresse);
 	}
-	
+
 	public void setChkBox(boolean b) {
-		this.StatusChkBox.setSelected(b);;
+		this.StatusChkBox.setSelected(b);
 	}
 
 	public static void setOldId(int h){

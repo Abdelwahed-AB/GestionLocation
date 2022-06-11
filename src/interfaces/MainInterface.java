@@ -2,35 +2,24 @@ package interfaces;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedHashMap;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
 
-import controller.ClientController;
+import controller.FactureController;
 import controller.ReservationController;
 import controller.SanctionController;
 import controller.UserController;
-import dao.UserDAO;
-import controller.FactureController;
 import view.ClientMainView;
 import view.ContratPanel;
 import view.CreerFacturePanel;
@@ -43,8 +32,6 @@ import view.SanctionPanel;
 import view.UserPanel;
 import view.VehiculePanel;
 import view.viewSettings;
-import controller.ParkingController;
-import javax.swing.ImageIcon;
 
 
 public class MainInterface {
@@ -56,35 +43,13 @@ public class MainInterface {
 	private JPanel mainPanel;
 	private String currentPane;
 	private LinkedHashMap<String, JLabel> navItemList;
-	
+
 	//CONTROLLERS @ABD-AB
 	private ReservationController reservController;
 	private FactureController factureController;
 	private SanctionController sanctionController;
-	private JTable parkingtable;
-	private JTextField parkingtextField;
-	private JTable contrat_table;
 
 	private boolean isAdmin = false;
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					MainInterface window = new MainInterface();
-					window.frame.setVisible(true);
-					window.frame.setLocationRelativeTo(null);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -92,16 +57,16 @@ public class MainInterface {
 	public MainInterface() {
 		initialize();
 	}
-	
+
 	public MainInterface(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 		initialize();
 	}
-	
-	
+
+
 	/**
 	 * Initialize the contents of the frame.
-	 * 
+	 *
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -111,7 +76,7 @@ public class MainInterface {
 		frame.getContentPane().setEnabled(false);
 		frame.setBounds(140, 10, 1000, 700);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
+
 		navFontSize = 12;
 		frame.getContentPane().setLayout(null);
 
@@ -131,8 +96,8 @@ public class MainInterface {
 		JPanel sideBar = new JPanel();
 		sideBar.setBounds(0, 94, 234, 569);
 		sideBar.setBackground(viewSettings.SECONDARY);
-		
-		
+
+
 		JPanel navigation = new JPanel();
 		navigation.setBounds(0, 80, 234, 388);
 		navigation.setBackground(viewSettings.SECONDARY);
@@ -140,11 +105,11 @@ public class MainInterface {
 			navigation.setLayout(new GridLayout(8, 1, 0, 0));
 		else
 			navigation.setLayout(new GridLayout(7, 1, 0, 0));
-		
+
 		frame.getContentPane().add(sideBar);
 		sideBar.setLayout(null);
 		sideBar.add(navigation);
-		
+
 		JLabel exit_lbl = new JLabel("Quitter");
 		exit_lbl.setBackground(viewSettings.SECONDARY);
 		exit_lbl.setOpaque(true);
@@ -170,13 +135,13 @@ public class MainInterface {
 				else {
 					UserController.fetchAll();
 				}
-				
+
 			}
 		});
 		exit_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		exit_lbl.setBounds(0, 524, 234, 45);
 		sideBar.add(exit_lbl);
-		
+
 		mainPanel = new JPanel();
 		mainPanel.setBounds(234, 102, 752, 561);
 		mainPanel.setLayout(new CardLayout(0, 0));
@@ -187,11 +152,11 @@ public class MainInterface {
 		mainPanel.add(client, "client");
 
 		//END PANEL clients ---------------------------------------------------------------------
-		
+
 		//Panel des parkings ---------------------------------------------------------------------
 		ParkingMainView parking = new ParkingMainView(getMainPanel());
 		mainPanel.add(parking, "parking");
-		
+
 		//END PANEL parkings ---------------------------------------------------------------------
 
 		//Panel des RESERVATIONS ---------------------------------------------------------------------
@@ -209,35 +174,35 @@ public class MainInterface {
 
 		FacturePanel factures = new FacturePanel();
 		mainPanel.add(factures, "facture");
-		
+
 		CreerFacturePanel creerFacturePanel = new CreerFacturePanel(this);
 		mainPanel.add(creerFacturePanel, "newFacture");
 
 		//END Panel des factures ----------------------------------------------------------------------
-		
-		
+
+
 		//Panel des sanctions -------------------------------------------------------------------------
-		
+
 		SanctionPanel sanctions = new SanctionPanel();
 		mainPanel.add(sanctions, "sanction");
-		
+
 		SanctionInfoPanel sanctionInfo = new SanctionInfoPanel();
 		mainPanel.add(sanctionInfo, "sanctionInfo");
-		
+
 		//END Panel des Sanctions ---------------------------------------------------------------------
 
-		
+
 		cl.show(mainPanel, "facture");
 		frame.getContentPane().add(mainPanel);
-		
+
 
 		//Association des panels aux controlleurs @ABD-AB
 		factureController = new FactureController(factures, creerFacturePanel, this);
 		reservController = new ReservationController(reservPanel, createReservPanel, this);
 		sanctionController = new SanctionController(sanctions, sanctionInfo, this);
-		
-		
-		navItemList = new LinkedHashMap<String, JLabel>();
+
+
+		navItemList = new LinkedHashMap<>();
 		navItemList.put("client", new JLabel("Gestion de clients"));
 		navItemList.put("reserv", new JLabel("Gestion des reservations"));
 		navItemList.put("contrat", new JLabel("Gestion des contrats"));
@@ -265,10 +230,10 @@ public class MainInterface {
 		VehiculePanel vehicules = new VehiculePanel(this);
 		mainPanel.add(vehicules, "vehicule");
 		vehicules.setLayout(null);
-		
+
 		JLabel lblVehicules = new JLabel("vehicules");
 		vehicules.add(lblVehicules);
-		
+
 	//PANEL UTILISATEURS
 		UserPanel.setNavList(navItemList);
 		UserPanel utilisateurs = new UserPanel(this);

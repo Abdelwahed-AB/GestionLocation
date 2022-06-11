@@ -3,3 +3,8 @@
 /controller/
 /model/
 /interfaces/
+/controller/
+/model/
+/metier/
+/connectionManager/
+/log/

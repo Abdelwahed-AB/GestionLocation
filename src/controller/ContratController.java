@@ -4,8 +4,10 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+
 import dao.ContratDAO;
 import dao.ParkingDAO;
 import dao.ReservationDAO;
@@ -17,6 +19,7 @@ import model.Vehicule;
 import view.AddNewContract;
 import view.ChangeExistingContrat;
 import view.ContratPanel;
+import model.Reservation.filtre;
 
 public class ContratController {
 	private static JTable contratTable;
@@ -32,7 +35,7 @@ public class ContratController {
 			try {
 				//on appel la fonction de la classe ContratDAO qui retourne une liste de contrats correspondant au critère de recherche
 				ArrayList<Contrat> contrat=ContratDAO.findContratAutoCompleting(Integer.parseInt(ContratController.contratPanel.getChercherContrat().getText()));
-				contratPanel.getTableModel().loadContracts(contrat);//attache la liste retournée à la table
+				ContratPanel.getTableModel().loadContracts(contrat);//attache la liste retournée à la table
 			}catch(NumberFormatException ex) {
 				JOptionPane.showMessageDialog(null,"veuillez entrer un nombre", "Input error", JOptionPane.ERROR_MESSAGE);
 				contratPanel.getChercherContrat().setText("");
@@ -61,10 +64,10 @@ public class ContratController {
 	public static void displayReservation() {//actualise la table d'affichage des reservations
 		 ArrayList<Reservation> reserv = ReservationDAO.fetchAll2(filtre.Non_valide) ;
 		 AddNewContract.getRTableModel().loadReservations(reserv);
-		 
+
 	}
-		
-//METHODE QUI AFFICHE LA LISTE DES CONTRATS 
+
+//METHODE QUI AFFICHE LA LISTE DES CONTRATS
 	//AFFICHER TOUT LES ENREGISTREMENT
 	public static void fetchAll() {//actualise la table d'affichage des contrats
 		ArrayList<Contrat> cList = ContratDAO.fetchAll();
@@ -89,22 +92,22 @@ public class ContratController {
 			JOptionPane.showMessageDialog(null,"Aucun contrat n'est selectionné", "Echec de modification", JOptionPane.ERROR_MESSAGE);
 	}
 // METHODE QUI ENREGISTRE LE CHANGEMENT
-	
+
 	public static void saveChanges(int oldId) {
-		
-		if(CEC.getYcomboBox().getSelectedIndex()>=0&&CEC.getMcomboBox().getSelectedIndex()>=0&&CEC.getDcomboBox().getSelectedIndex()>=0) 
+
+		if(CEC.getYcomboBox().getSelectedIndex()>=0&&CEC.getMcomboBox().getSelectedIndex()>=0&&CEC.getDcomboBox().getSelectedIndex()>=0)
 		{//TESTER SI L'UTILISATEUR A SELECTIONNE TOUS LES CHAMPS
-			
+
 			Contrat c=ContratDAO.findContract(oldId);//RECUPERER LE CONTRAT QUI CORRESPOND A L'IDENTIFIANT PASSE EN ARGUMENT
-			
-			ArrayList<Reservation> RL=ReservationDAO.findReservation(c.getCodeReservation());//RECUPERER LA RESERVATION QUI CORRSEPOND A L'ATTRIBUT CODE RESERVATION DE CE CONTRAT 
-			
+
+			ArrayList<Reservation> RL=ReservationDAO.findReservation(c.getCodeReservation());//RECUPERER LA RESERVATION QUI CORRSEPOND A L'ATTRIBUT CODE RESERVATION DE CE CONTRAT
+
 			Vehicule v=RL.get(0).getVehicule();
-			
+
 			Date dateModifiee=Date.valueOf(CEC.getYcomboBox().getSelectedItem()+"-"+
 					CEC.getMcomboBox().getSelectedItem()+"-"+
 					CEC.getDcomboBox().getSelectedItem());//RECUPERER LA DATE CHOISI PAR L'UTILISATEUR
-			
+
 			if(ReservationDAO.isReservationDateAvailable(v.getMatricule(), c.getDateContrat(),dateModifiee,c.getCodeReservation())) {//TESTER SI LE VEHICULE EST DEJA RESERVEE AVANT CETTE DATE
 				if(!LocalDate.now().isAfter(LocalDate.parse(dateModifiee+""))) {//TESTER SI L'UTILISATEUR TENTE D'ENTRER UNE DATE ILLOGIQUE
 					if(ContratDAO.ChangeContrat(dateModifiee,oldId)) {//EFFECTUER LE CHANGEMENT
@@ -125,9 +128,9 @@ public class ContratController {
 // METHODE QUI ANNULE LE CHANGEMENT
 	public static void cancel(MainInterface mainInterface) {//METHODE QUI ANNULE LE CHANGEMENT/AJOUT D'UN CONTRAT
 			mainInterface.showOnMainPanel("contrat");
-			ContratController.fetchAll();	
+			ContratController.fetchAll();
 	}
-//METHODE QUI AFFICHE LES RESERVATION DONT L'UTILISATEUR DOIT CHOISR UNE ET LUI AFFECTER UN CONTRAT 	
+//METHODE QUI AFFICHE LES RESERVATION DONT L'UTILISATEUR DOIT CHOISR UNE ET LUI AFFECTER UN CONTRAT
 	public static void addContrat() {
 		AddNewContract ANC=new AddNewContract(window);
 		window.addToMainPanel(ANC,"newContrat");
@@ -138,15 +141,15 @@ public class ContratController {
 	public static void createContract() {
 		int index=reservationTable.getSelectedRow();
 		if(index>=0) {
-			
+
 			int i=Integer.parseInt(reservationTable.getValueAt(index,0).toString());//recuperer le code reservation
-			
+
 			ArrayList<Reservation> RV=ReservationDAO.findReservation(i);
 			Reservation reserv=RV.get(0);// recuperer la reservation correspondant à ce code
-			
+
 			Contrat contrat= new Contrat(Date.valueOf(java.time.LocalDate.now().toString()),reserv.getDateRetour(),reserv);
 			ContratDAO.createContrat(contrat);//creer un nouveau contrat et l'ajouter
-			
+
 			ReservationDAO.setReservationValid(i,true);//VALIDER LA RESERVATION
 			ContratController.fetchAll();
 			ContratController.displayReservation();
@@ -155,7 +158,7 @@ public class ContratController {
 			ParkingDAO.removeVehiculeDAO(reserv.getVehicule().getMatricule(), reserv.getVehicule().getCodePark());//FAIRE SORTIR LE VEHICULE DE SON PARKING
 		}else {
 			JOptionPane.showMessageDialog(null,"Aucune reservation n'est selectionnée", "Ajout echoué", JOptionPane.ERROR_MESSAGE);
-		}	
+		}
 	}
 //SUPPRIMER UN ENREGISTREMENT
 	public static void removeContrat() {
@@ -178,7 +181,7 @@ public class ContratController {
 			JOptionPane.showMessageDialog(null,e.getMessage(), "Echec de suppression", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-		
+
 	//METHODE QUI INITIALISE LES COMBOBOX PAR LA DATE ACTUELLE
 	public static void emptyContratFields(ChangeExistingContrat CEC) {
 		LocalDate LD=java.time.LocalDate.now();
@@ -186,7 +189,7 @@ public class ContratController {
 		CEC.getMcomboBox().setSelectedItem(LD.getMonthValue()+"");
 		CEC.getDcomboBox().setSelectedItem(LD.getDayOfMonth()+"");
 	}
-	
+
 // setters
 	public static void setWindow(MainInterface window) {
 		ContratController.window=window;
@@ -201,10 +204,10 @@ public class ContratController {
 		ContratController.reservationTable=RT;
 	}
 	public static void setPanel(AddNewContract addNewContract) {
-		ContratController.addNewContract=addNewContract;	
+		ContratController.addNewContract=addNewContract;
 	}
 	public static void setCEC(ChangeExistingContrat cEC) {
 		CEC = cEC;
 	}
-		
+
 }

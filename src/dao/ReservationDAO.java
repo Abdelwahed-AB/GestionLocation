@@ -11,17 +11,16 @@ import javax.swing.JOptionPane;
 import connectionManager.ConnectionManager;
 import log.LogMgr;
 import model.Client;
-import model.Contrat;
 import model.Reservation;
 import model.Reservation.filtre;
 import model.Vehicule;
 
 public interface ReservationDAO {
-	
+
 	/**
 	 * Recherche tous les reservations stock�es dans la base de donnees
 	 * @param fil
-	 * @return list of reservations 
+	 * @return list of reservations
 	 */
 	public static ArrayList<Reservation> fetchAll (filtre fil) {
 		String query= "SELECT * FROM reservation ";
@@ -43,39 +42,39 @@ public interface ReservationDAO {
 		}
 		query += "ORDER BY dateReservation DESC;";
 		ResultSet result = ConnectionManager.execute(query);
-		ArrayList<Reservation> reservList = new ArrayList<Reservation>();
-		
+		ArrayList<Reservation> reservList = new ArrayList<>();
+
 		try {
 			while (result.next()) {
-				
+
 				//Creer nouvelle Reservation
 				Reservation r = new Reservation();
-				
+
 				r.setClient(new Client());
 				r.setVehicule(new Vehicule());
 				r.setCodeReservation(result.getInt("codeReservation"));
-				
+
 				r.getClient().setCodeClient(result.getInt("codeClient"));
-				r.getVehicule().setCodeVehicule(result.getString("codeVehicule"));
-				
+				r.getVehicule().setMatricule(result.getString("codeVehicule"));
+
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));
-				
+
 				r.setValid(result.getBoolean("isValid"));
 				r.setCanceled(result.getBoolean("isCanceled"));
-				
+
 				//Rechercher les informations liees au client associee � la reservation
 				query = "SELECT * FROM client WHERE codeClient = ?;";
 				PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setInt(1, r.getClient().getCodeClient());
-				
+
 				ResultSet result2 = ps.executeQuery();
 				if(result2.next()) {
 					Client c = r.getClient();
 					c.setNomClient(result2.getString("nomClient"));
 					c.setPrenomClient(result2.getString("prenomClient"));
 				}
-				
+
 				query = "SELECT * FROM vehicule WHERE Immatriculation LIKE ?;";
 				ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setString(1, query);
@@ -84,58 +83,58 @@ public interface ReservationDAO {
 					Vehicule v = r.getVehicule();
 					v.setPrixLocation(result2.getInt("prixLocation"));
 				}
-				
+
 				//Ajouter la reservation a la list
 				reservList.add(r);
-			}			
+			}
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Reservation", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Reservation", e);
 		}
-		
+
 		return reservList;
 	}
 	//CHERCHER LES RESERVATION DONT LiNTERVALLE DE VALIDITE COMPRENDS LA DATE ACTUELLE
 	public static ArrayList<Reservation> fetchAll2 (filtre fil) {
 		String query= "SELECT * FROM reservation ";
 		query += "WHERE isValid = false AND isCanceled = false ";
-		query += "AND current_date() > dateDepReservation "
+		query += "AND current_date() >= dateDepReservation "
 				+ "AND current_date() < dateRetReservation "
 				+ "ORDER BY dateReservation DESC;";
 		ResultSet result = ConnectionManager.execute(query);
-		ArrayList<Reservation> reservList = new ArrayList<Reservation>();
-		
+		ArrayList<Reservation> reservList = new ArrayList<>();
+
 		try {
 			while (result.next()) {
-				
+
 				//Creer nouvelle Reservation
 				Reservation r = new Reservation();
-				
+
 				r.setClient(new Client());
 				r.setVehicule(new Vehicule());
 				r.setCodeReservation(result.getInt("codeReservation"));
-				
+
 				r.getClient().setCodeClient(result.getInt("codeClient"));
-				r.getVehicule().setCodeVehicule(result.getString("codeVehicule"));
-				
+				r.getVehicule().setMatricule(result.getString("codeVehicule"));
+
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));
-				
+
 				r.setValid(result.getBoolean("isValid"));
 				r.setCanceled(result.getBoolean("isCanceled"));
-				
+
 				//Rechercher les informations liees au client associee � la reservation
 				query = "SELECT * FROM client WHERE codeClient = ?;";
 				PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setInt(1, r.getClient().getCodeClient());
-				
+
 				ResultSet result2 = ps.executeQuery();
 				if(result2.next()) {
 					Client c = r.getClient();
 					c.setNomClient(result2.getString("nomClient"));
 					c.setPrenomClient(result2.getString("prenomClient"));
 				}
-				
+
 				query = "SELECT * FROM vehicule WHERE Immatriculation LIKE ?;";
 				ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setString(1, query);
@@ -144,28 +143,31 @@ public interface ReservationDAO {
 					Vehicule v = r.getVehicule();
 					v.setPrixLocation(result2.getInt("prixLocation"));
 				}
-				
+
 				//Ajouter la reservation a la list
 				reservList.add(r);
-			}			
+			}
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Reservation", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Reservation", e);
 		}
-		
+
 		return reservList;
 	}
 
-	/**methode qui retourne la liste des reservations correspondant au critere de recherche*/
+	/**
+	 * methode qui retourne la liste des reservations correspondant au critere de recherche
+	 *
+	 * */
 	public static ArrayList<Reservation> findReservationAutoCompleting(int codeReservation) {
 		String query="SELECT *"
 				+" FROM reservation"
 				+" WHERE  codeReservation like ?"
 				+"AND isValid = false "
 				+ "AND isCanceled = false "
-				+ "AND current_date() > dateDepReservation "
+				+ "AND current_date() >= dateDepReservation "
 				+  "AND current_date() < dateRetReservation ;";
-	ArrayList<Reservation> reserv_list = new ArrayList<Reservation>();
+	ArrayList<Reservation> reserv_list = new ArrayList<>();
 	try {
 		PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 		prepared.setString(1, codeReservation+"%");
@@ -176,20 +178,20 @@ public interface ReservationDAO {
 				r.setClient(new Client());
 				r.setVehicule(new Vehicule());
 				r.setCodeReservation(result.getInt("codeReservation"));
-				
+
 				r.getClient().setCodeClient(result.getInt("codeClient"));
-				r.getVehicule().setCodeVehicule(result.getString("codeVehicule"));
-				
+				r.getVehicule().setMatricule(result.getString("codeVehicule"));
+
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));
-				
+
 				r.setValid(result.getBoolean("isValid"));
 				r.setCanceled(result.getBoolean("isCanceled"));
 				//Rechercher les informations liees au client associee � la reservation
 				query = "SELECT * FROM client WHERE codeClient = ?;";
 				PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setInt(1, r.getClient().getCodeClient());
-				
+
 				ResultSet result2 = ps.executeQuery();
 				if(result2.next()) {
 					Client c = r.getClient();
@@ -198,19 +200,20 @@ public interface ReservationDAO {
 				}
 				reserv_list.add(r);
 			}
-			
+
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Vehicule display error", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Vehicule display error", e);
 		}
-		
+
 	} catch (SQLException e) {
-		JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-		e.printStackTrace();
+		JOptionPane.showConfirmDialog(null, "Vehicule display error", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+		LogMgr.error("Vehicule display error", e);
 	}
-	
+
 	return reserv_list;
 	}
-	
+
 	/**
 	 * Methode qui recherche une reservation par son code
 	 * @param codeReservation
@@ -219,9 +222,9 @@ public interface ReservationDAO {
 	public static ArrayList<Reservation> findReservation(int codeReservation) {
 		String query = "SELECT * FROM reservation WHERE codeReservation = ?;";
 		PreparedStatement preparedSt;
-		
-		ArrayList<Reservation> reservList = new ArrayList<Reservation>();
-		
+
+		ArrayList<Reservation> reservList = new ArrayList<>();
+
 		try {
 			preparedSt = ConnectionManager.getConnection().prepareStatement(query);
 			preparedSt.setInt(1, codeReservation);
@@ -229,32 +232,32 @@ public interface ReservationDAO {
 			while (result.next()) {
 				//Creer nouvelle Reservation
 				Reservation r = new Reservation();
-				
+
 				r.setClient(new Client());
 				r.setVehicule(new Vehicule());
 				r.setCodeReservation(result.getInt("codeReservation"));
-				
+
 				r.getClient().setCodeClient(result.getInt("codeClient"));
-				r.getVehicule().setCodeVehicule(result.getString("codeVehicule"));
-				
+				r.getVehicule().setMatricule(result.getString("codeVehicule"));
+
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));
-				
+
 				r.setValid(result.getBoolean("isValid"));
 				r.setCanceled(result.getBoolean("isCanceled"));
-				
+
 				//Rechercher les informations liees au client associee � la reservation
 				query = "SELECT * FROM client WHERE codeClient = ?;";
 				PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setInt(1, r.getClient().getCodeClient());
-				
+
 				ResultSet result2 = ps.executeQuery();
 				if(result2.next()) {
 					Client c = r.getClient();
 					c.setNomClient(result2.getString("nomClient"));
 					c.setPrenomClient(result2.getString("prenomClient"));
 				}
-				
+
 				query = "SELECT * FROM vehicule WHERE Immatriculation LIKE ?;";
 				ps = ConnectionManager.getConnection().prepareStatement(query);
 				ps.setString(1, query);
@@ -263,8 +266,8 @@ public interface ReservationDAO {
 					Vehicule v = r.getVehicule();
 					v.setPrixLocation(result2.getInt("prixLocation"));
 				}
-				
-				
+
+
 				//Ajouter la reservation a la list
 				reservList.add(r);
 			}
@@ -272,7 +275,7 @@ public interface ReservationDAO {
 			JOptionPane.showConfirmDialog(null, "Erreur Recherche Reservation", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Recherche Reservation", e);
 		}
-		
+
 		return reservList;
 	}
 	/**METHODE QUI VALIDE UNE RESERVATION*/
@@ -299,7 +302,7 @@ public interface ReservationDAO {
 	 * @param dateRet
 	 */
 	public static void createReservation(int codeClient, String codeVoiture, Date dateDep, Date dateRet){
-		
+
 		String query = "INSERT INTO `reservation`"
 				+ " (`codeReservation`, `dateReservation`, `dateDepReservation`, `dateRetReservation`, `isValid`, `isCanceled`, `codeClient`, `codeVehicule`)"
 				+ " VALUES (NULL, CURRENT_DATE(), ?, ?, '0', '0', ?, ?);";
@@ -311,13 +314,13 @@ public interface ReservationDAO {
 			prepared.setInt(3, codeClient);
 			prepared.setString(4, codeVoiture);
 			prepared.execute();
-			
+
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Creation Reservation", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Creation Reservation", e);
 		}
 	}
-	
+
 	/**
 	 * M�thode qui modifie une r�servation dans la BD
 	 * @param codeReservation
@@ -329,7 +332,7 @@ public interface ReservationDAO {
 	 * @throws InvalidDate
 	 */
 	public static void modifyReservation(int codeReservation, Date dateDep, Date dateRet, boolean isValid, boolean isCanceled){
-		
+
 		String query = "UPDATE `reservation`"
 				+ " SET `dateDepReservation` = ?,"
 				+ " `dateRetReservation` = ?,"
@@ -363,12 +366,12 @@ public interface ReservationDAO {
 			LogMgr.error("Erreur Supression Reservation", e);
 		}
 	}
-	
-	
-	
+
+
+
 	/**
-	 * Methode qui verifie si une reservation intersect avec une autre 
-	 * 
+	 * Methode qui verifie si une reservation intersect avec une autre
+	 *
 	 * @param codeVehi
 	 * @param dateDep
 	 * @param dateRet
@@ -376,20 +379,20 @@ public interface ReservationDAO {
 	 * @return boolean: true si la date est disponible, false sinon
 	 */
 	public static boolean isReservationDateAvailable(String codeVehi, Date dateDep, Date dateRet, int codeReserv){
-		
+
 		//query that return a list of reservations that are in the specified periode
 		String query = "SELECT codeReservation "
 					 + "FROM reservation, vehicule "
 					 + "WHERE reservation.codeVehicule = vehicule.Immatriculation "
 					 + "AND vehicule.Immatriculation = ? "
 					 + "AND (dateDepReservation <= ? AND dateRetReservation >= ?)";
-		
+
 		if(codeReserv > 0) {
 			//Pour la modification : exlusion de la reservation qu'on veut modifier
 			query += " AND codeReservation <> ?;";
 		}
 		PreparedStatement preparedSt;
-		
+
 		try {
 			preparedSt = ConnectionManager.getConnection().prepareStatement(query);
 			preparedSt.setString(1, codeVehi);
@@ -399,8 +402,8 @@ public interface ReservationDAO {
 				preparedSt.setInt(4, codeReserv);
 			}
 			ResultSet result = preparedSt.executeQuery();
-			
-			//if there is no reservation return true; 
+
+			//if there is no reservation return true;
 			return !result.next();
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Validation Date Reservation", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -408,7 +411,7 @@ public interface ReservationDAO {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Methode qui cherche les vehicules disponibles
 	 * @return ArrayList<Vehicule>
@@ -416,11 +419,11 @@ public interface ReservationDAO {
 	public static ArrayList<Vehicule> getAvailableVehicles(){
 		String query= "SELECT * "
 				+ "FROM  vehicule WHERE disponible = true;";
-		
+
 		ResultSet result = ConnectionManager.execute(query);
-		
-		ArrayList<Vehicule> vList = new ArrayList<Vehicule>();
-		
+
+		ArrayList<Vehicule> vList = new ArrayList<>();
+
 		try {
 			while (result.next()) {
 				Vehicule V = new Vehicule(result.getString("Immatriculation"),
@@ -434,15 +437,15 @@ public interface ReservationDAO {
 						result.getBoolean("disponible"));
 				vList.add(V);
 			}
-			
+
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Recherche Vehicule, Reservation", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Recherche Vehicule, Reservation", e);
 		}
-		
+
 		return vList;
 	}
-	
+
 	/**
 	 * Methode qui recherches les client avec nom
 	 * @param nom
@@ -450,7 +453,7 @@ public interface ReservationDAO {
 	 */
 	public static ArrayList<Client> findClient(String nom){
 		try {
-			ArrayList<Client> list = new ArrayList<Client>();
+			ArrayList<Client> list = new ArrayList<>();
 			PreparedStatement prepared = ConnectionManager.getConnection()
 					.prepareStatement("SELECT * FROM client WHERE nomClient LIKE ?");
 			prepared.setString(1, nom+"%");

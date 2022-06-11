@@ -10,7 +10,7 @@ public class User {
 	private boolean isAdmin;
 	private String username;
 	private String password ;
-	
+
 //CONSTRUCTEUR
 	public User(int a ,String b , String c ,String d ,String e , boolean f, boolean g, String h, String i ) {
 		this.matricule=a;
@@ -22,9 +22,9 @@ public class User {
 		this.isAdmin=g;
 		this.username=h;
 		this.password=i;
-		
+
 	}
-	
+
 	//GETTERS
 	public int getMatricule() {
 		return matricule;
