@@ -27,28 +27,27 @@ import java.awt.event.KeyEvent;
 public class ParkingMainView extends JPanel {
 
 	// on a besion de ces variables à l'interieur de plusieurs fonction donc on les
-		// rendre globals
+	// rendre globals
 	private CardLayout cl;
 	private JTable parkingtable;
 	protected JTextField searchParkingTextField;
-	
+
 	public ParkingMainView(JPanel panel) {
-		initialize (panel);
+		initialize(panel);
 		ParkingController.fetchAll(parkingtable);
-		
+
 	}
 
-	public void initialize (JPanel panel) {
+	public void initialize(JPanel panel) {
 		// on a besion de cl pour revenir au menu principal
 		this.cl = (CardLayout) panel.getLayout();
 		this.setLayout(null);
 		this.setBounds(0, 0, 766, 598);
-				
-				
+
 		JScrollPane parkingscrollPane = new JScrollPane();
 		parkingscrollPane.setBounds(10, 76, 574, 478);
 		this.add(parkingscrollPane);
-		
+
 		JLabel warninglbl = new JLabel("");
 		warninglbl.setForeground(Color.RED);
 		warninglbl.setBounds(10, 51, 574, 21);
@@ -58,7 +57,7 @@ public class ParkingMainView extends JPanel {
 		parkingtable.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				//si l'utilisateur presse le button supprimer 
+				// si l'utilisateur presse le button supprimer
 				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
 					// tester si le client a séléctionné une ligne
 					int index = parkingtable.getSelectedRow();
@@ -66,7 +65,8 @@ public class ParkingMainView extends JPanel {
 						int result = JOptionPane.showConfirmDialog(null, "Etes-vous Sure?", "Confirmation",
 								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 						if (result == JOptionPane.YES_OPTION) {
-							ParkingController.deleteParking(Integer.parseInt(parkingtable.getModel().getValueAt(index, 0).toString()));
+							ParkingController.deleteParking(
+									Integer.parseInt(parkingtable.getModel().getValueAt(index, 0).toString()));
 							ParkingController.fetchAll(parkingtable);
 							warninglbl.setText("");
 						}
@@ -92,9 +92,9 @@ public class ParkingMainView extends JPanel {
 		parkingSearchButton.setForeground(viewSettings.WHITE);
 		parkingSearchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					String string = searchParkingTextField.getText();
-					// si le champ de recherche est vide une message doit affiché
-					if (!string.isBlank()) {
+				String string = searchParkingTextField.getText();
+				// si le champ de recherche est vide une message doit affiché
+				if (!string.isBlank()) {
 					ParkingController.findParkingByName(string, parkingtable);
 					warninglbl.setText("");
 				} else {
@@ -124,16 +124,16 @@ public class ParkingMainView extends JPanel {
 		searchParkingTextField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				//si l'utilisateur presse le button entrer
+				// si l'utilisateur presse le button entrer
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					String string = searchParkingTextField.getText();
 					// si le champ de recherche est vide une message doit affiché
 					if (!string.isBlank()) {
-					ParkingController.findParkingByName(string, parkingtable);
-					warninglbl.setText("");
-				} else {
-					warninglbl.setText("*Vous deuvez remplir le nom du parking vous etes en train de chercher");
-				}
+						ParkingController.findParkingByName(string, parkingtable);
+						warninglbl.setText("");
+					} else {
+						warninglbl.setText("*Vous deuvez remplir le nom du parking vous etes en train de chercher");
+					}
 				}
 			}
 		});
@@ -148,7 +148,8 @@ public class ParkingMainView extends JPanel {
 				// recuperer l'index de la ligne du tableau séléctionnée
 				int index = parkingtable.getSelectedRow();
 				if (index >= 0) {
-					Parking parking = ParkingController.findParkingByCode((int) parkingtable.getModel().getValueAt(index, 0));
+					Parking parking = ParkingController
+							.findParkingByCode((int) parkingtable.getModel().getValueAt(index, 0));
 					// ouvrir la fenetre modifier client
 					ModifierParkingPanel modifierParkingPanel = new ModifierParkingPanel(panel, parkingtable, parking);
 					panel.add(modifierParkingPanel, "modifierParkingPanel");
@@ -185,7 +186,8 @@ public class ParkingMainView extends JPanel {
 					int result = JOptionPane.showConfirmDialog(null, "Etes-vous Sure?", "Confirmation",
 							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (result == JOptionPane.YES_OPTION) {
-						ParkingController.deleteParking(Integer.parseInt(parkingtable.getModel().getValueAt(index, 0).toString()));
+						ParkingController.deleteParking(
+								Integer.parseInt(parkingtable.getModel().getValueAt(index, 0).toString()));
 						ParkingController.fetchAll(parkingtable);
 						warninglbl.setText("");
 					}
@@ -218,7 +220,7 @@ public class ParkingMainView extends JPanel {
 		});
 		afficherParkingButton.setBounds(594, 123, 128, 36);
 		this.add(afficherParkingButton);
-		
+
 		JButton ajouterVehiculeButton = new JButton("Ajouter Vehicule");
 		ajouterVehiculeButton.setBackground(viewSettings.SECONDARY);
 		ajouterVehiculeButton.addActionListener(new ActionListener() {
@@ -227,7 +229,7 @@ public class ParkingMainView extends JPanel {
 				if (index >= 0) {
 					int codeParking = Integer.parseInt(parkingtable.getValueAt(index, 0).toString());
 					int capacite = Integer.parseInt(parkingtable.getValueAt(index, 2).toString());
-					//calculer le nombre des places vides d'une park avant d'affecter la vehicule
+					// calculer le nombre des places vides d'une park avant d'affecter la vehicule
 					int nombrePlaceVide = ParkingController.nombrePlaceVide(codeParking, capacite);
 					if (nombrePlaceVide > 0) {
 						AjouterVehicule ajouterVehicule = new AjouterVehicule(codeParking, capacite);

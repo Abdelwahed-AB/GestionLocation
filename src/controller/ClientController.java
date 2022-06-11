@@ -21,34 +21,34 @@ public class ClientController {
 
 	public static void fetchAll(JTable table) {
 		// rederiger le travaille de recherche au couche DAO
-		ArrayList<Client> list = ClientDAO.actualiserClient();
+		ArrayList<Client> list = ClientDAO.fetchAllDAO();
 		// preparer le model
 		DefaultTableModel dtm = preparerModel(list);
 		table.setModel(dtm);
 	}
 
-	public static boolean creatClient(Client client) {
+	public static void creatClient(Client client) {
 		// rederiger le travaille d'interaction avec base de donn�e au couche DAO
-		return ClientDAO.creerClient(client);
+		ClientDAO.creatClientDAO(client);
 	}
 
 	public static void findClientByName(String nom, JTable table) {
-		ArrayList<Client> list = ClientDAO.findClient(nom);
+		ArrayList<Client> list = ClientDAO.findClientByNameDAO(nom);
 		DefaultTableModel dtm = preparerModel(list);
 		table.setModel(dtm);
 	}
 
 	public static Client findClientByCode(int code) {
-		Client client = ClientDAO.chercherClient(code);
+		Client client = ClientDAO.findClientByCodeDAO(code);
 		return client;
 	}
 
 	public static void deleteClient(String id) {
-		ClientDAO.supprimerClient(Integer.parseInt(id));
+		ClientDAO.deleteClientDAO(Integer.parseInt(id));
 	}
 
-	public static boolean modifyClient(Client client) {
-		return ClientDAO.modifierClient(client);
+	public static void modifyClient(Client client) {
+		ClientDAO.modifyClientDAO(client);
 	}
 
 	public static DefaultTableModel preparerModel(ArrayList<Client> list) {
@@ -73,7 +73,7 @@ public class ClientController {
 	}
 
 	public static void findVehicule(JTable table, String code) {
-		ResultSet result = ClientDAO.chercherVehicule(code);
+		ResultSet result = ClientDAO.findVehiculeDAO(code);
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("Matricule");
 		dtm.addColumn("Marque");
@@ -90,15 +90,15 @@ public class ClientController {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void prepareImage (String path, JLabel label) {
+
+	public static void prepareImage(String path, JLabel label) {
 		ImageIcon myImage = new ImageIcon(path);
-		
+
 		Image img = myImage.getImage();
 		Image newImage = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
-		
+
 		ImageIcon image = new ImageIcon(newImage);
 		label.setIcon(image);
 	}
-	
+
 }

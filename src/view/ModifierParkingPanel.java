@@ -22,18 +22,18 @@ import controller.ParkingController;
 import model.Parking;
 
 public class ModifierParkingPanel extends JPanel {
-	
+
 	private CardLayout cl;
 	private JTextField nomParkingTextField;
 	private JTextField rueteleTextField;
 	private JTextField arrondissementTextField;
 
-	public ModifierParkingPanel (JPanel panel, JTable table, Parking parking) {
+	public ModifierParkingPanel(JPanel panel, JTable table, Parking parking) {
 		// on a besion de cl pour revenir au menu principal
 		this.cl = (CardLayout) panel.getLayout();
 		this.setLayout(null);
 		this.setBounds(0, 0, 766, 598);
-		
+
 		Color mainColor = new Color(75, 0, 130);
 		Color secondaryColor = new Color(224, 199, 242);
 
@@ -48,16 +48,16 @@ public class ModifierParkingPanel extends JPanel {
 		this.add(rueteleTextField);
 		rueteleTextField.setColumns(10);
 		rueteleTextField.setText(parking.getRueParking());
-		
-		JComboBox capaciteParkingcomboBox = new JComboBox();		
+
+		JComboBox capaciteParkingcomboBox = new JComboBox();
 		capaciteParkingcomboBox.setBackground(secondaryColor);
-		capaciteParkingcomboBox.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
-				"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
-				"20", "21", "22", "23", "24", "25", "26", "27", "28", "29", 
-				"30", "31","32", "33", "34", "35", "36", "37", "38", "39", "40"}));
+		capaciteParkingcomboBox
+				.setModel(new DefaultComboBoxModel(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09",
+						"10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25",
+						"26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40" }));
 		capaciteParkingcomboBox.setBounds(378, 153, 63, 35);
 		this.add(capaciteParkingcomboBox);
-		capaciteParkingcomboBox.setSelectedIndex(parking.getCapaciteParking()-1);
+		capaciteParkingcomboBox.setSelectedIndex(parking.getCapaciteParking() - 1);
 
 		JLabel nomParkinglbl = new JLabel("Nom Parking");
 		nomParkinglbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -125,26 +125,34 @@ public class ModifierParkingPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// tester si l'utilisateur remplir tous les champs
-				if (!nomParkingTextField.getText().isBlank() && !rueteleTextField.getText().isBlank() && !arrondissementTextField.getText().isBlank()) {
+				if (!nomParkingTextField.getText().isBlank() && !rueteleTextField.getText().isBlank()
+						&& !arrondissementTextField.getText().isBlank()) {
 					// tester si l'utilisateur ne fait des fautes lors de saisie
-					if (nomParkingTextField.getText().matches("^[a-zA-Z _'é-]*") && rueteleTextField.getText().matches("^[a-zA-Z][a-zA-Z _'é0-9-]*") && arrondissementTextField.getText().matches("^[a-zA-Z][a-zA-Z _'é-]*")) {
-						int nombrePlaceVide = ParkingController.nombrePlaceVide(parking.getCodeParking(), parking.getCapaciteParking());
-						Parking parking1 = new Parking (nomParkingTextField.getText(), Integer.parseInt(capaciteParkingcomboBox.getSelectedItem().toString()), rueteleTextField.getText(), arrondissementTextField.getText(), nombrePlaceVide);
-						parking1.setCodeParking(parking.getCodeParking());
-						//modification du parking
-						boolean b = ParkingController.modifyParking(parking1);
-						//si le parking est bien créer dans la base de donnée afficher message "Opération Effectuée avce Succée"
-						if (b) {
-							JOptionPane.showConfirmDialog(null, "Operation Effectuee avce Succee", "Succee",
-									JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-							cl.show(panel, "parking");
+					if (nomParkingTextField.getText().matches("^[a-zA-Z _'-]*")) {
+						if (rueteleTextField.getText().matches("^[a-zA-Z][a-zA-Z _'0-9-]*")) {
+							if (arrondissementTextField.getText().matches("^[a-zA-Z][a-zA-Z _'-]*")) {
+								int nombrePlaceVide = ParkingController.nombrePlaceVide(parking.getCodeParking(),
+										parking.getCapaciteParking());
+								Parking parking1 = new Parking(nomParkingTextField.getText(),
+										Integer.parseInt(capaciteParkingcomboBox.getSelectedItem().toString()),
+										rueteleTextField.getText(), arrondissementTextField.getText(), nombrePlaceVide);
+								parking1.setCodeParking(parking.getCodeParking());
+								// modification du parking
+								ParkingController.modifyParking(parking1);
+								// si le parking est bien créer dans la base de donnée afficher message
+								// "Opération Effectuée avce Succée"
+								JOptionPane.showConfirmDialog(null, "Operation Effectuee avce Succee", "Succee",
+										JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+								cl.show(panel, "parking");
+							} else {
+								warningLabel.setText("*Arrondissement : chaine de caractere");
+							}
 						} else {
-							//si non
-							JOptionPane.showConfirmDialog(null, "Operation Echouee! \n essayer a nouveau", "Echoue",
-									JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+							warningLabel.setText("*Rue : chaine de caractere");
 						}
+
 					} else {
-						warningLabel.setText("*Nom : chaine de caractere \n rue : chaine de caractere \n arrondissement : chaine de caractere");
+						warningLabel.setText("*Nom : chaine de caractere");
 					}
 				} else {
 					warningLabel.setText("*Vous devez remplir tous les champs");
@@ -155,7 +163,7 @@ public class ModifierParkingPanel extends JPanel {
 		});
 		buttonSauvgarder.setBounds(564, 387, 129, 43);
 		this.add(buttonSauvgarder);
-		
+
 	}
 
 }

@@ -32,7 +32,7 @@ public class AfficherClientPanel extends JPanel {
 		this.cl = (CardLayout) panel.getLayout();
 		this.setLayout(null);
 		this.setBounds(0, 0, 766, 598);
-		
+
 		Color mainColor = new Color(75, 0, 130);
 		Color secondaryColor = new Color(224, 199, 242);
 
@@ -73,7 +73,7 @@ public class AfficherClientPanel extends JPanel {
 		btnNewButton.setBounds(576, 477, 124, 45);
 		this.add(btnNewButton);
 
-		//afficher l'image de client
+		// afficher l'image de client
 		JLabel imageClient = new JLabel();
 		imageClient.setBounds(518, 69, 179, 217);
 		ClientController.prepareImage(client.getImage(), imageClient);
@@ -93,32 +93,32 @@ public class AfficherClientPanel extends JPanel {
 		dtm.addColumn("Date de retour");
 		table_1.setModel(dtm);
 		scrollPane.setViewportView(table_1);
-		
+
 		JLabel vehiculeAllouee = new JLabel("Les voitures Allouees");
 		vehiculeAllouee.setHorizontalAlignment(SwingConstants.CENTER);
 		vehiculeAllouee.setBounds(58, 267, 156, 32);
 		add(vehiculeAllouee);
-		
-		JLabel codeClient = new JLabel(client.getCodeClient()+"");
+
+		JLabel codeClient = new JLabel(client.getCodeClient() + "");
 		codeClient.setHorizontalAlignment(SwingConstants.CENTER);
 		codeClient.setBounds(229, 69, 279, 32);
 		add(codeClient);
-		
+
 		JLabel nomClient = new JLabel(client.getNomClient());
 		nomClient.setHorizontalAlignment(SwingConstants.CENTER);
 		nomClient.setBounds(229, 102, 279, 32);
 		add(nomClient);
-		
+
 		JLabel prenomClient = new JLabel(client.getPrenomClient());
 		prenomClient.setHorizontalAlignment(SwingConstants.CENTER);
 		prenomClient.setBounds(229, 134, 279, 32);
 		add(prenomClient);
-		
+
 		JLabel adresseClient = new JLabel(client.getAddresseClient());
 		adresseClient.setHorizontalAlignment(SwingConstants.CENTER);
 		adresseClient.setBounds(229, 170, 279, 32);
 		add(adresseClient);
-		
+
 		JLabel numTelClient = new JLabel(client.getNumTelClient());
 		numTelClient.setHorizontalAlignment(SwingConstants.CENTER);
 		numTelClient.setBounds(229, 205, 279, 32);

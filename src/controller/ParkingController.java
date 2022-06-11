@@ -18,59 +18,59 @@ public class ParkingController {
 
 	public static void fetchAll(JTable parkingtable) {
 		// rederiger le travaille de recherche au couche DAO
-		ArrayList<Parking> list = ParkingDAO.actualiserParking();
+		ArrayList<Parking> list = ParkingDAO.fetchAllDAO();
 		// preparer le model
 		DefaultTableModel dtm = prepareModel(list);
 
 		parkingtable.setModel(dtm);
-		
+
 	}
-	
+
 	public static void findParkingByName(String string, JTable table) {
 		// rederiger le travaille de recherche au couche DAO
-			ArrayList<Parking> list = ParkingDAO.findParkingByNameDAO(string);
-			// preparer le model
-			DefaultTableModel dtm = prepareModel(list);
+		ArrayList<Parking> list = ParkingDAO.findParkingByNameDAO(string);
+		// preparer le model
+		DefaultTableModel dtm = prepareModel(list);
 
-			table.setModel(dtm);
-		
+		table.setModel(dtm);
+
 	}
-	
-	public static Parking findParkingByCode (int code) {
+
+	public static Parking findParkingByCode(int code) {
 		return ParkingDAO.findParkingByCodeDAO(code);
 	}
 
 	public static void deleteParking(int code) {
-		ParkingDAO.deleteParking(code);
-		
-	}
-	
-	public static boolean creatParking (Parking parking) {
-		return ParkingDAO.creatParkingDAO(parking);
+		ParkingDAO.deleteParkingDAO(code);
+
 	}
 
-	public static boolean modifyParking(Parking parking) {
-		return ParkingDAO.modifyParkingDAO(parking);
+	public static void creatParking(Parking parking) {
+		ParkingDAO.creatParkingDAO(parking);
 	}
-	
-	public static DefaultTableModel prepareModel (ArrayList<Parking> list) {
+
+	public static void modifyParking(Parking parking) {
+		ParkingDAO.modifyParkingDAO(parking);
+	}
+
+	public static DefaultTableModel prepareModel(ArrayList<Parking> list) {
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("code");
 		dtm.addColumn("nom");
 		dtm.addColumn("capacite");
-		
+
 		Iterator itr = list.iterator();
-		
+
 		while (itr.hasNext()) {
 			Parking parking = (Parking) itr.next();
-			Object[] object = {parking.getCodeParking(), parking.getNomParking(), parking.getCapaciteParking()};
+			Object[] object = { parking.getCodeParking(), parking.getNomParking(), parking.getCapaciteParking() };
 			dtm.addRow(object);
 		}
 		return dtm;
 	}
-	
-	public static void findVehicule (JTable table, int code) {
-		ResultSet result = ParkingDAO.chercherVehicule(code);
+
+	public static void findVehicule(JTable table, int code) {
+		ResultSet result = ParkingDAO.findVehiculeByCodeDAO(code);
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("Matricule");
 		dtm.addColumn("Marque");
@@ -87,18 +87,18 @@ public class ParkingController {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void removeVehicule (String codeVehicule, int codeParking) {
+
+	public static void removeVehicule(String codeVehicule, int codeParking) {
 		ParkingDAO.removeVehiculeDAO(codeVehicule, codeParking);
 	}
-	
-	public static int nombrePlaceVide (int code, int capacite) {
-		int nombreVehicule = ParkingDAO.nombreVehicule(code);
+
+	public static int nombrePlaceVide(int code, int capacite) {
+		int nombreVehicule = ParkingDAO.numberOfVehiculeDAO(code);
 		return capacite - nombreVehicule;
 	}
-	
-	public static void findVehicule (JTable table) {
-		ResultSet result = ParkingDAO.chercherVehicule();
+
+	public static void findVehicule(JTable table) {
+		ResultSet result = ParkingDAO.findAllVehiculeDAO();
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("Matricule");
 		dtm.addColumn("Marque");
@@ -113,8 +113,8 @@ public class ParkingController {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void addVehicule (String codeVehicule, int codeParking) { 
+
+	public static void addVehicule(String codeVehicule, int codeParking) {
 		ParkingDAO.addVehiculeDAO(codeVehicule, codeParking);
 	}
 

@@ -7,7 +7,7 @@ public class Parking {
 	private String rueParking;
 	private String arrondissementParking;
 	private int nombrePlaceVide;
-	
+
 	public Parking() {
 		super();
 	}
@@ -23,7 +23,8 @@ public class Parking {
 		this.nombrePlaceVide = nombrePlaceVide;
 	}
 
-	public Parking(String nomParking, int capaciteParking, String rueParking, String arrondissementParking, int nombrePlaceVide) {
+	public Parking(String nomParking, int capaciteParking, String rueParking, String arrondissementParking,
+			int nombrePlaceVide) {
 		super();
 		this.nomParking = nomParking;
 		this.capaciteParking = capaciteParking;
@@ -79,5 +80,5 @@ public class Parking {
 	public void setNombrePlaceVide(int nombrePlaceVide) {
 		this.nombrePlaceVide = nombrePlaceVide;
 	}
-	
+
 }
