@@ -85,7 +85,7 @@ public class ParkingDAO {
 			prepared.setInt(1, code);
 			prepared.execute();
 			prepared = ConnectionManager.getConnection()
-					.prepareStatement("UPDATE `vehicule` SET `codePark` = '0' WHERE `vehicule`.`codePark` = ?");
+					.prepareStatement("UPDATE `vehicule` SET `codePark` = '0', `disponible` = '0' WHERE `vehicule`.`codePark` = ?");
 			prepared.setInt(1, code);
 			prepared.execute();
 		} catch (SQLException e) {
