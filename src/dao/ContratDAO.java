@@ -197,6 +197,9 @@ public class ContratDAO {
 				
 				r.setClient(cli);
 				r.setVehicule(v);
+				r.setCodeReservation(result.getInt("codeReservation"));
+				
+				c.setCodeReservation(r.getCodeReservation());
 				c.setReservation(r);
 				
 				cList.add(c);
@@ -247,7 +250,8 @@ public class ContratDAO {
 			
 			r.setClient(cli);
 			r.setVehicule(v);
-			c.setReservation(r);
+			r.setCodeReservation(result.getInt("codeReservation"));
+			c.setCodeReservation(r.getCodeReservation());
 			
 			cList.add(c);
 		}
