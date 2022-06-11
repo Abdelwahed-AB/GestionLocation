@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import connectionManager.ConnectionManager;
 import log.LogMgr;
 import model.Client;
-import model.Contrat;
 import model.Reservation;
 import model.Reservation.filtre;
 import model.Vehicule;
@@ -96,7 +95,10 @@ public interface ReservationDAO {
 		return reservList;
 	}
 
-	/**methode qui retourne la liste des reservations correspondant au critere de recherche*/
+	/**
+	 * methode qui retourne la liste des reservations correspondant au critere de recherche
+	 * 
+	 * */
 	public static ArrayList<Reservation> findReservationAutoCompleting(int codeReservation) {
 		String query="SELECT *"
 				+" FROM reservation"
