@@ -213,6 +213,11 @@ public class ParkingDAO {
 					"UPDATE `parking` SET `nombrePlaceVide` = `nombrePlaceVide`-1 WHERE `parking`.`codeParking` = ?");
 			prepared.setInt(1, codeParking);
 			prepared.execute();
+			//ajouter la date de retoure au contrat lors d'ajout de la vehicule au park 
+			prepared = ConnectionManager.getConnection()
+					.prepareStatement("UPDATE `contrat` SET dateRetActuel = current_date() WHERE dateRetActuel IS NULL AND dateContrat < current_date() AND codeMatricule = ?");
+			prepared.setString(1, codeVehicule);
+			prepared.execute();
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
