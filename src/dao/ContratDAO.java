@@ -30,7 +30,8 @@ public class ContratDAO {
 			Contrat c=new Contrat(result.getInt("codeContrat"), 
 						result.getDate("dateContrat"), 
 						result.getDate("dateEcheance"),
-						result.getDate("dateRetActuel"));
+						result.getDate("dateRetActuel"),
+						result.getInt("codeReservation"));
 				contrat_list.add(c);
 			}
 				
@@ -51,13 +52,14 @@ public class ContratDAO {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 			prepared.setInt(1, codeContrat);
 			ResultSet result = prepared.executeQuery();
-			while (result.next()) {
-				c=new Contrat(result.getInt("codeContrat"), 
-				result.getDate("dateContrat"), 
-				result.getDate("dateEcheance"),
-				result.getDate("dateRetActuel"));
-				c.setCodeReservation(result.getInt("codeReservation"));
-			}
+				while (result.next()) {
+					 c=new Contrat(result.getInt("codeContrat"), 
+								result.getDate("dateContrat"), 
+								result.getDate("dateEcheance"),
+								result.getDate("dateRetActuel"),
+								result.getInt("codeReservation"));
+					c.setCodeReservation(result.getInt("codeReservation"));
+				}
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Ereur de recherche Contrat", "Erreur Contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Ereur de recherche Contrat", e);
@@ -95,13 +97,13 @@ public class ContratDAO {
 			prepared.setString(1, codeContrat+"%");
 			ResultSet result = prepared.executeQuery();
 			while (result.next()) {
-				Contrat c=new Contrat(result.getInt("codeContrat"), 
-				result.getDate("dateContrat"), 
-				result.getDate("dateEcheance"),
-				result.getDate("dateRetActuel"));
+				Contrat  c=new Contrat(result.getInt("codeContrat"), 
+						result.getDate("dateContrat"), 
+						result.getDate("dateEcheance"),
+						result.getDate("dateRetActuel"),
+						result.getInt("codeReservation"));
 				contrat_list.add(c);
-			}
-				
+			}			
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Ereur de AutoComplete Contrat", "Erreur Contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Ereur de AutoComplete Contrat", e);

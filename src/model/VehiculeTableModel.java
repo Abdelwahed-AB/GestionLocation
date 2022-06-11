@@ -43,7 +43,6 @@ public class VehiculeTableModel extends AbstractTableModel{
 	public boolean isCellEditable(int row, int column){  
         return false;  
 	}
-	
 	public void loadVehicules(ArrayList<Vehicule> list) {
 		rows.clear();
 		for(Vehicule v : list) {

@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import controller.VehiculeController;
+import dao.vehiculeDAO;
 import interfaces.MainInterface;
 import model.VehiculeTableModel;
 import java.awt.Rectangle;
@@ -25,119 +26,148 @@ import java.awt.Rectangle;
 public class VehiculePanel extends JPanel{
 
 
-		// ATTRIBUTS DE LA CLASSE VEHICULEPANEL
-		private CardLayout cl;
-		private static VehiculeTableModel vTable ;
-		private JTable vehiculeTable;
-		private static LinkedHashMap<String, JLabel> navItemList;
+// ATTRIBUTS DE LA CLASSE VEHICULEPANEL
+	
+	private CardLayout cl;
+	private static VehiculeTableModel vTable ;
+	private JTable vehiculeTable;
+	private static LinkedHashMap<String, JLabel> navItemList;
 		
-		//CONSTRUCTEUR DU PANEL
-		public VehiculePanel(MainInterface mainInterface) {
-			setBounds(new Rectangle(0, 0, 732, 547));
-			this.cl = (CardLayout) mainInterface.getMainPanel().getLayout();
-			this.setLayout(null);
+//CONSTRUCTEUR DU PANEL
+	
+	public VehiculePanel(MainInterface mainInterface) {
+		setBounds(new Rectangle(0, 0, 732, 547));
+		this.cl = (CardLayout) mainInterface.getMainPanel().getLayout();
+		this.setLayout(null);
 			
-		// ZONE D'AFFICHAGE
-			JScrollPane VScrollPane = new JScrollPane();
-			VScrollPane.setBounds(10, 60, 585, 482);
-			this.add(VScrollPane);
-			vTable = new VehiculeTableModel();
-			vehiculeTable=new JTable(vTable);
-			VScrollPane.setViewportView(vehiculeTable);
-			vehiculeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			vehiculeTable.setSelectionBackground(viewSettings.SECONDARY);
+// ZONE D'AFFICHAGE
+		
+		JScrollPane VScrollPane = new JScrollPane();
+		VScrollPane.setBounds(10, 60, 585, 482);
+		this.add(VScrollPane);
+		vTable = new VehiculeTableModel();
+		vehiculeTable=new JTable(vTable);
+		VScrollPane.setViewportView(vehiculeTable);
+		vehiculeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		vehiculeTable.setSelectionBackground(viewSettings.SECONDARY);
 			
-		// ZONE DE RECHERCHE[UTILISE LA METHODE AUTOCOMPLETING A CHAQUE CLIQUE]
-			JTextField chercherVehicule = new JTextField();
-			chercherVehicule.addKeyListener(new KeyAdapter() {
+// ZONE DE RECHERCHE[UTILISE LA METHODE AUTOCOMPLETING A CHAQUE CLIQUE]
+		
+		JTextField chercherVehicule = new JTextField();
+		chercherVehicule.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {// affiche les resultats qui commencent par le mot que l'utilisateur tappe
+				VehiculeController.autoCompleting(chercherVehicule.getText());
+			}
+		});
+		chercherVehicule.setBounds(10, 16, 585, 33);
+		this.add(chercherVehicule);
+		chercherVehicule.setColumns(10);
+			
+//BOUTON AJOUTER UN NOUVEAU VEHICULE
+		
+		JButton addVehicule = new JButton("Ajouter ");
+		addVehicule.setBackground(viewSettings.SECONDARY);
+		addVehicule.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddNewVehicule.setPanel(VehiculePanel.this);
+				VehiculeController.setWindow(mainInterface);// pour pouvoir instancier le panelAddNewVehicule
+				VehiculeController.addVehicule();
+			}
+		});
+		addVehicule.setBounds(605, 60, 117, 50);
+		this.add(addVehicule);
+			
+//BOUTON SUPPRIMER UN VEHICULE ECXISTANT
+			
+		JButton removeVehicule = new JButton("Suppimer");
+		removeVehicule.setBackground(viewSettings.SECONDARY);
+		removeVehicule.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VehiculeController.setTable(vehiculeTable);
+				VehiculeController.removeVehicule();
+			}
+		});
+		removeVehicule.setBounds(605, 180, 117, 50);
+		this.add(removeVehicule);
+			
+			
+//POUR SUPPRIMER AVEC LE BOUTON delete du clavier[fait le même travail que le bouton supprimer]
+		
+			vehiculeTable.addKeyListener(new KeyAdapter() {
 				@Override
-				public void keyReleased(KeyEvent e) {// affiche les resultats qui commencent par le mot que l'utilisateur tappe
-					VehiculeController.autoCompleting(chercherVehicule.getText());
-				}
-			});
-			chercherVehicule.setBounds(10, 16, 585, 33);
-			this.add(chercherVehicule);
-			chercherVehicule.setColumns(10);
-			
-		//BOUTON AJOUTER UN NOUVEAU VEHICULE
-			JButton addVehicule = new JButton("Ajouter ");
-			addVehicule.setBackground(viewSettings.SECONDARY);
-			addVehicule.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					AddNewVehicule.setPanel(VehiculePanel.this);
-					VehiculeController.setWindow(mainInterface);// pour pouvoir instancier le panelAddNewVehicule
-					VehiculeController.addVehicule();
-				}
-			});
-			addVehicule.setBounds(605, 60, 117, 50);
-			this.add(addVehicule);
-			
-		//BOUTON SUPPRIMER UN VEHICULE ECXISTANT
-			
-			JButton removeVehicule = new JButton("Suppimer");
-			removeVehicule.setBackground(viewSettings.SECONDARY);
-			removeVehicule.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//VehiculeController.setPanel(UserPanel.this);
-					VehiculeController.setTable(vehiculeTable);
-					VehiculeController.removeVehicule();
-				}
-			});
-			removeVehicule.setBounds(605, 180, 117, 50);
-			this.add(removeVehicule);
-			
-		//BOUTON MODIFIER LES ATTRIBUTS D'UN VEHICULE EXISTANT
-			
-			JButton changeVehicule = new JButton("Modifier");
-			changeVehicule.setBackground(viewSettings.SECONDARY);
-			changeVehicule.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					VehiculeController.setPanel(VehiculePanel.this);
-					VehiculeController.setTable(vehiculeTable);
-					VehiculeController.setWindow(mainInterface);
-					VehiculeController.changeVehicle();
-				}
-			});
-			changeVehicule.setBounds(605, 120, 117, 50);
-			this.add(changeVehicule);
-			this.setLayout(null);
-			
-		//BOUTON AFFICHER TOUT LES ATTRIBUTS D'UN ENREGISTREMENT
-			JButton afficher = new JButton("Afficher Plus");
-			afficher.setBackground(viewSettings.SECONDARY);
-			afficher.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (vehiculeTable.getSelectedRow()<0)
-						JOptionPane.showMessageDialog(null,"Selectionner un vehicule", "Aucun vehicule n'est selectionné", JOptionPane.WARNING_MESSAGE);
-					else {
-						VehiculeController.setWindow(mainInterface);
-						VehiculeController.setTable(vehiculeTable);
-						VehiculeController.DisplayAllVehiculeInfo(vehiculeTable.getModel().getValueAt(vehiculeTable.getSelectedRow(),0).toString());
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode() == KeyEvent.VK_DELETE&&vehiculeTable.getSelectedRow()!=-1) {//SI ON CLIQUE SUR LE BOUTON SUPPRIMER ET QU'ON A DEJA CHOISI UNE LIGNE DE LA TABLE
+						int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer le vehicule immatriculée : "+vehiculeTable.getModel().getValueAt(vehiculeTable.getSelectedRow(), 0).toString()+" ?", "Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if(result == JOptionPane.YES_OPTION) {
+							String id =vehiculeTable.getModel().getValueAt(vehiculeTable.getSelectedRow(), 0).toString();
+							vehiculeDAO.removeVehicule(id);
+							VehiculeController.fetchAll();
+							JOptionPane.showMessageDialog(null,"Vehicule supprimé avec succés", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							VehiculeController.fetchAll();
+						}
 					}
 				}
 			});
-			afficher.setBounds(605, 240, 117, 50);
-			this.add(afficher);
 			
 			
+//BOUTON MODIFIER LES ATTRIBUTS D'UN VEHICULE EXISTANT
 			
-		//AFFCIHER TOUT LES ENREGISTREMENT DES QU'ON CLIQUE SUR VEHICULE DANS LA BARRE DE NAVIGATION
-			navItemList.get("vehicule").addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					VehiculeController.setPanel(VehiculePanel.this);
-					VehiculeController.fetchAll();
-					mainInterface.showOnMainPanel("vehicule");
+		JButton changeVehicule = new JButton("Modifier");
+		changeVehicule.setBackground(viewSettings.SECONDARY);
+		changeVehicule.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VehiculeController.setPanel(VehiculePanel.this);
+				VehiculeController.setTable(vehiculeTable);
+				VehiculeController.setWindow(mainInterface);
+				VehiculeController.changeVehicle();
+			}
+		});
+		changeVehicule.setBounds(605, 120, 117, 50);
+		this.add(changeVehicule);
+		this.setLayout(null);
+			
+//BOUTON AFFICHER TOUT LES ATTRIBUTS D'UN ENREGISTREMENT
+		
+		JButton afficher = new JButton("Afficher Plus");
+		afficher.setBackground(viewSettings.SECONDARY);
+		afficher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (vehiculeTable.getSelectedRow()<0)
+					JOptionPane.showMessageDialog(null,"Selectionner un vehicule", "Aucun vehicule n'est selectionné", JOptionPane.WARNING_MESSAGE);
+				else {
+					VehiculeController.setWindow(mainInterface);
+					VehiculeController.setTable(vehiculeTable);
+					VehiculeController.DisplayAllVehiculeInfo(vehiculeTable.getModel().getValueAt(vehiculeTable.getSelectedRow(),0).toString());
 				}
-			});
-		}
-		//SETTERS 
-		public static void setNavList(LinkedHashMap<String, JLabel> a) {
-			VehiculePanel.navItemList=a;
-		}
-		//GETTERS
-		public VehiculeTableModel getTableModel() { 
-			return this.vTable;
-		}
+			}
+		});
+		afficher.setBounds(605, 240, 117, 50);
+		this.add(afficher);			
+			
+//AFFCIHER TOUT LES ENREGISTREMENT DES QU'ON CLIQUE SUR VEHICULE DANS LA BARRE DE NAVIGATION
+		
+		navItemList.get("vehicule").addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VehiculeController.setPanel(VehiculePanel.this);
+				VehiculeController.fetchAll();
+				mainInterface.showOnMainPanel("vehicule");
+			}
+		});
+	}
+	
+//SETTERS 
+	
+	public static void setNavList(LinkedHashMap<String, JLabel> a) {
+		VehiculePanel.navItemList=a;
+	}
+	
+//GETTERS
+	
+	public VehiculeTableModel getTableModel() { 
+		return this.vTable;
+	}
 	
 }

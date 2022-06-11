@@ -13,17 +13,10 @@ public class Vehicule {
 	private int PrixLocation;
 	private boolean disponible;
 	
-	public boolean isDisponible() {
-		return disponible;
-	}
-
-	public void setDisponible(boolean disponible) {
-		this.disponible = disponible;
-	}
+// constructor
 	
 	public Vehicule() {
 	}
-	// constructor
 	public Vehicule(String a, String  b ,String  c ,String d, long  e,Date f,int g ,int h,boolean i) {
 		this.Matricule=a;
 		this.Marque=b;
@@ -41,37 +34,31 @@ public class Vehicule {
 	public String getMatricule() {
 		return Matricule;
 	}
-
-
+	
 	public String getMarque() {
 		return Marque;
 	}
-
-
+	
 	public String getType() {
 		return Type;
 	}
-
-
+	
 	public String getCarburant() {
 		return Carburant;
 	}
-
-
+	
 	public long getKilometrage() {
 		return Kilometrage;
 	}
-
-
+	
 	public Date getDMC() {
 		return DMC;
 	}
-
-
+	
 	public int getCodePark() {
 		return codePark;
 	}
-
+	
 	public boolean getDisponible() {
 		return this.disponible;
 	}
@@ -79,9 +66,18 @@ public class Vehicule {
 	public void setMatricule(String codeVehicule) {
 		this.Matricule = codeVehicule;
 	}
-
+	
 	public int getPrixLocation() {
 		return this.PrixLocation;
+	}
+	
+	public boolean isDisponible() {
+		return disponible;
+	}
+	
+
+	public void setDisponible(boolean disponible) {
+		this.disponible = disponible;
 	}
 
 	public void setPrixLocation(int prixLocation) {

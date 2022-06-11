@@ -81,7 +81,7 @@ public class CreerFacturePanel extends JPanel {
 		actualiser_btn.setBounds(510, 51, 184, 49);
 		this.add(actualiser_btn);
 		
-		JButton creerFacture_btn = new JButton("Creer Facture");
+		JButton creerFacture_btn = new JButton("Créer Facture");
 		creerFacture_btn.setBackground(viewSettings.SECONDARY);
 		creerFacture_btn.setBounds(510, 110, 184, 49);
 		

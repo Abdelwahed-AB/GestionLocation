@@ -10,19 +10,22 @@ import java.awt.event.MouseEvent;
 import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import controller.UserController;
+import controller.VehiculeController;
+import dao.vehiculeDAO;
 import interfaces.MainInterface;
 import model.UserTableModel;
 
 import java.awt.Rectangle;
 
 public class UserPanel extends JPanel{
-	//private CardLayout cl;
+	
 	private static JTable userTable;
 	private static UserTableModel uTable ;
 	private static LinkedHashMap<String, JLabel> navItemList;
@@ -30,9 +33,8 @@ public class UserPanel extends JPanel{
 	
 	public UserPanel(MainInterface mainInterface) {
 		setBounds(new Rectangle(0, 0, 732, 547));
-	//	this.cl = (CardLayout) mainInterface.getMainPanel().getLayout();
 		this.setLayout(null);
-		
+//ZONE DE RECHERCHE
 		JTextField chercherUtilisateur = new JTextField();
 		chercherUtilisateur.addKeyListener(new KeyAdapter() {
 			@Override
@@ -44,7 +46,8 @@ public class UserPanel extends JPanel{
 		this.add(chercherUtilisateur);
 		chercherUtilisateur.setColumns(10);
 		
-		// ZONE D'AFFICHAGE
+// ZONE D'AFFICHAGE
+		
 		JScrollPane UScrollPane = new JScrollPane();
 		UScrollPane.setBounds(10, 60, 585, 477);
 		this.add(UScrollPane);
@@ -68,7 +71,7 @@ public class UserPanel extends JPanel{
 		addUser.setBounds(605, 60, 117, 50);
 		this.add(addUser);
 		
-		/**REMOVE USER*/
+/**REMOVE USER*/
 		
 		JButton removeUser = new JButton("Suppimer");
 		removeUser.addActionListener(new ActionListener() {
@@ -82,7 +85,20 @@ public class UserPanel extends JPanel{
 		removeUser.setBounds(605, 180, 117, 50);
 		this.add(removeUser);
 		
-		/**CHANGE USER DATA*/
+		//POUR SUPPRIMER AVEC LE BOUTON delete du clavier
+		userTable.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_DELETE&&userTable.getSelectedRow()!=-1) {
+					UserController.setPanel(UserPanel.this);
+					UserController.setTable(userTable);
+					UserController.removeUser();
+				}
+			}
+		});
+		
+		
+/**CHANGE USER DATA*/
 		
 		JButton changeUser = new JButton("Modifier");
 		changeUser.addActionListener(new ActionListener() {
@@ -109,7 +125,10 @@ public class UserPanel extends JPanel{
 		update.setBounds(605, 240, 117, 50);
 		this.add(update);
 		
-		/**DISPLAY ALL ROWS*/
+		
+/**DISPLAY ALL ROWS*/
+//AFFICHER LES ENREGISTREMENTS DES QU'ON CLIQUE SUR UTILISATEUR
+		
 		navItemList.get("user").addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -119,7 +138,9 @@ public class UserPanel extends JPanel{
 			}
 		});
 	}
+	
 	//SETTERS 
+	
 	public static void setNavList(LinkedHashMap<String, JLabel> a) {
 		UserPanel.navItemList=a;
 	}

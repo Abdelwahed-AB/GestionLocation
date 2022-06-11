@@ -13,14 +13,15 @@ public class Contrat {
 	private Date dateRetActuel;
 	
 	private int montantSanction;
-
+//CONSTRUCTEURS DE LA CLASSE
 	public Contrat() {
 	}
-	public Contrat(int codeContrat, Date dateContrat, Date dateEcheance, Date dateRetour) {
+	public Contrat(int codeContrat, Date dateContrat, Date dateEcheance, Date dateRetour,int codeReservation) {
 		this.codeContrat = codeContrat;
 		this.dateContrat = dateContrat;
 		this.dateEcheance = dateEcheance;
 		this.dateRetActuel=dateRetour;
+		this.codeReservation=codeReservation;
 	}
 	public Contrat( Date dateContrat, Date dateEcheance, Reservation reservation) {
 		this.dateContrat = dateContrat;
@@ -41,7 +42,7 @@ public class Contrat {
 	public Date getDateEcheance() {
 		return dateEcheance;
 	}
-public void setCodeContrat(int codeContrat) {
+	public void setCodeContrat(int codeContrat) {
 		this.codeContrat = codeContrat;
 	}
 	public void setReservation(Reservation reservation) {
@@ -59,9 +60,6 @@ public void setCodeContrat(int codeContrat) {
 	public void setCodeReservation(int codeReservation) {
 		this.codeReservation = codeReservation;
 	}
-	//	public Date getDateRetActuel() {
-//		return dateRetActuel;
-//	}
 	public int getMontantSanction() {
 		return montantSanction;
 	}
@@ -74,7 +72,5 @@ public void setCodeContrat(int codeContrat) {
 	public void setDateRetActuel(Date dateRetActuel) {
 		this.dateRetActuel = dateRetActuel;
 	}
-		
-	
 	
 }

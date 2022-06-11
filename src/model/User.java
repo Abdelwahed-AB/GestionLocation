@@ -11,7 +11,7 @@ public class User {
 	private String username;
 	private String password ;
 	
-	
+//CONSTRUCTEUR
 	public User(int a ,String b , String c ,String d ,String e , boolean f, boolean g, String h, String i ) {
 		this.matricule=a;
 		this.prenom=b;
@@ -24,9 +24,6 @@ public class User {
 		this.password=i;
 		
 	}
-	
-	
-	
 	
 	//GETTERS
 	public int getMatricule() {

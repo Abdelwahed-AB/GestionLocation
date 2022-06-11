@@ -6,14 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-
 import controller.ContratController;
 import interfaces.MainInterface;
 import model.ReservationTableModel;
@@ -58,7 +56,7 @@ public class AddNewContract extends JPanel{
 		CancelAdding.setForeground(viewSettings.WHITE);
 		CancelAdding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainInterface.showOnMainPanel("contrat");
+				ContratController.cancel(mainInterface);;
 			}
 		});
 		CancelAdding.setBounds(605, 120, 117, 50);
@@ -77,9 +75,19 @@ public class AddNewContract extends JPanel{
 		boutonCreer.setBounds(605, 60, 117, 50);
 		this.add(boutonCreer);
 		this.setLayout(null);
+// SAUVEGARDER EN CLIQUANT SUR Entrer
+		reservationTable.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER&&reservationTable.getSelectedRow()!=-1) {
+					ContratController.setReservationTable(reservationTable);
+					ContratController.createContract();
+				}
+			}
+		});
 		
 	}
-	
+ 
 //GETTERS
 	public static JTable getReservationTable() {
 		return AddNewContract.reservationTable;

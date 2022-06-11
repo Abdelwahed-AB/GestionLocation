@@ -101,9 +101,9 @@ public class SanctionController {
 		s.setContratList(SanctionDAO.getContracts(codeClient));
 		s.setMontant(Integer.parseInt((String) sPanel.getSanctionTable().getValueAt(index, 3)));
 		
-		SanctionMetier.createPdf(s);
 		
 		SanctionDAO.reglerSanction(codeClient);
+		SanctionMetier.createPdf(s);
 		Actualiser();
 	}
 	

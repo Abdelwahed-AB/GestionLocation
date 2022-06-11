@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import dao.UserDAO;
 import interfaces.MainInterface;
 import model.User;
@@ -24,20 +23,19 @@ public class UserController {
 	private static ChangeExistingUser CES;
 	private static AddUser AU;;
 	 
-	 
-
-
 // METHODE AUTOCOMPLETING
+	
 	public static void autoCompletion(String CleRecherche) {
 		 ArrayList<User>  u=UserDAO.findUserAutoCompleting(CleRecherche);
 		 UserPanel.getTableModel().loadUsers(u);
 	}
 	
 // SUPPRIMER UN UTILISATEUR
+	
 	public static void removeUser() {
 		int i = userTable.getSelectedRow();
 		if (i>= 0) {
-			int result = JOptionPane.showConfirmDialog(null, "Etes-vous sure de bien vouloir supprimer l'utilisateur : "+userTable.getModel().getValueAt(i, 1).toString()+"  "+userTable.getModel().getValueAt(i, 2).toString(),
+			int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer l'utilisateur : "+userTable.getModel().getValueAt(i, 1).toString()+"  "+userTable.getModel().getValueAt(i, 2).toString()+" ?",
 					"Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if(result == JOptionPane.YES_OPTION) {
 				int id = Integer.parseInt(userTable.getModel().getValueAt(i, 0).toString());
@@ -52,7 +50,9 @@ public class UserController {
 		else
 			JOptionPane.showMessageDialog(userPanel,"Aucun utilisateur n'est sélectionné ", "Erreu de suppression", JOptionPane.ERROR_MESSAGE);
 	}
+	
 //CHANGER LES ATTRIBUTS D'UN UTILISATEUR
+	
 	public static void changeUser() {
 		int i = userTable.getSelectedRow();
 		if (i>= 0) {
@@ -83,6 +83,7 @@ public class UserController {
 	}
 	
 // AFFICHER TOUS LES UTILISATEUR QUI SONT DANS LA BASE DE DONNEES 
+	
 	public static void fetchAll() {
 		ArrayList<User> uList = UserDAO.fetchAll();
 		userPanel.getTableModel().loadUsers(uList);
@@ -103,12 +104,14 @@ public class UserController {
 	
 	
 //verifies si un utilisatru existe
+	
 	public static boolean findUser(int id) {
 		if(UserDAO.findUser( id).equals(null)) return true;
 		return false;
 	}
 	
 // changer le status d'un utilisateur en cochant le CheckBox
+	
 	public static void changeStatus(ChangeExistingUser changeUserPanel) {
 		if(!changeUserPanel.getChkBox().isSelected()) {
 			changeUserPanel.setStatus(false);
@@ -122,6 +125,7 @@ public class UserController {
 	
 	
 // sousmettre les information que l'admin a modifier 
+	
 	public static void saveUserUpdate(User U,int oldId,String newPassword) {
 		if(UserDAO.verifyUser(U.getMatricule())&&U.getMatricule()!=oldId) {//SI LA MATRICULE EXITE DEJA MAIS DIFFERENT DE L'ANCIEN MATRICULE
 			JOptionPane.showMessageDialog(null,"le champ 'matricule' existe déja, changer le et cliquer sur enregistrer", "Probléme d'identifiant", JOptionPane.ERROR_MESSAGE);
@@ -143,6 +147,7 @@ public class UserController {
 	}
 	
 // ajouter les nouveaux utilisateurs à la base de données
+	
 	public static void saveNewUsers() {
 		if(!empty(UserController.AU)) {
 	
@@ -183,8 +188,6 @@ public class UserController {
 	}
 
 	
-	
-	
 //méthodes de contrôle
 	public static boolean empty(ChangeExistingUser JP) {//verifie si les cahmps de text sont vides[ça concerne la modification des utilisateurs]
 		if(JP.getNewNom().getText().isEmpty()||JP.getNewPrenom().getText().isEmpty()||JP.getNewMatricule().getText().isEmpty()||JP.getNewTel().getText().isEmpty()||
@@ -201,13 +204,14 @@ public class UserController {
 		
 	}
 	@SuppressWarnings("deprecation")
-	public static boolean matches(AddUser addUser) {
+	public static boolean matches(AddUser addUser) {//TESTE SI LES DEUX MOTS DE PASSES SONT SIMILAIRES
 		if(addUser.getPasswordConfirmed().getText().equals(addUser.getNewUserPassword().getText()))
 			return true;
 		else return false;
 	}
 
 // vider les champs du panel ChangeExistingUser
+	
 	public static void emptyUpdateFields(ChangeExistingUser changeExistingUser) {
 		changeExistingUser.getNewMatricule().setText("");
 		changeExistingUser.getNewNom().setText("");
@@ -220,7 +224,9 @@ public class UserController {
 		changeExistingUser.getNewPasword().setText("");
 	
 	}
+	
 // vider les champs du panel AddUser
+	
 		public static void emptyAddFields(AddUser addUser) {
 			addUser.getNewUserNom().setText("");
 			addUser.getNewUserPrenom().setText("");
@@ -232,7 +238,8 @@ public class UserController {
 		}
 	
 // methode de cryptage
-	public static String cryptWithMD5(String pass){
+
+	public static String cryptWithMD5(String pass){// ON CRYPTE LES MOTS DE PASSES AVANT DE LES ENVOYER A LA BASE DE DONNEES 
 	    try {
 	        md = MessageDigest.getInstance("MD5");
 	        byte[] passBytes = pass.getBytes();
@@ -249,6 +256,7 @@ public class UserController {
 	        return null;
 	}
 	   
+	
 // SETTERS 
 	public static void setTable(JTable a) {
 		UserController.userTable=a;

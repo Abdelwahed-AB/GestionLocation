@@ -28,6 +28,8 @@ import javax.swing.table.DefaultTableModel;
 import controller.ClientController;
 import controller.ReservationController;
 import controller.SanctionController;
+import controller.UserController;
+import dao.UserDAO;
 import controller.FactureController;
 import view.ClientMainView;
 import view.ContratPanel;
@@ -157,10 +159,18 @@ public class MainInterface {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				login window = new login();
-				window.setVisible(true);
-				window.setLocationRelativeTo(null);
-				frame.dispose();
+				int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement  quitter ? ",
+						"Confirmer le logout", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(result == JOptionPane.YES_OPTION) {
+					login window = new login();
+					window.setVisible(true);
+					window.setLocationRelativeTo(null);
+					frame.dispose();
+				}
+				else {
+					UserController.fetchAll();
+				}
+				
 			}
 		});
 		exit_lbl.setHorizontalAlignment(SwingConstants.CENTER);

@@ -27,16 +27,21 @@ public class VehiculeController {
 	 
 	 
 // METRHODE AUTOCOMPLETING
+	
 	public static void autoCompleting(String a) {
-		ArrayList<Vehicule> vList = vehiculeDAO.findVehiculeAutoCompleting(a);//RETOURNE UNE ARRAYLIST
-		vehiculePanel.getTableModel().loadVehicules(vList);//ATTACHE LA LISTE A LA TABLE DU PANEL VEHICULEPANEL
+		ArrayList<Vehicule> vList = vehiculeDAO.findVehiculeAutoCompleting(a);//RETOURNE UNE ARRAYLIST DES VEHICULES 
+		vehiculePanel.getTableModel().loadVehicules(vList);//ATTACHE LA LISTE A LA TABLE (vehiculeTable )DU PANEL (VehiculePanel)
 	}
+	
 //AFFICHER TOUT LES ENREGISTREMENT
+	
 	public static void fetchAll() {
 		ArrayList<Vehicule> vList = vehiculeDAO.fetchAll();
 		vehiculePanel.getTableModel().loadVehicules(vList);
 	}
-// METHODE AJOUTER UN NOUVEAU VEHICULE
+	
+// METHODE AJOUTER UN NOUVEAU VEHICULE QUI LANCE LE PANEL AddNewVehicule
+	
 	public static void addVehicule( ) {
 		try {
 			AddNewVehicule newVehicule = new AddNewVehicule(window);
@@ -50,14 +55,17 @@ public class VehiculeController {
 			ex.printStackTrace();
 		}
 	}
+	
 //METHODE SAUVEAGARDER L'ENREGISTREMENT
-	public static void saveNewVehicule(AddNewVehicule ANV,Vehicule v) {
+	
+	public static void saveNewVehicule(Vehicule v) {
 		
 		if(v.getCarburant().matches("[a-zA-Z]*") && v.getMatricule().matches("[a-zA-Z 0-9]*")&&v.getMarque().matches("[a-zA-Z 0-9]*")&&v.getType().matches("[a-zA-Z]*")) {
 				if(vehiculeDAO.createVehicule(v)) {
-					VehiculeController.fetchAll();
+					ParkingDAO.addVehiculeDAO(v.getMatricule(), v.getCodePark());//fonction qui decrement le nombre de places vides dans un parking et puis ajoute le vehicule au park et le met à jour 
 					JOptionPane.showMessageDialog(null,"Vehicule ajouté", "Ajouté avec succés", JOptionPane.INFORMATION_MESSAGE);
 					window.showOnMainPanel("vehicule");//revenir au menu principal
+					VehiculeController.fetchAll();
 			}else
 				JOptionPane.showMessageDialog(null,"Ajout echoué", "Probléme d'ajout", JOptionPane.ERROR_MESSAGE);
 		}
@@ -67,13 +75,18 @@ public class VehiculeController {
 		}
 		
 	}
+	
 //MRTHODE ANNULER L'ENREGISTREMENT/CHANGEMENT
+	
 	public static void cancel(MainInterface MI) {
 		MI.showOnMainPanel("vehicule");	//revenir au menu precedent
 		ArrayList<Vehicule> vList = vehiculeDAO.fetchAll();
 		vehiculePanel.getTableModel().loadVehicules(vList);
 	}
+	
+	
 //METHODE QUI AFFICHE TOUS LES INFORMATIONS D'UNE VEHICULE
+	
 	public static void DisplayAllVehiculeInfo(String matricule) {
 		// TODO Auto-generated method stub
 		AllVehiculeInfoPanel AVIP=new AllVehiculeInfoPanel(window);
@@ -101,15 +114,18 @@ public class VehiculeController {
 	}
 	
 // METHODE QUI SUPPRIME L'ENREGISTREMENT SELECTIONNE
+	
 	public static void removeVehicule() {
 		// TODO Auto-generated method stub
 		int i = vehiculeTable.getSelectedRow();
 		try {
 			if (i!=-1) {
-				int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer le vehicule : "+vehiculeTable.getModel().getValueAt(i, 0).toString(), "Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer le vehicule immatriculée : "+vehiculeTable.getModel().getValueAt(i, 0).toString()+" ?", "Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.YES_OPTION) {
-					String id =vehiculeTable.getModel().getValueAt(i, 0).toString();
-					vehiculeDAO.removeVehicule(id);
+					String matriculeVehicule =vehiculeTable.getModel().getValueAt(i, 0).toString();
+					int oldCodePark=Integer.parseInt(vehiculeTable.getModel().getValueAt(i, 3).toString());
+					ParkingDAO.removeVehiculeDAO(matriculeVehicule, oldCodePark);//LIBERER UNE PLACE DANS L'ANCIEN PARKING
+					vehiculeDAO.removeVehicule(matriculeVehicule);
 					VehiculeController.fetchAll();
 					JOptionPane.showMessageDialog(null,"Vehicule supprimé avec succés", "Suppression", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -120,8 +136,10 @@ public class VehiculeController {
 			JOptionPane.showMessageDialog(null,e.getMessage(), "Echec de suppression", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-//METHODE QUI LANCE LE PANEL D EMODIFICATION
-	public static void changeVehicle() {
+	
+//METHODE QUI LANCE LE PANEL D EMODIFICATION ET QUI INITIALISE LES CHAMPS PAR LES ANCIENNES DONNEES DU VEHICULE
+	
+	public static void changeVehicle() {		
 		// TODO Auto-generated method stub
 		int index=VehiculeController.vehiculeTable.getSelectedRow();
 		if(index>=0) {
@@ -139,23 +157,23 @@ public class VehiculeController {
 			
 			Parking p = ParkingDAO.findParkingByCodeDAO(v.getCodePark());
 			if(p != null) {
-				CEV.getParkComboBox().setSelectedItem(p.getNomParking());
+				CEV.getParkComboBox().setSelectedItem(v.getCodePark()+"-"+p.getNomParking());//initialise le comboBox par l'ancien nom du park
 			}
-			
-			
 			CEV.getPrixLocation().setText(v.getPrixLocation()+"");
 			CEV.getDisponible().setSelected(v.getDisponible());
 			VehiculeController.changeDisponibility(CEV);
 			window.addToMainPanel(CEV, "changeVehicle");
 			window.showOnMainPanel("changeVehicle");
 			ChangeExistingVehicle.setOldId(vehiculeTable.getModel().getValueAt(index,0).toString());
+			ChangeExistingVehicle.setOldCodePark(v.getCodePark());
 		}
 		else
 			JOptionPane.showMessageDialog(null,"Aucun vehicule n'est selectionné", "Echec de modification", JOptionPane.ERROR_MESSAGE);
 	}
 	
 //METHODE QUI ENREGISTRE LES MIDIFICATION SD'UN VEHICULE
-	public static void saveChanges(Vehicule v,String oldId) {
+	
+	public static void saveChanges(Vehicule v,String oldId,int oldCodePark) {
 		// TODO Auto-generated method stub
 		
 		if(vehiculeDAO.verifyVehicle(v.getMatricule())&&!(v.getMatricule().equals(oldId))) {//SI LA MATRICULE EXITE DEJA MAIS DIFFERENT DE L'ANCIEN MATRICULE
@@ -163,9 +181,12 @@ public class VehiculeController {
 		}else {
 			if(v.getCarburant().matches("[a-zA-Z]*") && v.getMatricule().matches("[a-zA-Z 0-9]*")&&v.getMarque().matches("[a-zA-Z 0-9]*")&&v.getType().matches("[a-zA-Z]*")) {
 				if(vehiculeDAO.ChangeVehicle(v,oldId)) {
-					VehiculeController.fetchAll();
-					JOptionPane.showMessageDialog(null,"Vehicule modifié ", "Modification avec succés", JOptionPane.INFORMATION_MESSAGE);
+
+					ParkingDAO.removeVehiculeDAO(v.getMatricule(), oldCodePark);//LIBERER UNE PLACE DANS L'ANCIEN PARKING
+					ParkingDAO.addVehiculeDAO(v.getMatricule(), v.getCodePark());//OCUPPER UNE PLACE DANS LE NOUVEAU PARKING
 					window.showOnMainPanel("vehicule");//REVENIR AU MENU VEHICULE
+					JOptionPane.showMessageDialog(null,"Vehicule modifié ", "Modification avec succés", JOptionPane.INFORMATION_MESSAGE);
+					VehiculeController.fetchAll();
 				}else
 					JOptionPane.showMessageDialog(null,"Modification echoué", "Probléme de modification", JOptionPane.ERROR_MESSAGE);
 			}else {
@@ -175,20 +196,27 @@ public class VehiculeController {
 		}
 
 	}
-//FONCTION QUI RETROURNE LES NOMS DES PARKINGS
+	
+//FONCTION QUI RETROURNE LES NOMS DES PARKINGS[utilisée pour afficher les noms des parking ayant une capacité >0 dans le combobox ]
+	
 		public static ArrayList<String> ParksNames(){
 			return vehiculeDAO.nomPark();
 		}
 	
 // FONCTIONS POUR LE CONTROLE DES CHAMPS RENSEIGNES
+		
+
+//VERIFIE SI LES CHAMPS DU NOUVEAU VEHICULE SONT VIDES
+			
 	@SuppressWarnings("deprecation")
-	public static boolean empty(AddNewVehicule ANV) {//VERIFIE SI LES CHAMPS DU NOUVEAU VEHICULE SONT VIDES
+	public static boolean empty(AddNewVehicule ANV) {
 		//[ON NE PEUT UTILISER DIRECTEMENT UN OBJET VEHCULE COMME ARGUMENT DE CETTE FONCTION CAR LA MTHD IsEmpty() N'EST PAS DEFINIE POUR CERTAIN ATTRIBUTS]
 		if(ANV.getImmatriculationVehicule().getText().isEmpty()||ANV.getMarqueVehicule().getText().isEmpty()||ANV.getTypeVehicule().getText().isEmpty()||
 				ANV.getCarburant().getText().isEmpty()||ANV.getKilometrage().getText().isEmpty()||ANV.getPrixLocation().getText().isEmpty()||ANV.getDisponible().getText().isEmpty())
 			return true;
 		else return false;
 	}
+	
 	@SuppressWarnings("deprecation")
 	public static boolean empty(ChangeExistingVehicle CEV) {//VERIFIE SI  LES CHAMPS DU PANEL ChangeExistingVehicle SONT VIDES
 		//[ON NE PEUT UTILISER DIRECTEMENT UN OBJET VEHCULE COMME ARGUMENT DE CETTE FONCTION CAR LA MTHD IsEmpty() N'EST PAS DEFINIE POUR CERTAIN ATTRIBUTS]
@@ -197,14 +225,21 @@ public class VehiculeController {
 			return true;
 		else return false;
 	}
-	public static void changeDisponibility(AddNewVehicule ANV) {//CETTE METHODE AFFICHE OU NON LES LABEL DISPONIBLE/INDISPONIBLE SELON L'ETAT DE CHECKBOX
+	
+//CETTE METHODE AFFICHE OU NON LES LABEL DISPONIBLE/INDISPONIBLE SELON L'ETAT DE CHECKBOX
+	
+	public static void changeDisponibility(AddNewVehicule ANV) {
 		if(ANV.getDisponible().isSelected()) {
 			ANV.getLbl_disp().setText("Disponible");
 		}
 		else
 			ANV.getLbl_disp().setText("Indisponible");
 	}
-	public static void changeDisponibility(ChangeExistingVehicle CEV) {//CETTE METHODE AFFICHE OU NON LES LABEL DISPONIBLE/INDISPONIBLE SELON L'ETAT DE CHECKBOX
+	
+	
+//CETTE METHODE AFFICHE OU NON LES LABEL DISPONIBLE/INDISPONIBLE SELON L'ETAT DE CHECKBOX	
+	
+	public static void changeDisponibility(ChangeExistingVehicle CEV) {
 		// TODO Auto-generated method stub
 		if(CEV.getDisponible().isSelected()) {
 			CEV.getLbl_disp().setText("Disponible");
@@ -213,7 +248,9 @@ public class VehiculeController {
 			CEV.getLbl_disp().setText("Indisponible");
 	}
 
-	public static void emptyAddFields(AddNewVehicule ANV) {//CETTE METHODE VIDE TOUS LES CHAMPS RENSEIGNES PAR L'UTILISATEUR
+//CETTE METHODE VIDE TOUS LES CHAMPS RENSEIGNES PAR L'UTILISATEUR
+	
+	public static void emptyAddFields(AddNewVehicule ANV) {
 		ANV.getImmatriculationVehicule().setText("");
 		ANV.getMarqueVehicule().setText("");
 		ANV.getTypeVehicule().setText("");
@@ -226,7 +263,10 @@ public class VehiculeController {
 		ANV.getYcomboBox().setSelectedIndex(0);//ON FORCE LE CHOIX D'UNE DATE POUR QU'ON EVITE LA SEVAUGARDE SANS CHOISIR UNE
 		ANV.getMcomboBox().setSelectedIndex(0);
 	}
-	public static void emptyVehicleFields(ChangeExistingVehicle CEV) {//CETTE METHODE VIDE TOU LES CHAMPS RENSEIGNES PAR L'UTILISATEUR
+	
+//CETTE METHODE VIDE TOU LES CHAMPS RENSEIGNES PAR L'UTILISATEUR
+	
+	public static void emptyVehicleFields(ChangeExistingVehicle CEV) {
 		CEV.getImmatriculationVehicule().setText("");
 		CEV.getMarqueVehicule().setText("");
 		CEV.getTypeVehicule().setText("");
@@ -240,13 +280,17 @@ public class VehiculeController {
 		CEV.getMcomboBox().setSelectedIndex(0);
 		
 	}
+	
 	// setters
+	
 	public static void setWindow(MainInterface window) {
 		VehiculeController.window=window;
 	}
+	
 	public static void setTable(JTable vehiculeTable){
 		VehiculeController.vehiculeTable=vehiculeTable;
 	}
+	
 	public static void setPanel(VehiculePanel vehiculePanel) {
 		VehiculeController.vehiculePanel=vehiculePanel;
 	}
