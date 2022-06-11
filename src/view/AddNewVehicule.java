@@ -100,6 +100,9 @@ public class AddNewVehicule  extends JPanel{
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
+						catch(NullPointerException NPE) {
+							JOptionPane.showMessageDialog(null,"Pas de parking, pensez à en creer un ou bien le liberer !", "Places inexistants", JOptionPane.WARNING_MESSAGE);
+						}
 					}
 					else {
 						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
@@ -139,6 +142,9 @@ public class AddNewVehicule  extends JPanel{
 							VehiculeController.saveNewVehicule(V);
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
+						catch(NullPointerException NPE) {
+							JOptionPane.showMessageDialog(null,"Pas de parking, pensez à en creer un ou bien le liberer !", "Places inexistants", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 					else {
@@ -180,6 +186,9 @@ public class AddNewVehicule  extends JPanel{
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
+						catch(NullPointerException NPE) {
+							JOptionPane.showMessageDialog(null,"Pas de parking, pensez à en creer un ou bien le liberer !", "Places inexistants", JOptionPane.WARNING_MESSAGE);
+						}
 					}
 					else {
 						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
@@ -219,6 +228,9 @@ public class AddNewVehicule  extends JPanel{
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
+						catch(NullPointerException NPE) {
+							JOptionPane.showMessageDialog(null,"Pas de parking, pensez à en creer un ou bien le liberer !", "Places inexistants", JOptionPane.WARNING_MESSAGE);
+						}
 					}
 					else {
 						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
@@ -248,6 +260,9 @@ public class AddNewVehicule  extends JPanel{
 						VehiculeController.saveNewVehicule(V);
 					}catch(NumberFormatException ex) {
 						JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+					}
+					catch(NullPointerException NPE) {
+						JOptionPane.showMessageDialog(null,"Pas de parking, pensez à en creer un ou bien le liberer !", "Places inexistants", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 				else {
@@ -311,6 +326,9 @@ public class AddNewVehicule  extends JPanel{
 //							AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
+						catch(NullPointerException NPE) {
+							JOptionPane.showMessageDialog(null,"Pas de parking, pensez à en creer un ou bien le liberer !", "Places inexistants", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 					else {
@@ -421,6 +439,9 @@ public class AddNewVehicule  extends JPanel{
 //							AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
+						catch(NullPointerException NPE) {
+							JOptionPane.showMessageDialog(null,"Pas de parking, pensez à en creer un ou bien le liberer !", "Places inexistants", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 					else {
