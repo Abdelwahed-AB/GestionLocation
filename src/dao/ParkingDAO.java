@@ -170,7 +170,7 @@ public class ParkingDAO {
 		try {
 			// supprimer la vehicule du park
 			PreparedStatement prepared = ConnectionManager.getConnection()
-					.prepareStatement("UPDATE `vehicule` SET `codePark` = '0' WHERE `vehicule`.`Immatriculation` = ?");
+					.prepareStatement("UPDATE `vehicule` SET `codePark` = '0', `disponible` = '0' WHERE `vehicule`.`Immatriculation` = ?");
 			prepared.setString(1, codeVehicule);
 			prepared.execute();
 			// augmenter le nombre de place vide dans le park
@@ -204,7 +204,7 @@ public class ParkingDAO {
 		try {
 			// ajouter la vehicule au park
 			PreparedStatement prepared = ConnectionManager.getConnection()
-					.prepareStatement("UPDATE `vehicule` SET `codePark` = ? WHERE `vehicule`.`Immatriculation` = ?");
+					.prepareStatement("UPDATE `vehicule` SET `codePark` = ?, `disponible` = '1' WHERE `vehicule`.`Immatriculation` = ?");
 			prepared.setInt(1, codeParking);
 			prepared.setString(2, codeVehicule);
 			prepared.execute();
