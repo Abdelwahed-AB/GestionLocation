@@ -10,6 +10,8 @@ import model.Vehicule;
 
 public class vehiculeDAO {
 
+//RECUPERE LES VEHICULES EXISTANT DE LA BASE DE DONNEES 
+	
 	public static ArrayList<Vehicule> fetchAll () {
 		String query= "SELECT * "
 				+ "FROM  vehicule ";
@@ -35,11 +37,11 @@ public class vehiculeDAO {
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 		}
-		
 		return Vehicule_list;
 	}
 	
-	// METHODE RECHERCHANT LE VEHICULE PAR SON MATRICULE
+// METHODE RECHERCHANT LE VEHICULE PAR SON MATRICULE
+	
 	public static Vehicule findVehicule(String matricule) {
 		String query="SELECT *"
 				+" FROM vehicule"
@@ -71,18 +73,19 @@ public class vehiculeDAO {
 		JOptionPane.showConfirmDialog(null, e.getMessage(), "erreur de recherche", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 		e.printStackTrace();
 		}
-		return V;
-		
+		return V;	
 	}
-	//VERIFIER SI UN VEHICULE EXISTE EN TESTANT SUR SON CODE MATRICULE? LE RETOUR EST UN BOOLEAN
-	public static boolean verifyVehicle(String id) {
+	
+//VERIFIER SI UN VEHICULE EXISTE EN TESTANT SUR SON CODE MATRICULE ,LE RETOUR EST UN BOOLEAN
+	
+	public static boolean verifyVehicle(String matricule) {
 		String query="SELECT *"
 				+" FROM vehicule"
 				+" WHERE Immatriculation LIKE ?";
 			
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
-			prepared.setString(1, id);
+			prepared.setString(1, matricule);
 			ResultSet result = prepared.executeQuery();
 			if(result.next())
 				return true;
@@ -93,7 +96,9 @@ public class vehiculeDAO {
 		}
 		return false;
 	}
-	//METHODE QUI RETOURNE LES VEHCICULE CORRESPONDANT AU CRITERE DE RECHERCHE 
+	
+//METHODE QUI RETOURNE LA LISTE VEHCICULES CORRESPONDANT AU CRITERE DE RECHERCHE 
+	
 	public static ArrayList<Vehicule>  findVehiculeAutoCompleting (String Immatriculation) {
 		String query="SELECT *"
 					+" FROM vehicule"
@@ -125,14 +130,15 @@ public class vehiculeDAO {
 			JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		
 		return Vehicule_list;
 	}
-	// MEHTODE QUI AJOUTE UN VEHICULE A  LA BASE DE DONNEES 
+	
+// MEHTODE QUI AJOUTE UN VEHICULE A  LA BASE DE DONNEES 
+	
 	public static boolean createVehicule(Vehicule vehicule) {
 		String query="INSERT INTO `vehicule` (`Immatriculation`, `marqueVehicule`, `typeVehicule`, `carburant`,"+
 					" `kilometrage`, `dateMiseCirculation`, `codePark`, `prixLocation`, `disponible`) "+
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					"VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?);";
 		PreparedStatement prepared;
 		try {
 			prepared = ConnectionManager.getConnection().prepareStatement(query);
@@ -142,9 +148,8 @@ public class vehiculeDAO {
 			prepared.setString(4, vehicule.getCarburant());
 			prepared.setDouble(5, vehicule.getKilometrage());
 			prepared.setDate(6, vehicule.getDMC());
-			prepared.setInt(7, vehicule.getCodePark());
-			prepared.setDouble(8, vehicule.getPrixLocation());
-			prepared.setBoolean(9, vehicule.getDisponible());
+			prepared.setDouble(7, vehicule.getPrixLocation());
+			prepared.setBoolean(8, vehicule.getDisponible());
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
@@ -152,9 +157,10 @@ public class vehiculeDAO {
 		}
 		return false;
 	}
+	
 // METHODE SUPPRIMANT UN VEHICULE A L'AIDE DE SON MATRICULE
+	
 	public static boolean removeVehicule(String id) {
-		// TODO Auto-generated method stub
 		String query="DELETE FROM `vehicule`"
 					+" WHERE (`Immatriculation` = ?);";
 		try {
@@ -167,7 +173,9 @@ public class vehiculeDAO {
 		}
 		return false;
 	}
+	
 //METHODE QUI ENVOI UNE REQUTE UPDATE AFIN DE CHANGER LES ATTRIBUTS D'UN VEHICULE
+	
 	public static boolean ChangeVehicle(Vehicule vehicule,String oldId) {
 		// TODO Auto-generated method stub
 		String query="UPDATE `vehicule`"
@@ -195,9 +203,11 @@ public class vehiculeDAO {
 		
 		return false;
 	}
-	//FONCTION QUI RETOURNE LES NOMS DES PARKINGS
+//FONCTION QUI RETOURNE LES NOMS DES PARKINGS
+	
 	public static ArrayList<String> nomPark() {
-		String query="SELECT codeParking, nomParking FROM parking;";
+		String query="SELECT codeParking, nomParking FROM parking "
+				+ "WHERE nombrePlaceVide>0;";
 		ArrayList<String> Parkings=new ArrayList<String>();
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);

@@ -10,7 +10,7 @@ public class ContractTableModel extends AbstractTableModel {
 				"Référence",
 				"Date contrat",
 				"Date échéance",
-				"Date retour"
+				"Code reservation"
 		};
 		
 		private Vector<String[]> rows = new Vector<String[]>();
@@ -48,7 +48,7 @@ public class ContractTableModel extends AbstractTableModel {
 						c.getCodeContrat()+"",
 						c.getDateContrat()+"",
 						c.getDateEcheance()+"",
-						c.getDateRetActuel()+""
+						c.getCodeReservation()+""
 				};
 				
 				rows.add(row);

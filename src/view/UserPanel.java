@@ -25,7 +25,7 @@ import model.UserTableModel;
 import java.awt.Rectangle;
 
 public class UserPanel extends JPanel{
-	//private CardLayout cl;
+	
 	private static JTable userTable;
 	private static UserTableModel uTable ;
 	private static LinkedHashMap<String, JLabel> navItemList;
@@ -33,9 +33,8 @@ public class UserPanel extends JPanel{
 	
 	public UserPanel(MainInterface mainInterface) {
 		setBounds(new Rectangle(0, 0, 732, 547));
-	//	this.cl = (CardLayout) mainInterface.getMainPanel().getLayout();
 		this.setLayout(null);
-		
+//ZONE DE RECHERCHE
 		JTextField chercherUtilisateur = new JTextField();
 		chercherUtilisateur.addKeyListener(new KeyAdapter() {
 			@Override
@@ -47,7 +46,8 @@ public class UserPanel extends JPanel{
 		this.add(chercherUtilisateur);
 		chercherUtilisateur.setColumns(10);
 		
-		// ZONE D'AFFICHAGE
+// ZONE D'AFFICHAGE
+		
 		JScrollPane UScrollPane = new JScrollPane();
 		UScrollPane.setBounds(10, 60, 585, 477);
 		this.add(UScrollPane);
@@ -70,7 +70,7 @@ public class UserPanel extends JPanel{
 		addUser.setBounds(605, 60, 117, 50);
 		this.add(addUser);
 		
-		/**REMOVE USER*/
+/**REMOVE USER*/
 		
 		JButton removeUser = new JButton("Suppimer");
 		removeUser.addActionListener(new ActionListener() {
@@ -95,7 +95,9 @@ public class UserPanel extends JPanel{
 				}
 			}
 		});
-		/**CHANGE USER DATA*/
+		
+		
+/**CHANGE USER DATA*/
 		
 		JButton changeUser = new JButton("Modifier");
 		changeUser.addActionListener(new ActionListener() {
@@ -122,7 +124,10 @@ public class UserPanel extends JPanel{
 		update.setBounds(605, 240, 117, 50);
 		this.add(update);
 		
-		/**DISPLAY ALL ROWS*/
+		
+/**DISPLAY ALL ROWS*/
+//AFFICHER LES ENREGISTREMENTS DES QU'ON CLIQUE SUR UTILISATEUR
+		
 		navItemList.get("user").addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -132,7 +137,9 @@ public class UserPanel extends JPanel{
 			}
 		});
 	}
+	
 	//SETTERS 
+	
 	public static void setNavList(LinkedHashMap<String, JLabel> a) {
 		UserPanel.navItemList=a;
 	}

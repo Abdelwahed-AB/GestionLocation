@@ -1,23 +1,16 @@
 package view;
 
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import controller.ContratController;
 import controller.UserController;
 import interfaces.MainInterface;
 
@@ -28,14 +21,14 @@ public class AddUser extends JPanel{
 	private JTextField newUserPrenom;
 	private JTextField newUserTel;
 	private JTextField newUserAdresse;
-	private JTable table;
 	private JTextField newUserUsername;
 	private JTextField newUserPassword;
 	private JTextField passwordConfirmed;
 	private UserPanel userPanel;
-	// constructor
+	
+// constructor
+	
 	public AddUser(MainInterface mainInterface) {
-		
 		setBounds(new Rectangle(0, 0, 732, 547));
 		this.mainInterface = mainInterface;
 		this.cl = (CardLayout) mainInterface.getMainPanel().getLayout();
@@ -49,7 +42,9 @@ public class AddUser extends JPanel{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		// creation d'un Panel 
+		
+// creation d'un Panel 
+		
 		setLayout(null);
 		setLayout(null);
 		JLabel lblNewLabel = new JLabel("Ajout d'un nouveau utilisateur");
@@ -66,6 +61,10 @@ public class AddUser extends JPanel{
 		newUserNom.setBounds(244, 92, 399, 29);
 		newUserNom.setColumns(10);
 		this.add(newUserNom);
+		
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		newUserNom.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -85,6 +84,10 @@ public class AddUser extends JPanel{
 		newUserPrenom.setBounds(244, 132, 399, 28);
 		newUserPrenom.setColumns(10);
 		this.add(newUserPrenom);
+		
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		newUserPrenom.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -104,6 +107,9 @@ public class AddUser extends JPanel{
 		newUserTel.setBounds(243, 180, 400, 28);
 		newUserTel.setColumns(10);
 		this.add(newUserTel);
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		newUserTel.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -123,6 +129,9 @@ public class AddUser extends JPanel{
 		newUserAdresse.setBounds(244, 228, 399, 28);
 		newUserAdresse.setColumns(10);
 		this.add(newUserAdresse);
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		newUserAdresse.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -175,6 +184,9 @@ public class AddUser extends JPanel{
 		newUserUsername.setBounds(244, 276, 399, 28);
 		newUserUsername.setColumns(10);
 		this.add(newUserUsername);
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		newUserUsername.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -195,6 +207,9 @@ public class AddUser extends JPanel{
 		newUserPassword.setBounds(244, 324, 399, 28);
 		newUserPassword.setColumns(10);
 		this.add(newUserPassword);
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		newUserPassword.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -215,6 +230,9 @@ public class AddUser extends JPanel{
 		passwordConfirmed.setColumns(10);
 		passwordConfirmed.setBounds(244, 371, 399, 28);
 		add(passwordConfirmed);
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		passwordConfirmed.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -234,13 +252,9 @@ public class AddUser extends JPanel{
 	}
 
 
-
-
 	public JTextField getNewUserPrenom() {
 		return newUserPrenom;
 	}
-
-
 
 
 	public JTextField getNewUserTel() {
@@ -248,13 +262,9 @@ public class AddUser extends JPanel{
 	}
 
 
-
-
 	public JTextField getNewUserAdresse() {
 		return newUserAdresse;
 	}
-
-
 
 
 	public JTextField getNewUserUsername() {
@@ -262,25 +272,15 @@ public class AddUser extends JPanel{
 	}
 
 
-
-
 	public JTextField getNewUserPassword() {
 		return newUserPassword;
 	}
-
-
-
 
 	public JTextField getPasswordConfirmed() {
 		return passwordConfirmed;
 	}
 
-
-
 //SETTERS
-	public void setTable(JTable t) {
-		this.table=t;//TO PASS THE TABLE AS A PARAMETER SO WE CAN INVOKE  fetchAll()
-	}
 	
 	public void setUserPanel(UserPanel a) {
 		this.userPanel=a;

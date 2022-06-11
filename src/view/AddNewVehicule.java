@@ -17,7 +17,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
 import java.time.Year;
+import java.util.ArrayList;
 import java.sql.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -27,7 +29,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 
 public class AddNewVehicule  extends JPanel{
-	// ATTRIBUTS DE LA CLASSE ADDNEWVEHICULE
+	
+// ATTRIBUTS DE LA CLASSE ADDNEWVEHICULE
+	
 	private MainInterface mainInterface;
 	private JTable table;
 	private CardLayout cl;
@@ -40,14 +44,13 @@ public class AddNewVehicule  extends JPanel{
 	private JComboBox McomboBox;
 	private JComboBox DcomboBox;
 	private JComboBox parkComboBox;
-	
 	private JTextField prixLocation;
 	private JCheckBox disponible;
 	private JLabel lbl_disp ;
-	
-
 	private static VehiculePanel vehiculePanel;
-	// CONSTRUCTOR
+	
+// CONSTRUCTOR
+	
 	public AddNewVehicule(MainInterface mainInterface) {
 		setLayout(null);
 		setBounds(new Rectangle(0, 0, 732, 547));
@@ -55,7 +58,9 @@ public class AddNewVehicule  extends JPanel{
 		this.cl = (CardLayout) mainInterface.getMainPanel().getLayout();
 		initialize();
 	}
-	// METHODE INITIALIZE QUI CREE UN PANEL
+	
+// METHODE INITIALIZE QUI CREE UN PANEL
+	
 	@SuppressWarnings("unchecked")
 	private void initialize() {
 		setLayout(null);
@@ -74,6 +79,7 @@ public class AddNewVehicule  extends JPanel{
 		ImmatriculationVehicule.setBounds(97, 91, 249, 27);
 		ImmatriculationVehicule.setColumns(10);
 		this.add(ImmatriculationVehicule);
+//AJOUTER L'ENREGISTREMENT LORSQU'ON CLIQUE SUR BOUTON ENTRER
 		ImmatriculationVehicule.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -90,8 +96,7 @@ public class AddNewVehicule  extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText()),
 									disponible.isSelected());
-							VehiculeController.saveNewVehicule(AddNewVehicule.this,V);
-//							AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
+							VehiculeController.saveNewVehicule(V);
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
@@ -112,6 +117,9 @@ public class AddNewVehicule  extends JPanel{
 		marqueVehicule.setBounds(401, 91, 242, 27);
 		marqueVehicule.setColumns(10);
 		this.add(marqueVehicule);
+
+//AJOUTER L'ENREGISTREMENT LORSQU'ON CLIQUE SUR BOUTON ENTRER
+		
 		marqueVehicule.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -128,8 +136,7 @@ public class AddNewVehicule  extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText()),
 									disponible.isSelected());
-							VehiculeController.saveNewVehicule(AddNewVehicule.this,V);
-//							AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
+							VehiculeController.saveNewVehicule(V);
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
@@ -150,6 +157,8 @@ public class AddNewVehicule  extends JPanel{
 		typeVehicule.setBounds(97, 161, 249, 27);
 		typeVehicule.setColumns(10);
 		this.add(typeVehicule);
+		
+//AJOUTER L'ENREGISTREMENT LORSQU'ON CLIQUE SUR BOUTON ENTRER
 		typeVehicule.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -166,7 +175,7 @@ public class AddNewVehicule  extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText()),
 									disponible.isSelected());
-							VehiculeController.saveNewVehicule(AddNewVehicule.this,V);
+							VehiculeController.saveNewVehicule(V);
 //							AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
@@ -188,6 +197,7 @@ public class AddNewVehicule  extends JPanel{
 		carburant.setBounds(401, 161, 242, 27);
 		carburant.setColumns(10);
 		this.add(carburant);
+//AJOUTER L'ENREGISTREMENT LORSQU'ON CLIQUE SUR BOUTON ENTRER
 		carburant.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -204,7 +214,7 @@ public class AddNewVehicule  extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText()),
 									disponible.isSelected());
-							VehiculeController.saveNewVehicule(AddNewVehicule.this,V);
+							VehiculeController.saveNewVehicule(V);
 //							AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
@@ -217,7 +227,7 @@ public class AddNewVehicule  extends JPanel{
 			}
 		});
 		
-	// BOUTON ENREGISTRER  VEHICULE
+// BOUTON ENREGISTRER  VEHICULE
 		JButton saveNewVehicule = new JButton("Enregistrer");
 		saveNewVehicule.setBackground(viewSettings.SECONDARY);
 		saveNewVehicule.setBounds(544, 486, 159, 37);
@@ -232,11 +242,10 @@ public class AddNewVehicule  extends JPanel{
 								carburant.getText(),
 								Long.parseLong(kilometrage.getText()),
 								Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
-								Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
+								Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),//prendre le code park uniquement
 								Integer.parseInt(prixLocation.getText()),
 								disponible.isSelected());
-						VehiculeController.saveNewVehicule(AddNewVehicule.this,V);
-//						AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
+						VehiculeController.saveNewVehicule(V);
 					}catch(NumberFormatException ex) {
 						JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 					}
@@ -248,7 +257,7 @@ public class AddNewVehicule  extends JPanel{
 		});
 		this.add(saveNewVehicule);
 		
-	// BOUTON POUR VIDER TOUT LES CHAMPS	
+// BOUTON POUR VIDER TOUT LES CHAMPS	
 		JButton deleteNewVehiculeFields = new JButton("Effacer tout");
 		deleteNewVehiculeFields.setBackground(viewSettings.SECONDARY);
 		deleteNewVehiculeFields.setBounds(284, 486, 159, 37);
@@ -259,7 +268,7 @@ public class AddNewVehicule  extends JPanel{
 		});
 		this.add(deleteNewVehiculeFields);
 		
-	// BOUTON POUR ANNULER L'AJOUT	
+// BOUTON POUR ANNULER L'AJOUT	
 		JButton CancelNewVehiculeCreation = new JButton("Annuler");
 		CancelNewVehiculeCreation.setBackground(viewSettings.SECONDARY);
 		CancelNewVehiculeCreation.setBounds(28, 486, 159, 37);
@@ -279,6 +288,9 @@ public class AddNewVehicule  extends JPanel{
 		kilometrage.setBounds(97, 240, 249, 27);
 		kilometrage.setColumns(10);
 		this.add(kilometrage);
+		
+//AJOUTER L'ENREGISTREMENT LORSQU'ON CLIQUE SUR BOUTON ENTRER
+		
 		kilometrage.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -295,7 +307,7 @@ public class AddNewVehicule  extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText()),
 									disponible.isSelected());
-							VehiculeController.saveNewVehicule(AddNewVehicule.this,V);
+							VehiculeController.saveNewVehicule(V);
 //							AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
@@ -340,11 +352,13 @@ public class AddNewVehicule  extends JPanel{
 		
 		YcomboBox = new JComboBox();
 		YcomboBox.setBackground(viewSettings.SECONDARY);
-		YcomboBox.setModel(new DefaultComboBoxModel(new String[] {"2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012","2011","2010",
-																"2009","2008","2007","2006","2005","2004","2003","2002","2001","2000","1999","1998","1997","1996",
-																"1995","1994","1993","1992","1991","1990","1989","1988","1987","1986","1985","1984","1983","1982",
-																"1981","1980","1979","1978","1977","1976","1975","1974","1973","1972","1971","1970","1969","1968",
-																"1967","1966","1965","1964","1963","1962","1961","1960"}));
+		Year year= Year.now();
+		ArrayList<Year> YearAL = new ArrayList<Year>();
+		while(year.isAfter(Year.parse("1949"))) {
+			YearAL.add(year);
+			year=year.minusYears(1);
+		}
+		YcomboBox.setModel(new DefaultComboBoxModel(YearAL.toArray()));
 		YcomboBox.setBounds(138, 430, 110, 27);
 		add(YcomboBox);
 		
@@ -384,6 +398,9 @@ public class AddNewVehicule  extends JPanel{
 		prixLocation.setColumns(10);
 		prixLocation.setBounds(401, 240, 242, 27);
 		add(prixLocation);
+		
+//AJOUTER L'ENREGISTREMENT LORSQU'ON CLIQUE SUR BOUTON ENTRER
+		
 		prixLocation.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -400,7 +417,7 @@ public class AddNewVehicule  extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText()),
 									disponible.isSelected());
-							VehiculeController.saveNewVehicule(AddNewVehicule.this,V);
+							VehiculeController.saveNewVehicule(V);
 //							AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
@@ -422,7 +439,7 @@ public class AddNewVehicule  extends JPanel{
 	
 	
 	
-	//METHODE RENSEIGNANT LE DAY COMBOBOX SELON LE MOIS ET L'ANNEE
+//METHODE RENSEIGNANT LE DAY COMBOBOX SELON LE MOIS ET L'ANNEE
 	private void DayCBSetModel(JComboBox annee, JComboBox mois, JComboBox jour) {
 		mois.addActionListener(new ActionListener() {
 			@SuppressWarnings("unchecked")
@@ -497,14 +514,7 @@ public class AddNewVehicule  extends JPanel{
 	}
 
 
-
-
-
-
 //SETTERS
-//	public void setTable(JTable t) {
-//		this.table=t;//TO PASS THE TABLE AS A PARAMETER SO WE CAN INVOKE  fetchAll()
-//	}
 	public static void setPanel(VehiculePanel p) {// POUR POUVOIR REVENIR AU MENU PRECEDENT
 		AddNewVehicule.vehiculePanel=p;
 	}

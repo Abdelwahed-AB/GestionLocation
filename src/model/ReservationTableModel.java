@@ -54,7 +54,7 @@ public class ReservationTableModel extends AbstractTableModel{
 					Integer.toString(r.getCodeReservation()),
 					c.getNomClient(),
 					c.getPrenomClient(),
-					r.getVehicule().getCodeVehicule(),
+					r.getVehicule().getMatricule(),
 					r.getDateDepart().toString(),
 					r.getDateRetour().toString()
 			};

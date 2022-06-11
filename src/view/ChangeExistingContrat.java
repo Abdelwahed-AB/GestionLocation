@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.Year;
+import java.util.ArrayList;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import controller.ContratController;
+import dao.ReservationDAO;
 import interfaces.MainInterface;
 public class ChangeExistingContrat extends JPanel {
 
@@ -52,21 +55,8 @@ public class ChangeExistingContrat extends JPanel {
 		saveChanges.setBounds(531, 479, 159, 42);
 		saveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(ChangeExistingContrat.YcomboBox.getSelectedIndex()>=0
-					&&ChangeExistingContrat.McomboBox.getSelectedIndex()>=0
-					&&ChangeExistingContrat.DcomboBox.getSelectedIndex()>=0) {//TESTER SI L'UTILISATEUR A SELECTIONNER TOUS LES CHAMPS
-					try {
-						Date date=Date.valueOf(ChangeExistingContrat.YcomboBox.getSelectedItem()+"-"+
-									ChangeExistingContrat.McomboBox.getSelectedItem()+"-"+
-									ChangeExistingContrat.DcomboBox.getSelectedItem());
-							ContratController.saveChanges(date,ChangeExistingContrat.oldId);
-					}catch(NumberFormatException ex) {
-						JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
-					}
-				}else {
-					JOptionPane.showMessageDialog(null,"Veuillez renseigner tous les champs", "Manque de données", JOptionPane.WARNING_MESSAGE);
-				}
-				
+				ContratController.setCEC(ChangeExistingContrat.this);
+				ContratController.saveChanges(ChangeExistingContrat.oldId);				
 			}
 		});
 		this.add(saveChanges);
@@ -105,12 +95,13 @@ public class ChangeExistingContrat extends JPanel {
 				
 			}
 		});
-		YcomboBox.setModel(new DefaultComboBoxModel(new String[] {"2039","2038","2037","2036","2035","2034","2033","2032","2031","2030","2029","2028","2027","2026",
-																"2025","2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012",
-																"2011","2010","2009","2008","2007","2006","2005","2004","2003","2002","2001","2000","1999","1998",
-																"1997","1996","1995","1994","1993","1992","1991","1990","1989","1988","1987","1986","1985","1984",
-																"1983","1982","1981","1980","1979","1978","1977","1976","1975","1974","1973","1972","1971","1970",
-																"1969","1968","1967","1966","1965","1964","1963","1962","1961","1960"}));
+		Year year=Year.now().plusYears(20);
+		ArrayList<Year> YearAL = new ArrayList<Year>();
+		while(year.isAfter(Year.parse("1949"))) {
+			YearAL.add(year);
+			year=year.minusYears(1);
+		}
+		YcomboBox.setModel(new DefaultComboBoxModel(YearAL.toArray()));
 		YcomboBox.setBounds(88, 228, 110, 27);
 		add(YcomboBox);
 		

@@ -1,8 +1,6 @@
 package view;
 
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.time.Year;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,15 +19,14 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import controller.UserController;
 import controller.VehiculeController;
 import interfaces.MainInterface;
 import model.Vehicule;
 
 public class ChangeExistingVehicle extends JPanel{
 
-	// ATTRIBUTS DE LA CLASSE ADDNEWVEHICULE
+// ATTRIBUTS DE LA CLASSE ADDNEWVEHICULE
+	
 	private MainInterface mainInterface;
 	private JTable table;
 	private CardLayout cl;
@@ -45,10 +43,11 @@ public class ChangeExistingVehicle extends JPanel{
 	private JCheckBox disponible;
 	private JLabel lbl_disp ;
 	private static  String oldId;
-	
+	private static int oldCodePark;
 
-	private static VehiculePanel vehiculePanel;
-	// CONSTRUCTOR
+	
+// CONSTRUCTOR
+	
 	public ChangeExistingVehicle(MainInterface mainInterface) {
 		setLayout(null);
 		setBounds(new Rectangle(0, 0, 732, 547));
@@ -56,7 +55,9 @@ public class ChangeExistingVehicle extends JPanel{
 		this.cl = (CardLayout) mainInterface.getMainPanel().getLayout();
 		initialize();
 	}
-	// METHODE INITIALIZE QUI CREE UN PANEL
+	
+// METHODE INITIALIZE QUI CREE UN PANEL
+	
 	@SuppressWarnings("unchecked")
 	private void initialize() {
 		setLayout(null);
@@ -75,6 +76,9 @@ public class ChangeExistingVehicle extends JPanel{
 		ImmatriculationVehicule.setBounds(70, 96, 262, 27);
 		ImmatriculationVehicule.setColumns(10);
 		this.add(ImmatriculationVehicule);
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		ImmatriculationVehicule.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -90,7 +94,7 @@ public class ChangeExistingVehicle extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText())
 									,disponible.isSelected());
-							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId,ChangeExistingVehicle.oldCodePark);							
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
@@ -111,6 +115,7 @@ public class ChangeExistingVehicle extends JPanel{
 		marqueVehicule.setBounds(366, 96, 279, 27);
 		marqueVehicule.setColumns(10);
 		this.add(marqueVehicule);
+//ENREGISTRER EN CLIQUANT SUR ENTRER
 		marqueVehicule.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -126,7 +131,7 @@ public class ChangeExistingVehicle extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText())
 									,disponible.isSelected());
-							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId,ChangeExistingVehicle.oldCodePark);							
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
@@ -147,6 +152,10 @@ public class ChangeExistingVehicle extends JPanel{
 		typeVehicule.setBounds(70, 156, 262, 27);
 		typeVehicule.setColumns(10);
 		this.add(typeVehicule);
+		
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		typeVehicule.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -162,7 +171,7 @@ public class ChangeExistingVehicle extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText())
 									,disponible.isSelected());
-							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId,ChangeExistingVehicle.oldCodePark);							
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
@@ -183,6 +192,9 @@ public class ChangeExistingVehicle extends JPanel{
 		carburant.setBounds(366, 156, 279, 27);
 		carburant.setColumns(10);
 		this.add(carburant);
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER		
+		
 		carburant.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -198,7 +210,7 @@ public class ChangeExistingVehicle extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText())
 									,disponible.isSelected());
-							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId,ChangeExistingVehicle.oldCodePark);							
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
@@ -210,36 +222,39 @@ public class ChangeExistingVehicle extends JPanel{
 			}
 		});
 		
-	// BOUTON ENREGISTRER  VEHICULE
+// BOUTON ENREGISTRER  VEHICULE
 		JButton saveChanges = new JButton("Enregistrer");
 		saveChanges.setBackground(viewSettings.SECONDARY);
 		saveChanges.setBounds(531, 479, 159, 42);
-		saveChanges.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(!VehiculeController.empty(ChangeExistingVehicle.this)) {
-					try {
-						Vehicule V = new Vehicule(ImmatriculationVehicule.getText(),
-								marqueVehicule.getText(),
-								typeVehicule.getText(),
-								carburant.getText(),
-								Long.parseLong(kilometrage.getText()),
-								Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
-								Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
-								Integer.parseInt(prixLocation.getText())
-								,disponible.isSelected());
-						VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
-					}catch(NumberFormatException ex) {
-						JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+		saveChanges.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!VehiculeController.empty(ChangeExistingVehicle.this)) {
+						try {
+							Vehicule V = new Vehicule(ImmatriculationVehicule.getText(),
+									marqueVehicule.getText(),
+									typeVehicule.getText(),
+									carburant.getText(),
+									Long.parseLong(kilometrage.getText()),
+									Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
+									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
+									Integer.parseInt(prixLocation.getText())
+									,disponible.isSelected());
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId,ChangeExistingVehicle.oldCodePark);							
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
 					}
-				}
-				else {
-					JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
 				}
 			}
 		});
 		this.add(saveChanges);
 		
-	// BOUTON POUR VIDER TOUT LES CHAMPS	
+// BOUTON POUR VIDER TOUT LES CHAMPS	
 		JButton emptyAllFields = new JButton("Effacer tout");
 		emptyAllFields.setBackground(viewSettings.SECONDARY);
 		emptyAllFields.setBounds(284, 481, 159, 42);
@@ -250,7 +265,7 @@ public class ChangeExistingVehicle extends JPanel{
 		});
 		this.add(emptyAllFields);
 		
-	// BOUTON POUR ANNULER L'AJOUT	
+// BOUTON POUR ANNULER L'AJOUT	
 		JButton CancelChanging = new JButton("Annuler");
 		CancelChanging.setBackground(viewSettings.SECONDARY);
 		CancelChanging.setBounds(27, 481, 159, 42);
@@ -270,6 +285,9 @@ public class ChangeExistingVehicle extends JPanel{
 		kilometrage.setBounds(70, 223, 262, 27);
 		kilometrage.setColumns(10);
 		this.add(kilometrage);
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		kilometrage.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -285,7 +303,7 @@ public class ChangeExistingVehicle extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText())
 									,disponible.isSelected());
-							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId,ChangeExistingVehicle.oldCodePark);							
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
@@ -332,11 +350,13 @@ public class ChangeExistingVehicle extends JPanel{
 				
 			}
 		});
-		YcomboBox.setModel(new DefaultComboBoxModel(new String[] {"2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012","2011","2010",
-																"2009","2008","2007","2006","2005","2004","2003","2002","2001","2000","1999","1998","1997","1996",
-																"1995","1994","1993","1992","1991","1990","1989","1988","1987","1986","1985","1984","1983","1982",
-																"1981","1980","1979","1978","1977","1976","1975","1974","1973","1972","1971","1970","1969","1968",
-																"1967","1966","1965","1964","1963","1962","1961","1960"}));
+		Year year= Year.now();
+		ArrayList<Year> YearAL = new ArrayList<Year>();
+		while(year.isAfter(Year.parse("1949"))) {
+			YearAL.add(year);
+			year=year.minusYears(1);
+		}
+		YcomboBox.setModel(new DefaultComboBoxModel(YearAL.toArray()));
 		YcomboBox.setBounds(144, 432, 110, 27);
 		add(YcomboBox);
 		
@@ -380,6 +400,9 @@ public class ChangeExistingVehicle extends JPanel{
 		prixLocation.setColumns(10);
 		prixLocation.setBounds(366, 223, 279, 27);
 		add(prixLocation);
+		
+//ENREGISTRER EN CLIQUANT SUR ENTRER
+		
 		prixLocation.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -395,7 +418,7 @@ public class ChangeExistingVehicle extends JPanel{
 									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
 									Integer.parseInt(prixLocation.getText())
 									,disponible.isSelected());
-							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId,ChangeExistingVehicle.oldCodePark);							
 						}catch(NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 						}
@@ -413,10 +436,8 @@ public class ChangeExistingVehicle extends JPanel{
 		add(parkComboBox);
 		parkComboBox.setModel(new DefaultComboBoxModel(VehiculeController.ParksNames().toArray()));
 	}
-	
-	
-	
-	//METHODE RENSEIGNANT LE DAY COMBOBOX SELON LE MOIS ET L'ANNEE
+		
+//METHODE RENSEIGNANT LE DAY COMBOBOX SELON LE MOIS ET L'ANNEE
 	private void DayCBSetModel(JComboBox annee, JComboBox mois, JComboBox jour) {
 		mois.addActionListener(new ActionListener() {
 			@SuppressWarnings("unchecked")
@@ -493,13 +514,10 @@ public class ChangeExistingVehicle extends JPanel{
 
 
 //SETTERS
-//	public void setTable(JTable t) {
-//		this.table=t;//TO PASS THE TABLE AS A PARAMETER SO WE CAN INVOKE  fetchAll()
-//	}
-	public static void setPanel(VehiculePanel p) {// POUR POUVOIR REVENIR AU MENU PRECEDENT
-		ChangeExistingVehicle.vehiculePanel=p;
-	}
 	public static void setOldId(String oldId) {
 		ChangeExistingVehicle.oldId=oldId;
+	}
+	public static void setOldCodePark(int oldCodePark) {
+		ChangeExistingVehicle.oldCodePark=oldCodePark;
 	}
 }

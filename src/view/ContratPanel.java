@@ -66,7 +66,7 @@ public class ContratPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				AddNewContract.setPanel(ContratPanel.this);
 				ContratController.setWindow(mainInterface);// pour pouvoir instancier le panelAddNewContrat
-				ContratController.displayReservation();
+				ContratController.displayReservation();//actualiser la table des reservations
 				ContratController.addContrat();
 			}
 		});

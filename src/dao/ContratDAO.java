@@ -29,7 +29,8 @@ public class ContratDAO {
 			Contrat c=new Contrat(result.getInt("codeContrat"), 
 						result.getDate("dateContrat"), 
 						result.getDate("dateEcheance"),
-						result.getDate("dateRetActuel"));
+						result.getDate("dateRetActuel"),
+						result.getInt("codeReservation"));
 				contrat_list.add(c);
 			}
 				
@@ -51,10 +52,11 @@ public class ContratDAO {
 			ResultSet result = prepared.executeQuery();
 			try {
 				while (result.next()) {
-					c=new Contrat(result.getInt("codeContrat"), 
-							result.getDate("dateContrat"), 
-							result.getDate("dateEcheance"),
-							result.getDate("dateRetActuel"));
+					 c=new Contrat(result.getInt("codeContrat"), 
+								result.getDate("dateContrat"), 
+								result.getDate("dateEcheance"),
+								result.getDate("dateRetActuel"),
+								result.getInt("codeReservation"));
 					c.setCodeReservation(result.getInt("codeReservation"));
 				}
 				
@@ -98,10 +100,11 @@ public class ContratDAO {
 			ResultSet result = prepared.executeQuery();
 			try {
 				while (result.next()) {
-					Contrat c=new Contrat(result.getInt("codeContrat"), 
+					Contrat  c=new Contrat(result.getInt("codeContrat"), 
 							result.getDate("dateContrat"), 
 							result.getDate("dateEcheance"),
-							result.getDate("dateRetActuel"));
+							result.getDate("dateRetActuel"),
+							result.getInt("codeReservation"));
 					contrat_list.add(c);
 				}
 					
