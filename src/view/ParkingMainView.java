@@ -53,7 +53,12 @@ public class ParkingMainView extends JPanel {
 		warninglbl.setBounds(10, 51, 574, 21);
 		add(warninglbl);
 
-		parkingtable = new JTable();
+		parkingtable = new JTable(){
+			@Override
+			public boolean isCellEditable(int row, int column){  
+		        return false;  
+			}
+		};
 		parkingtable.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

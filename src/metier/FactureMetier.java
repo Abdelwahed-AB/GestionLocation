@@ -202,7 +202,7 @@ public interface FactureMetier {
 			//Second Row
 			location.addCell(
 					//TODO change code vehicule into vehicule object
-					new Cell().add(new Paragraph(f.getContrat().getReservation().getVehicule().getCodeVehicule()))
+					new Cell().add(new Paragraph(f.getContrat().getReservation().getVehicule().getMatricule()))
 						.setFontSize(7f)
 						.setTextAlignment(TextAlignment.CENTER)
 						.setBorder(Border.NO_BORDER)

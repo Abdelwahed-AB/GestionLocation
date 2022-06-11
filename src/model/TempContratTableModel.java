@@ -51,7 +51,7 @@ public class TempContratTableModel extends AbstractTableModel {
 				c.getDateContrat().toString(),
 				c.getDateEcheance().toString(),
 				c.getDateRetActuel().toString(),
-				c.getReservation().getVehicule().getCodeVehicule(),
+				c.getReservation().getVehicule().getMatricule(),
 				Integer.toString(c.getMontantSanction())
 			};
 			

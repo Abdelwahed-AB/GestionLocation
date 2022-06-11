@@ -47,7 +47,7 @@ public class ModifierReserPanel extends JPanel {
 		this.isCanceled = r.isCanceled();
 		//this.reserv_panel = reserv_panel;
 		this.codeReserv = r.getCodeReservation();
-		this.codeVehicule = r.getVehicule().getCodeVehicule();
+		this.codeVehicule = r.getVehicule().getMatricule();
 		
 		initialize();
 	}
@@ -313,7 +313,7 @@ public class ModifierReserPanel extends JPanel {
 	public boolean isCanceled() {
 		return isCanceled;
 	}
-	public String getCodeVehicule() {
+	public String getMatricule() {
 		return codeVehicule;
 	}
 	

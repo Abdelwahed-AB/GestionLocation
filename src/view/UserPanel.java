@@ -50,6 +50,7 @@ public class UserPanel extends JPanel{
 		this.add(UScrollPane);
 		uTable = new UserTableModel();
 		userTable=new JTable(uTable);
+		userTable.setSelectionBackground(viewSettings.SECONDARY);
 		UScrollPane.setViewportView(userTable);
 		userTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		/**ADD NEW USER*/

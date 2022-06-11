@@ -181,7 +181,7 @@ public class ReservationController {
 			return;
 		}
 
-		String codeVehicule = mod_reserv.getCodeVehicule();
+		String codeVehicule = mod_reserv.getMatricule();
 		int codeReserv = mod_reserv.getCodeReserv();
 		boolean isValid = mod_reserv.isValid();
 		boolean isCanceled = mod_reserv.isCanceled();

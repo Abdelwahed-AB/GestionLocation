@@ -88,7 +88,8 @@ public class ModifierClientPanel extends JPanel {
 		this.add(imagePath);
 
 		JLabel permisPath = new JLabel(client.getPermisScannee());
-		permisPath.setBounds(372, 393, 202, 14);
+		permisPath.setHorizontalAlignment(SwingConstants.CENTER);
+		permisPath.setBounds(396, 393, 202, 14);
 		this.add(permisPath);
 
 		JLabel warningLabel = new JLabel("");
@@ -98,12 +99,12 @@ public class ModifierClientPanel extends JPanel {
 
 		JLabel imageClient = new JLabel();
 		imageClient.setHorizontalAlignment(SwingConstants.CENTER);
-		imageClient.setBounds(55, 150, 179, 217);
+		imageClient.setBounds(40, 166, 179, 217);
 		add(imageClient);
 		ClientController.prepareImage(client.getImage(), imageClient);
 
 		JLabel permisClient = new JLabel();
-		permisClient.setBounds(291, 150, 381, 224);
+		permisClient.setBounds(309, 166, 381, 224);
 		add(permisClient);
 		ClientController.prepareImage(client.getPermisScannee(), permisClient);
 
@@ -181,7 +182,7 @@ public class ModifierClientPanel extends JPanel {
 				}
 			}
 		});
-		imageButton.setBounds(69, 421, 109, 23);
+		imageButton.setBounds(68, 417, 130, 23);
 		this.add(imageButton);
 
 		JButton permisButton = new JButton("Choisir un fichier");
@@ -212,7 +213,7 @@ public class ModifierClientPanel extends JPanel {
 				}
 			}
 		});
-		permisButton.setBounds(418, 418, 109, 23);
+		permisButton.setBounds(432, 417, 131, 23);
 		this.add(permisButton);
 
 		JButton buttonSauvgarder = new JButton("Sauvgarder");

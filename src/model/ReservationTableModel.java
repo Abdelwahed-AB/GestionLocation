@@ -32,7 +32,6 @@ public class ReservationTableModel extends AbstractTableModel{
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
 		return rows.get(rowIndex)[columnIndex];
 	}
 	
@@ -54,7 +53,7 @@ public class ReservationTableModel extends AbstractTableModel{
 					Integer.toString(r.getCodeReservation()),
 					c.getNomClient(),
 					c.getPrenomClient(),
-					r.getVehicule().getCodeVehicule(),
+					r.getVehicule().getMatricule(),
 					r.getDateDepart().toString(),
 					r.getDateRetour().toString()
 			};

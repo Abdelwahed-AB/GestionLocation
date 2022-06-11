@@ -188,7 +188,7 @@ public class ContratDAO {
 				Client cli = new Client();
 				Vehicule v = new Vehicule();
 				
-				v.setCodeVehicule(result.getString("codeVehicule"));
+				v.setMatricule(result.getString("codeVehicule"));
 				
 				cli.setNomClient(result.getString("nomClient"));
 				cli.setPrenomClient(result.getString("prenomClient"));
@@ -238,7 +238,7 @@ public class ContratDAO {
 			Client cli = new Client();
 			Vehicule v = new Vehicule();
 			
-			v.setCodeVehicule(result.getString("codeVehicule"));
+			v.setMatricule(result.getString("codeVehicule"));
 			
 			cli.setNomClient(result.getString("nomClient"));
 			cli.setPrenomClient(result.getString("prenomClient"));

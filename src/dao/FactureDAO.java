@@ -43,7 +43,7 @@ public interface FactureDAO {
 				client.setCodeClient(result.getInt("codeClient"));
 				
 				Vehicule vehicule = new Vehicule();
-				vehicule.setCodeVehicule(result.getString("codeVehicule"));
+				vehicule.setMatricule(result.getString("codeVehicule"));
 				vehicule.setPrixLocation(result.getInt("prixLocation"));
 				
 				Reservation reserv = new Reservation();
@@ -103,7 +103,7 @@ public interface FactureDAO {
 				client.setCodeClient(result.getInt("codeClient"));
 				
 				Vehicule vehicule = new Vehicule();
-				vehicule.setCodeVehicule(result.getString("codeVehicule"));
+				vehicule.setMatricule(result.getString("codeVehicule"));
 				vehicule.setPrixLocation(result.getInt("prixLocation"));
 				
 				Reservation reserv = new Reservation();
@@ -207,7 +207,7 @@ public interface FactureDAO {
 				client.setCodeClient(result.getInt("codeClient"));
 				
 				Vehicule vehicule = new Vehicule();
-				vehicule.setCodeVehicule(result.getString("codeVehicule"));
+				vehicule.setMatricule(result.getString("codeVehicule"));
 				vehicule.setPrixLocation(result.getInt("prixLocation"));
 				
 				Reservation reserv = new Reservation();

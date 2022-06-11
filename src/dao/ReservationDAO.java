@@ -55,7 +55,7 @@ public interface ReservationDAO {
 				r.setCodeReservation(result.getInt("codeReservation"));
 				
 				r.getClient().setCodeClient(result.getInt("codeClient"));
-				r.getVehicule().setCodeVehicule(result.getString("codeVehicule"));
+				r.getVehicule().setMatricule(result.getString("codeVehicule"));
 				
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));
@@ -118,7 +118,7 @@ public interface ReservationDAO {
 				r.setCodeReservation(result.getInt("codeReservation"));
 				
 				r.getClient().setCodeClient(result.getInt("codeClient"));
-				r.getVehicule().setCodeVehicule(result.getString("codeVehicule"));
+				r.getVehicule().setMatricule(result.getString("codeVehicule"));
 				
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));
@@ -176,7 +176,7 @@ public interface ReservationDAO {
 				r.setCodeReservation(result.getInt("codeReservation"));
 				
 				r.getClient().setCodeClient(result.getInt("codeClient"));
-				r.getVehicule().setCodeVehicule(result.getString("codeVehicule"));
+				r.getVehicule().setMatricule(result.getString("codeVehicule"));
 				
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));

@@ -51,7 +51,12 @@ public class ClientMainView extends JPanel {
 		warninglbl.setBounds(10, 51, 574, 22);
 		this.add(warninglbl);
 
-		clienttable = new JTable();
+		clienttable = new JTable(){
+			@Override
+			public boolean isCellEditable(int row, int column){  
+		        return false;  
+			}
+		};
 		clienttable.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

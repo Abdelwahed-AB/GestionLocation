@@ -83,8 +83,13 @@ public class AfficherClientPanel extends JPanel {
 		scrollPane.setBounds(51, 308, 649, 158);
 		add(scrollPane);
 
-		// table de voiture lou�e
-		table_1 = new JTable();
+		// table de voiture louee
+		table_1 = new JTable() {
+			@Override
+			public boolean isCellEditable(int row, int column){  
+		        return false;  
+			}
+		};
 		table_1.setBackground(secondaryColor);
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("Matricule");

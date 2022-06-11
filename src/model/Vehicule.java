@@ -75,12 +75,8 @@ public class Vehicule {
 	public boolean getDisponible() {
 		return this.disponible;
 	}
-	
-	public String getCodeVehicule() {
-		return this.Matricule;
-	}
 
-	public void setCodeVehicule(String codeVehicule) {
+	public void setMatricule(String codeVehicule) {
 		this.Matricule = codeVehicule;
 	}
 

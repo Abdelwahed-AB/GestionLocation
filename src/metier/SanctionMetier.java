@@ -182,7 +182,7 @@ public interface SanctionMetier {
 		for(Contrat c : s.getContratList()) {
 			location.addCell(
 					//TODO change code vehicule into vehicule object
-					new Cell().add(new Paragraph(c.getReservation().getVehicule().getCodeVehicule()))
+					new Cell().add(new Paragraph(c.getReservation().getVehicule().getMatricule()))
 					.setFontSize(7f)
 					.setTextAlignment(TextAlignment.CENTER)
 					.setBorder(Border.NO_BORDER)

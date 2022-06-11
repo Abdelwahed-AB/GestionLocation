@@ -71,11 +71,12 @@ public class NouveauClientPanel extends JPanel {
 
 		JLabel imagePath = new JLabel("Image de taille 179x217");
 		imagePath.setHorizontalAlignment(SwingConstants.CENTER);
-		imagePath.setBounds(25, 393, 202, 14);
+		imagePath.setBounds(25, 393, 187, 14);
 		this.add(imagePath);
 
 		JLabel permisPath = new JLabel("");
-		permisPath.setBounds(372, 393, 202, 14);
+		permisPath.setHorizontalAlignment(SwingConstants.CENTER);
+		permisPath.setBounds(380, 393, 202, 14);
 		this.add(permisPath);
 
 		JLabel warningLabel = new JLabel("");
@@ -85,11 +86,11 @@ public class NouveauClientPanel extends JPanel {
 
 		JLabel imageClient = new JLabel("");
 		imageClient.setHorizontalAlignment(SwingConstants.CENTER);
-		imageClient.setBounds(55, 150, 179, 217);
+		imageClient.setBounds(33, 166, 179, 217);
 		add(imageClient);
 
 		JLabel permisClient = new JLabel("");
-		permisClient.setBounds(291, 150, 381, 224);
+		permisClient.setBounds(291, 159, 381, 224);
 		add(permisClient);
 
 		JButton buttonEffacer = new JButton("Effacer Tout");
@@ -171,7 +172,7 @@ public class NouveauClientPanel extends JPanel {
 				}
 			}
 		});
-		imageButton.setBounds(69, 421, 109, 23);
+		imageButton.setBounds(68, 417, 131, 23);
 		this.add(imageButton);
 
 		JButton permisButton = new JButton("choisir un fichier");
@@ -202,7 +203,7 @@ public class NouveauClientPanel extends JPanel {
 				}
 			}
 		});
-		permisButton.setBounds(418, 418, 109, 23);
+		permisButton.setBounds(420, 417, 131, 23);
 		this.add(permisButton);
 
 		JButton buttonSauvgarder = new JButton("Sauvgarder");

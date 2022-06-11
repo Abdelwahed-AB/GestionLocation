@@ -87,7 +87,7 @@ public interface SanctionDAO {
 				cont.setMontantSanction(result.getInt("montantSanction"));
 				
 				Vehicule v = new Vehicule();
-				v.setCodeVehicule(result.getString("codeMatricule"));
+				v.setMatricule(result.getString("codeMatricule"));
 				
 				Reservation reserv = new Reservation();
 				reserv.setVehicule(v);
