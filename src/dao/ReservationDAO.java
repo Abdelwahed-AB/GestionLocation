@@ -23,24 +23,25 @@ public interface ReservationDAO {
 	 * @return list of reservations
 	 */
 	public static ArrayList<Reservation> fetchAll (filtre fil) {
-		String query= "SELECT * FROM reservation ";
+		String query= "SELECT * FROM reservation, vehicule";
 		switch(fil) {
 			case Tous:
+				query += " WHERE ";
 				break;
 			case Valide:
 				//Select seulement les reservations validees et non Annulees
-				query += "WHERE isValid = true AND isCanceled = false ";
+				query += "WHERE isValid = true AND isCanceled = false AND ";
 				break;
 			case Non_valide:
 				//Select seulement les reservations non validees et non Annulees
-				query += "WHERE isValid = false AND isCanceled = false ";
+				query += "WHERE isValid = false AND isCanceled = false AND ";
 				break;
 			case Annule:
 				//Select Seulement les reservations annulees
-				query += "WHERE isCanceled = true ";
+				query += "WHERE isCanceled = true AND ";
 				break;
 		}
-		query += "ORDER BY dateReservation DESC;";
+		query += "reservation.codeVehicule = vehicule.Immatriculation ORDER BY dateReservation DESC;";
 		ResultSet result = ConnectionManager.execute(query);
 		ArrayList<Reservation> reservList = new ArrayList<>();
 
@@ -56,6 +57,7 @@ public interface ReservationDAO {
 
 				r.getClient().setCodeClient(result.getInt("codeClient"));
 				r.getVehicule().setMatricule(result.getString("codeVehicule"));
+				r.getVehicule().setCodePark(result.getInt("codePark"));
 
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));
@@ -96,10 +98,11 @@ public interface ReservationDAO {
 	}
 	//CHERCHER LES RESERVATION DONT LiNTERVALLE DE VALIDITE COMPRENDS LA DATE ACTUELLE
 	public static ArrayList<Reservation> fetchAll2 (filtre fil) {
-		String query= "SELECT * FROM reservation ";
+		String query= "SELECT * FROM reservation , vehicule";
 		query += "WHERE isValid = false AND isCanceled = false ";
 		query += "AND current_date() >= dateDepReservation "
 				+ "AND current_date() < dateRetReservation "
+				+ "AND reservation.codeVehicule = vehicule.Immatriculation "
 				+ "ORDER BY dateReservation DESC;";
 		ResultSet result = ConnectionManager.execute(query);
 		ArrayList<Reservation> reservList = new ArrayList<>();
@@ -116,6 +119,7 @@ public interface ReservationDAO {
 
 				r.getClient().setCodeClient(result.getInt("codeClient"));
 				r.getVehicule().setMatricule(result.getString("codeVehicule"));
+				r.getVehicule().setCodePark(result.getInt("codePark"));
 
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));
@@ -220,7 +224,9 @@ public interface ReservationDAO {
 	 * @return ArrayList<Reservation> qui contient une seule reservation aux max.
 	 */
 	public static ArrayList<Reservation> findReservation(int codeReservation) {
-		String query = "SELECT * FROM reservation WHERE codeReservation = ?;";
+		String query = "SELECT * FROM reservation, vehicule "
+				+ "WHERE codeReservation = ? "
+				+ "AND reservation.codeVehicule = vehicule.Immatriculation;";
 		PreparedStatement preparedSt;
 
 		ArrayList<Reservation> reservList = new ArrayList<>();
@@ -239,6 +245,7 @@ public interface ReservationDAO {
 
 				r.getClient().setCodeClient(result.getInt("codeClient"));
 				r.getVehicule().setMatricule(result.getString("codeVehicule"));
+				r.getVehicule().setCodePark(result.getInt("codePark"));
 
 				r.setDateDepart(result.getDate("dateDepReservation"));
 				r.setDateRetour(result.getDate("dateRetReservation"));

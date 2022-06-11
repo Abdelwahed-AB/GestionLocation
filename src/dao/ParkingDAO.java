@@ -215,7 +215,7 @@ public class ParkingDAO {
 			prepared.execute();
 			//ajouter la date de retoure au contrat lors d'ajout de la vehicule au park 
 			prepared = ConnectionManager.getConnection()
-					.prepareStatement("UPDATE `contrat` SET dateRetActuel = current_date() WHERE dateRetActuel IS NULL AND dateContrat < current_date() AND codeMatricule = ?");
+					.prepareStatement("UPDATE `contrat` SET dateRetActuel = current_date() WHERE dateRetActuel IS NULL AND dateContrat <= current_date() AND codeMatricule = ?");
 			prepared.setString(1, codeVehicule);
 			prepared.execute();
 		} catch (SQLException e) {

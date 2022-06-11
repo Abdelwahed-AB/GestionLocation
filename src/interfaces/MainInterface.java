@@ -264,6 +264,14 @@ public class MainInterface {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				switch(name) {
+				case "reserv" : reservController.ActualiserTableau();
+					break;
+				case "sanction": sanctionController.Actualiser();
+					break;
+				case "facture": factureController.ActualiserTableau();
+					break;	
+				}
 				cl.show(mainPanel, name);
 				currentPane = name;
 				for (String item : navItemList.keySet()) {

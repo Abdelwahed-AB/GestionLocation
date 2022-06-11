@@ -111,13 +111,14 @@ public class ContratDAO {
 	}
 // MEHTODE QUI AJOUTE UN contrat A  LA BASE DE DONNEES
 	public static boolean createContrat(Contrat contrat) {
-		String query="INSERT INTO `contrat` ( `dateContrat`, `dateEcheance`,`codeReservation`) VALUES ( ?, ?,?);";
+		String query="INSERT INTO `contrat` ( `dateContrat`, `dateEcheance`,`codeReservation`, `codeMatricule`) VALUES ( ?, ?, ?, ?);";
 		PreparedStatement prepared;
 		try {
 			prepared = ConnectionManager.getConnection().prepareStatement(query);
 			prepared.setDate(1, contrat.getDateContrat());
 			prepared.setDate(2, contrat.getDateEcheance());
 			prepared.setInt(3, contrat.getReservation().getCodeReservation());
+			prepared.setString(4, contrat.getReservation().getVehicule().getMatricule());
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
