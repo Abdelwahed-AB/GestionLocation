@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import dao.ContratDAO;
+import dao.ParkingDAO;
 import dao.ReservationDAO;
 import interfaces.MainInterface;
 import model.Contrat;
@@ -151,6 +152,7 @@ public class ContratController {
 			ContratController.displayReservation();
 			JOptionPane.showMessageDialog(null,"Contrat creé avec succés", "Creation avec succés", JOptionPane.INFORMATION_MESSAGE);
 			window.showOnMainPanel("contrat");
+			ParkingDAO.removeVehiculeDAO(reserv.getVehicule().getMatricule(), reserv.getVehicule().getCodePark());//FAIRE SORTIR LE VEHICULE DE SON PARKING
 		}else {
 			JOptionPane.showMessageDialog(null,"Aucune reservation n'est selectionnée", "Ajout echoué", JOptionPane.ERROR_MESSAGE);
 		}	
