@@ -252,10 +252,8 @@ public class ChangeExistingVehicle extends JPanel {
 		saveChanges.setForeground(viewSettings.WHITE);
 		saveChanges.setBounds(531, 479, 159, 42);
 		saveChanges.addActionListener(new ActionListener() {
-
 			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			public void actionPerformed(ActionEvent e) {
 					if (!VehiculeController.empty(ChangeExistingVehicle.this)) {
 						try {
 							Vehicule V = new Vehicule(ImmatriculationVehicule.getText(),
@@ -281,10 +279,6 @@ public class ChangeExistingVehicle extends JPanel {
 						JOptionPane.showMessageDialog(null, "Un ou plusieurs champs sont vides", "Champs vides",
 								JOptionPane.WARNING_MESSAGE);
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Un ou plusieurs champs sont vides", "Champs vides",
-							JOptionPane.WARNING_MESSAGE);
-				}
 			}
 		});
 		this.add(saveChanges);
