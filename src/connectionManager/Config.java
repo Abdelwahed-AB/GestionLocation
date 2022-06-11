@@ -14,7 +14,7 @@ public class Config {
 	public static String IP;
 	public static String PORT;
 	public static boolean canLog;
-	
+
 	static {
 		String configFile = "config/config.ini";
 		try {

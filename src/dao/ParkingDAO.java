@@ -14,7 +14,7 @@ import model.Parking;
 public class ParkingDAO {
 
 	public static ArrayList<Parking> fetchAllDAO() {
-		ArrayList<Parking> list = new ArrayList<Parking>();
+		ArrayList<Parking> list = new ArrayList<>();
 		// la requete a executer
 		String query = "SELECT * FROM parking";
 		// execution de la requete
@@ -36,7 +36,7 @@ public class ParkingDAO {
 	}
 
 	public static ArrayList<Parking> findParkingByNameDAO(String string) {
-		ArrayList<Parking> list = new ArrayList<Parking>();
+		ArrayList<Parking> list = new ArrayList<>();
 		PreparedStatement prepared;
 		ResultSet result;
 		try {
@@ -118,7 +118,7 @@ public class ParkingDAO {
 					"UPDATE `parking` SET `nomParking` = ?, `capaciteParking` = ?, `rueParking` = ?, `arrondissement` = ?, `nombrePlaceVide` = ? WHERE `parking`.`codeParking` = ?");
 			prepared.setString(1, parking.getNomParking());
 			prepared.setInt(2, parking.getCapaciteParking());
-			;
+
 			prepared.setString(3, parking.getRueParking());
 			prepared.setString(4, parking.getArrondissementParking());
 			prepared.setInt(5, parking.getNombrePlaceVide());

@@ -1,28 +1,30 @@
 package interfaces;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ParkingController;
 import view.viewSettings;
 
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.JScrollPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import java.awt.Color;
-
 public class AjouterVehicule extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 
@@ -31,7 +33,7 @@ public class AjouterVehicule extends JDialog {
 	 */
 	public AjouterVehicule(int codeParking, int capacite) {
 
-		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 		setBounds(100, 100, 607, 427);
 		getContentPane().setLayout(new BorderLayout());
@@ -59,6 +61,7 @@ public class AjouterVehicule extends JDialog {
 		btnNewButton_1.setForeground(viewSettings.WHITE);
 		btnNewButton_1.setBackground(viewSettings.MAIN);
 		btnNewButton_1.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				get().dispose();
 			}
@@ -75,6 +78,7 @@ public class AjouterVehicule extends JDialog {
 		btnNewButton.setForeground(viewSettings.WHITE);
 		btnNewButton.setBackground(viewSettings.MAIN);
 		btnNewButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
 				if (index >= 0) {

@@ -1,6 +1,5 @@
 package controller;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,8 +8,6 @@ import java.util.Iterator;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import connectionManager.ConnectionManager;
-import dao.ClientDAO;
 import dao.ParkingDAO;
 import model.Parking;
 
@@ -59,7 +56,7 @@ public class ParkingController {
 		dtm.addColumn("nom");
 		dtm.addColumn("capacite");
 
-		Iterator itr = list.iterator();
+		Iterator<Parking> itr = list.iterator();
 
 		while (itr.hasNext()) {
 			Parking parking = (Parking) itr.next();

@@ -1,12 +1,14 @@
 package view;
 
 import java.awt.CardLayout;
-import java.awt.LayoutManager;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,11 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import controller.ParkingController;
 import interfaces.AjouterVehicule;
 import model.Parking;
-
-import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class ParkingMainView extends JPanel {
 
@@ -55,8 +52,8 @@ public class ParkingMainView extends JPanel {
 
 		parkingtable = new JTable(){
 			@Override
-			public boolean isCellEditable(int row, int column){  
-		        return false;  
+			public boolean isCellEditable(int row, int column){
+		        return false;
 			}
 		};
 		parkingtable.addKeyListener(new KeyAdapter() {
@@ -96,6 +93,7 @@ public class ParkingMainView extends JPanel {
 		parkingSearchButton.setBackground(viewSettings.MAIN);
 		parkingSearchButton.setForeground(viewSettings.WHITE);
 		parkingSearchButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String string = searchParkingTextField.getText();
 				// si le champ de recherche est vide une message doit affiché
@@ -114,6 +112,7 @@ public class ParkingMainView extends JPanel {
 		JButton nouveauParkingButton = new JButton("Nouveau Parking");
 		nouveauParkingButton.setBackground(viewSettings.SECONDARY);
 		nouveauParkingButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir la fenetre créer nouveau parking
 				NouveauParkingPanel nouveauParkingPanel = new NouveauParkingPanel(panel, parkingtable);
@@ -149,6 +148,7 @@ public class ParkingMainView extends JPanel {
 		JButton modifierParkingButton = new JButton("Modifier");
 		modifierParkingButton.setBackground(viewSettings.SECONDARY);
 		modifierParkingButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// recuperer l'index de la ligne du tableau séléctionnée
 				int index = parkingtable.getSelectedRow();
@@ -172,6 +172,7 @@ public class ParkingMainView extends JPanel {
 		JButton actualiserParkingButton = new JButton("Actualiser");
 		actualiserParkingButton.setBackground(viewSettings.SECONDARY);
 		actualiserParkingButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// rafraîchir le tableau des clients
 				ParkingController.fetchAll(parkingtable);
@@ -184,6 +185,7 @@ public class ParkingMainView extends JPanel {
 		JButton supprimerParkingButton = new JButton("Supprimer");
 		supprimerParkingButton.setBackground(viewSettings.SECONDARY);
 		supprimerParkingButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// tester si le client a séléctionné une ligne
 				int index = parkingtable.getSelectedRow();
@@ -209,6 +211,7 @@ public class ParkingMainView extends JPanel {
 		JButton afficherParkingButton = new JButton("Afficher");
 		afficherParkingButton.setBackground(viewSettings.SECONDARY);
 		afficherParkingButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = parkingtable.getSelectedRow();
 				if (index >= 0) {
@@ -229,6 +232,7 @@ public class ParkingMainView extends JPanel {
 		JButton ajouterVehiculeButton = new JButton("Ajouter Vehicule");
 		ajouterVehiculeButton.setBackground(viewSettings.SECONDARY);
 		ajouterVehiculeButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = parkingtable.getSelectedRow();
 				if (index >= 0) {

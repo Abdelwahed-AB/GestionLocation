@@ -1,16 +1,15 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
-import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,14 +17,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import controller.ClientController;
 import controller.ParkingController;
-import model.Client;
 import model.Parking;
-
-import java.awt.Font;
-import javax.swing.JComboBox;
-import java.awt.Color;
 
 public class NouveauParkingPanel extends JPanel {
 
@@ -103,6 +96,7 @@ public class NouveauParkingPanel extends JPanel {
 		buttonRetour.setBackground(mainColor);
 		buttonRetour.setForeground(Color.WHITE);
 		buttonRetour.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "parking");
 			}

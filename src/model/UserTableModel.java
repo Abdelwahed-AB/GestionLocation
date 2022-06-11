@@ -14,9 +14,9 @@ public class UserTableModel extends AbstractTableModel {
 			"Adresse",
 			"Disponible"
 	};
-	
-	private Vector<String[]> rows = new Vector<String[]>();
-	
+
+	private Vector<String[]> rows = new Vector<>();
+
 	@Override
 	public int getRowCount() {
 		return rows.size();
@@ -32,17 +32,17 @@ public class UserTableModel extends AbstractTableModel {
 		// TODO Auto-generated method stub
 		return rows.get(rowIndex)[columnIndex];
 	}
-	
+
 	@Override
 	public String getColumnName(int index) {
 		return nomColonnes[index];
 	}
-	
+
 	@Override
-	public boolean isCellEditable(int row, int column){  
-        return false;  
+	public boolean isCellEditable(int row, int column){
+        return false;
 	}
-	
+
 	public void loadUsers(ArrayList<User> list) {
 		rows.clear();
 		for(User u : list) {
@@ -54,10 +54,10 @@ public class UserTableModel extends AbstractTableModel {
 					u.getAdresse(),
 					u.isStatut()+""
 			};
-			
+
 			rows.add(row);
 		}
-		
+
 		fireTableChanged(null);
 	}
 

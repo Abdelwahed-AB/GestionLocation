@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -9,7 +10,6 @@ import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,9 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.ClientController;
-import interfaces.MainInterface;
 import model.Client;
-import java.awt.Color;
 
 public class ModifierClientPanel extends JPanel {
 
@@ -41,8 +39,8 @@ public class ModifierClientPanel extends JPanel {
 		this.cl = (CardLayout) panel.getLayout();
 		this.setLayout(null);
 		this.setBounds(0, 0, 766, 598);
-		
-		
+
+
 		nomClientTextField = new JTextField();
 		nomClientTextField.setBounds(142, 20, 202, 20);
 		this.add(nomClientTextField);
@@ -132,6 +130,7 @@ public class ModifierClientPanel extends JPanel {
 		buttonRetour.setBackground(viewSettings.MAIN);
 		buttonRetour.setForeground(viewSettings.WHITE);
 		buttonRetour.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "client");
 			}
@@ -157,6 +156,7 @@ public class ModifierClientPanel extends JPanel {
 		JButton imageButton = new JButton("Choisir un fichier");
 		imageButton.setBackground(viewSettings.SECONDARY);
 		imageButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir une fenetre pour s�l�ctionn� l'image
 				JFileChooser chooser = new JFileChooser();
@@ -188,6 +188,7 @@ public class ModifierClientPanel extends JPanel {
 		JButton permisButton = new JButton("Choisir un fichier");
 		permisButton.setBackground(viewSettings.SECONDARY);
 		permisButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir une fenetre pour s�l�ctionn� l'image
 				JFileChooser chooser = new JFileChooser();

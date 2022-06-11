@@ -6,16 +6,16 @@ public class Facture {
 	private int codeFacture;
 	private Date dateFacture;
 	private int montant;
-	
+
 	//private Client client;
 	private Contrat contrat;
-	
+
 	/**
 	 * Constructeur par defaut
 	 */
 	public Facture() {
 	}
-	
+
 	//Getters & Setters
 	public int getCodeFacture() {
 		return codeFacture;
@@ -41,6 +41,6 @@ public class Facture {
 	public void setContrat(Contrat contrat) {
 		this.contrat = contrat;
 	}
-	
-	
+
+
 }

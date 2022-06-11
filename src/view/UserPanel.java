@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -8,29 +8,26 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedHashMap;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+
 import controller.UserController;
-import controller.VehiculeController;
-import dao.vehiculeDAO;
 import interfaces.MainInterface;
 import model.UserTableModel;
 
-import java.awt.Rectangle;
-
 public class UserPanel extends JPanel{
-	
+
 	private static JTable userTable;
 	private static UserTableModel uTable ;
 	private static LinkedHashMap<String, JLabel> navItemList;
-	
-	
+
+
 	public UserPanel(MainInterface mainInterface) {
 		setBounds(new Rectangle(0, 0, 732, 547));
 		this.setLayout(null);
@@ -45,9 +42,9 @@ public class UserPanel extends JPanel{
 		chercherUtilisateur.setBounds(10, 16, 585, 33);
 		this.add(chercherUtilisateur);
 		chercherUtilisateur.setColumns(10);
-		
+
 // ZONE D'AFFICHAGE
-		
+
 		JScrollPane UScrollPane = new JScrollPane();
 		UScrollPane.setBounds(10, 60, 585, 477);
 		this.add(UScrollPane);
@@ -57,10 +54,11 @@ public class UserPanel extends JPanel{
 		UScrollPane.setViewportView(userTable);
 		userTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		/**ADD NEW USER*/
-		
+
 		JButton addUser = new JButton("Ajouter ");
 		addUser.setBackground(viewSettings.SECONDARY);
 		addUser.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserController.setWindow(mainInterface);
 				UserController.setPanel(UserPanel.this);
@@ -70,11 +68,12 @@ public class UserPanel extends JPanel{
 		});
 		addUser.setBounds(605, 60, 117, 50);
 		this.add(addUser);
-		
+
 /**REMOVE USER*/
-		
+
 		JButton removeUser = new JButton("Suppimer");
 		removeUser.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserController.setPanel(UserPanel.this);
 				UserController.setTable(userTable);
@@ -84,7 +83,7 @@ public class UserPanel extends JPanel{
 		removeUser.setBackground(viewSettings.SECONDARY);
 		removeUser.setBounds(605, 180, 117, 50);
 		this.add(removeUser);
-		
+
 		//POUR SUPPRIMER AVEC LE BOUTON delete du clavier
 		userTable.addKeyListener(new KeyAdapter() {
 			@Override
@@ -96,17 +95,18 @@ public class UserPanel extends JPanel{
 				}
 			}
 		});
-		
-		
+
+
 /**CHANGE USER DATA*/
-		
+
 		JButton changeUser = new JButton("Modifier");
 		changeUser.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserController.setPanel(UserPanel.this);
 				UserController.setTable(userTable);
 				UserController.setWindow(mainInterface);
-				
+
 				UserController.changeUser();
 			}
 		});
@@ -114,9 +114,10 @@ public class UserPanel extends JPanel{
 		changeUser.setBounds(605, 120, 117, 50);
 		this.add(changeUser);
 		this.setLayout(null);
-		
+
 		JButton update = new JButton("Actualiser");
 		update.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				UserController.fetchAll();
 			}
@@ -124,11 +125,11 @@ public class UserPanel extends JPanel{
 		update.setBackground(viewSettings.SECONDARY);
 		update.setBounds(605, 240, 117, 50);
 		this.add(update);
-		
-		
+
+
 /**DISPLAY ALL ROWS*/
 //AFFICHER LES ENREGISTREMENTS DES QU'ON CLIQUE SUR UTILISATEUR
-		
+
 		navItemList.get("user").addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -138,9 +139,9 @@ public class UserPanel extends JPanel{
 			}
 		});
 	}
-	
-	//SETTERS 
-	
+
+	//SETTERS
+
 	public static void setNavList(LinkedHashMap<String, JLabel> a) {
 		UserPanel.navItemList=a;
 	}

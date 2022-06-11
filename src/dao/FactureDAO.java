@@ -9,10 +9,14 @@ import javax.swing.JOptionPane;
 
 import connectionManager.ConnectionManager;
 import log.LogMgr;
-import model.*;
+import model.Client;
+import model.Contrat;
+import model.Facture;
+import model.Reservation;
+import model.Vehicule;
 
 public interface FactureDAO {
-	
+
 	/**
 	 * recherche tous les factures stockees dans la base de donees
 	 * @return list des factures
@@ -25,50 +29,50 @@ public interface FactureDAO {
 				+ "AND reservation.codeClient = client.codeClient "
 				+ "AND reservation.codeVehicule = vehicule.Immatriculation "
 				+ "ORDER BY dateFacture DESC;";
-		
+
 		ResultSet result = ConnectionManager.execute(query);
-		
-		ArrayList<Facture> fact_list = new ArrayList<Facture>();
-		
+
+		ArrayList<Facture> fact_list = new ArrayList<>();
+
 		try {
 			while (result.next()) {
 				Facture f = new Facture();
 				f.setCodeFacture(result.getInt("codeFacture"));
 				f.setDateFacture(result.getDate("dateFacture"));
 				f.setMontant(result.getInt("montantFacture"));
-				
+
 				Client client = new Client();
 				client.setNomClient(result.getString("nomClient"));
 				client.setPrenomClient(result.getString("prenomClient"));
 				client.setCodeClient(result.getInt("codeClient"));
-				
+
 				Vehicule vehicule = new Vehicule();
 				vehicule.setMatricule(result.getString("codeVehicule"));
 				vehicule.setPrixLocation(result.getInt("prixLocation"));
-				
+
 				Reservation reserv = new Reservation();
 				reserv.setClient(client);
 				reserv.setVehicule(vehicule);
-				
+
 				Contrat contrat = new Contrat();
 				contrat.setCodeContrat(result.getInt("codeContrat"));
 				contrat.setReservation(reserv);
 				contrat.setDateEcheance(result.getDate("dateEcheance"));
 				contrat.setDateContrat(result.getDate("dateContrat"));
-				
+
 				f.setContrat(contrat);
-				
+
 				fact_list.add(f);
 			}
-			
+
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Facture", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Facture.", e);
 		}
-		
+
 		return fact_list;
 	}
-	
+
 	/**
 	 * Methode qui cherche une facture avec codeFacture correspondant dans la BD
 	 * @param codeFacture
@@ -83,52 +87,52 @@ public interface FactureDAO {
 				+ "AND reservation.codeVehicule = vehicule.Immatriculation "
 				+ "AND codeFacture = ? "
 				+ "ORDER BY dateFacture DESC;";
-		
-		ArrayList<Facture> fact_list = new ArrayList<Facture>();
-		
+
+		ArrayList<Facture> fact_list = new ArrayList<>();
+
 		try {
 			PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 			ps.setInt(1, codeFacture);
-			
+
 			ResultSet result = ps.executeQuery();
 			while (result.next()) {
 				Facture f = new Facture();
 				f.setCodeFacture(result.getInt("codeFacture"));
 				f.setDateFacture(result.getDate("dateFacture"));
 				f.setMontant(result.getInt("montantFacture"));
-				
+
 				Client client = new Client();
 				client.setNomClient(result.getString("nomClient"));
 				client.setPrenomClient(result.getString("prenomClient"));
 				client.setCodeClient(result.getInt("codeClient"));
-				
+
 				Vehicule vehicule = new Vehicule();
 				vehicule.setMatricule(result.getString("codeVehicule"));
 				vehicule.setPrixLocation(result.getInt("prixLocation"));
-				
+
 				Reservation reserv = new Reservation();
 				reserv.setClient(client);
 				reserv.setVehicule(vehicule);
-				
+
 				Contrat contrat = new Contrat();
 				contrat.setCodeContrat(result.getInt("codeContrat"));
 				contrat.setReservation(reserv);
 				contrat.setDateEcheance(result.getDate("dateEcheance"));
 				contrat.setDateContrat(result.getDate("dateContrat"));
-				
+
 				f.setContrat(contrat);
-				
+
 				fact_list.add(f);
 			}
-			
+
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Recherche Facture", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Recherche Facture.", e);
 		}
-		
+
 		return fact_list;
 	}
-	
+
 	/**
 	 * Supprime la facture qui correspond aux codeFacture pass� comme argument
 	 * @param codeFacture
@@ -149,7 +153,7 @@ public interface FactureDAO {
 	 * @param codeContrat
 	 */
 	public static void createFacture(int codeContrat){
-			
+
 		//Query pour inserer une facture en calculant le montant automatiquement
 		String query = "INSERT INTO `facture` (`codeFacture`,`dateFacture`, `montantFacture`, `codeContrat`) "
 				     + "VALUES ("
@@ -161,7 +165,7 @@ public interface FactureDAO {
 				     + "	 AND contrat.codeReservation = reservation.codeReservation"
 				     + "	 AND contrat.codeContrat = ?),"
 				     + "	?);";
-		
+
 		PreparedStatement prepared;
 		try {
 			prepared = ConnectionManager.getConnection().prepareStatement(query);
@@ -188,48 +192,48 @@ public interface FactureDAO {
 				+ "AND reservation.codeVehicule = vehicule.Immatriculation "
 				+ "AND contrat.codeContrat = ? "
 				+ "ORDER BY dateFacture DESC;";
-		
+
 		Facture f = new Facture();
-		
+
 		try {
 			PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
 			ps.setInt(1, codeContrat);
-			
+
 			ResultSet result = ps.executeQuery();
 			if (result.next()) {
 				f.setCodeFacture(result.getInt("codeFacture"));
 				f.setDateFacture(result.getDate("dateFacture"));
 				f.setMontant(result.getInt("montantFacture"));
-				
+
 				Client client = new Client();
 				client.setNomClient(result.getString("nomClient"));
 				client.setPrenomClient(result.getString("prenomClient"));
 				client.setCodeClient(result.getInt("codeClient"));
-				
+
 				Vehicule vehicule = new Vehicule();
 				vehicule.setMatricule(result.getString("codeVehicule"));
 				vehicule.setPrixLocation(result.getInt("prixLocation"));
-				
+
 				Reservation reserv = new Reservation();
 				reserv.setClient(client);
 				reserv.setVehicule(vehicule);
-				
+
 				Contrat contrat = new Contrat();
 				contrat.setCodeContrat(result.getInt("codeContrat"));
 				contrat.setReservation(reserv);
 				contrat.setDateEcheance(result.getDate("dateEcheance"));
 				contrat.setDateContrat(result.getDate("dateContrat"));
-				
-				
+
+
 				f.setContrat(contrat);
-				
+
 			}
-			
+
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur Recherche Facture par code Contrat", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Recherche Facture par code Contrat", e);
 		}
-		
+
 		return f;
 	}
 

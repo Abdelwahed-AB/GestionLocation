@@ -4,23 +4,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
+
 import connectionManager.ConnectionManager;
 import log.LogMgr;
 import model.Vehicule;
 
 public class vehiculeDAO {
 
-//RECUPERE LES VEHICULES EXISTANT DE LA BASE DE DONNEES 
-	
+//RECUPERE LES VEHICULES EXISTANT DE LA BASE DE DONNEES
+
 	public static ArrayList<Vehicule> fetchAll () {
 		String query= "SELECT * "
 				+ "FROM  vehicule ";
-		
+
 		ResultSet result = ConnectionManager.execute(query);
-		
-		ArrayList<Vehicule> Vehicule_list = new ArrayList<Vehicule>();
-		
+
+		ArrayList<Vehicule> Vehicule_list = new ArrayList<>();
+
 		try {
 			while (result.next()) {
 				Vehicule V = new Vehicule(result.getString("Immatriculation"),
@@ -34,16 +36,16 @@ public class vehiculeDAO {
 						result.getBoolean("disponible"));
 				Vehicule_list.add(V);
 			}
-			
+
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur affichage vehicules", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur affichage vehicules", e);
 		}
 		return Vehicule_list;
 	}
-	
+
 // METHODE RECHERCHANT LE VEHICULE PAR SON MATRICULE
-	
+
 	public static Vehicule findVehicule(String matricule) {
 		String query="SELECT *"
 				+" FROM vehicule"
@@ -69,23 +71,23 @@ public class vehiculeDAO {
 			JOptionPane.showConfirmDialog(null, "Erreur recherche vehicule", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur recherche vehicule", e);
 		}
-		return V;	
+		return V;
 	}
-	
+
 //VERIFIER SI UN VEHICULE EXISTE EN TESTANT SUR SON CODE MATRICULE ,LE RETOUR EST UN BOOLEAN
-	
+
 	public static boolean verifyVehicle(String matricule) {
 		String query="SELECT *"
 				+" FROM vehicule"
 				+" WHERE Immatriculation LIKE ?";
-			
+
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 			prepared.setString(1, matricule);
 			ResultSet result = prepared.executeQuery();
 			if(result.next())
 				return true;
-			else 
+			else
 				return false;
 		} catch (SQLException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur verification vehicules", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -93,14 +95,14 @@ public class vehiculeDAO {
 		}
 		return false;
 	}
-	
-//METHODE QUI RETOURNE LA LISTE VEHCICULES CORRESPONDANT AU CRITERE DE RECHERCHE 
-	
+
+//METHODE QUI RETOURNE LA LISTE VEHCICULES CORRESPONDANT AU CRITERE DE RECHERCHE
+
 	public static ArrayList<Vehicule>  findVehiculeAutoCompleting (String Immatriculation) {
 		String query="SELECT *"
 					+" FROM vehicule"
 					+" WHERE  Immatriculation like ?;";
-		ArrayList<Vehicule> Vehicule_list = new ArrayList<Vehicule>();
+		ArrayList<Vehicule> Vehicule_list = new ArrayList<>();
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 			prepared.setString(1, Immatriculation+"%");
@@ -123,9 +125,9 @@ public class vehiculeDAO {
 		}
 		return Vehicule_list;
 	}
-	
-// MEHTODE QUI AJOUTE UN VEHICULE A  LA BASE DE DONNEES 
-	
+
+// MEHTODE QUI AJOUTE UN VEHICULE A  LA BASE DE DONNEES
+
 	public static boolean createVehicule(Vehicule vehicule) {
 		String query="INSERT INTO `vehicule` (`Immatriculation`, `marqueVehicule`, `typeVehicule`, `carburant`,"+
 					" `kilometrage`, `dateMiseCirculation`, `codePark`, `prixLocation`, `disponible`) "+
@@ -149,9 +151,9 @@ public class vehiculeDAO {
 		}
 		return false;
 	}
-	
+
 // METHODE SUPPRIMANT UN VEHICULE A L'AIDE DE SON MATRICULE
-	
+
 	public static boolean removeVehicule(String id) {
 		String query="DELETE FROM `vehicule`"
 					+" WHERE (`Immatriculation` = ?);";
@@ -166,9 +168,9 @@ public class vehiculeDAO {
 		}
 		return false;
 	}
-	
+
 //METHODE QUI ENVOI UNE REQUTE UPDATE AFIN DE CHANGER LES ATTRIBUTS D'UN VEHICULE
-	
+
 	public static boolean ChangeVehicle(Vehicule vehicule,String oldId) {
 		String query="UPDATE `vehicule`"
 				+" SET `Immatriculation`=?, `marqueVehicule`=?, `typeVehicule`=?, `carburant`=?,"
@@ -193,15 +195,15 @@ public class vehiculeDAO {
 			JOptionPane.showConfirmDialog(null, "Erreur modification vehicule", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur modification vehicule", e);
 		}
-		
+
 		return false;
 	}
 //FONCTION QUI RETOURNE LES NOMS DES PARKINGS
-	
+
 	public static ArrayList<String> nomPark() {
 		String query="SELECT codeParking, nomParking FROM parking "
 				+ "WHERE nombrePlaceVide>0;";
-		ArrayList<String> Parkings=new ArrayList<String>();
+		ArrayList<String> Parkings=new ArrayList<>();
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 			ResultSet result = prepared.executeQuery();
@@ -214,7 +216,7 @@ public class vehiculeDAO {
 		}
 		return Parkings;
 	}
-	
-	
-	
+
+
+
 }

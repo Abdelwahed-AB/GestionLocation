@@ -18,7 +18,7 @@ public class ClientDAO {
 		String query = "SELECT * FROM client ORDER BY `client`.`nomClient` ASC";
 		// execution de la requete
 		ResultSet result = ConnectionManager.execute(query);
-		ArrayList<Client> list = new ArrayList<Client>();
+		ArrayList<Client> list = new ArrayList<>();
 		try {
 			while (result.next()) {
 				Client client = new Client(Integer.parseInt(result.getString(1)), result.getString(2),
@@ -83,7 +83,7 @@ public class ClientDAO {
 	// cette fonction pour trouver une client a partir de son nom
 	public static ArrayList<Client> findClientByNameDAO(String nom) {
 		try {
-			ArrayList<Client> list = new ArrayList<Client>();
+			ArrayList<Client> list = new ArrayList<>();
 			PreparedStatement prepared = ConnectionManager.getConnection()
 					.prepareStatement("SELECT * FROM client WHERE nomClient LIKE ?");
 			prepared.setString(1, nom);

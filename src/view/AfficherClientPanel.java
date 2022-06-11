@@ -4,19 +4,12 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -66,6 +59,7 @@ public class AfficherClientPanel extends JPanel {
 		btnNewButton.setBackground(viewSettings.MAIN);
 
 		btnNewButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "client");
 			}
@@ -86,8 +80,8 @@ public class AfficherClientPanel extends JPanel {
 		// table de voiture louee
 		table_1 = new JTable() {
 			@Override
-			public boolean isCellEditable(int row, int column){  
-		        return false;  
+			public boolean isCellEditable(int row, int column){
+		        return false;
 			}
 		};
 		table_1.setBackground(secondaryColor);

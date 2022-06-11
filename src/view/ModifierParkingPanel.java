@@ -2,7 +2,6 @@ package view;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -100,6 +99,7 @@ public class ModifierParkingPanel extends JPanel {
 		buttonRetour.setBackground(mainColor);
 		buttonRetour.setForeground(Color.WHITE);
 		buttonRetour.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "parking");
 			}

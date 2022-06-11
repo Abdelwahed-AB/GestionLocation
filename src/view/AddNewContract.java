@@ -6,28 +6,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+
 import controller.ContratController;
 import interfaces.MainInterface;
 import model.ReservationTableModel;
 
 public class AddNewContract extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static ContratPanel contratPanel;
 	private static ReservationTableModel rtm = new ReservationTableModel();
 	private CardLayout cl;
 	private static JTable reservationTable;
 	JTextField chercherReservation;
-	
+
 	public AddNewContract(MainInterface mainInterface) {
 		setBounds(new Rectangle(0, 0, 732, 547));
 		this.cl = (CardLayout) mainInterface.getMainPanel().getLayout();
 		this.setLayout(null);
-		
+
 // ZONE D'AFFICHAGE
 		JScrollPane RScrollPane = new JScrollPane();
 		RScrollPane.setBounds(10, 60, 585, 477);
@@ -36,7 +42,7 @@ public class AddNewContract extends JPanel{
 		reservationTable.setSelectionBackground(viewSettings.SECONDARY);
 		RScrollPane.setViewportView(reservationTable);
 		reservationTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	
+
 // ZONE DE RECHERCHE[UTILISE LA METHODE AUTOCOMPLETING A CHAQUE CLIQUE]
 		chercherReservation = new JTextField();
 		chercherReservation.addKeyListener(new KeyAdapter() {
@@ -49,24 +55,26 @@ public class AddNewContract extends JPanel{
 		chercherReservation.setBounds(10, 16, 585, 33);
 		this.add(chercherReservation);
 		chercherReservation.setColumns(10);
-					
+
 //BOUTON ANNULER L'AJOUT DU CONTRAT
 		JButton CancelAdding = new JButton("Annuler");
 		CancelAdding.setBackground(viewSettings.MAIN);
 		CancelAdding.setForeground(viewSettings.WHITE);
 		CancelAdding.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				ContratController.cancel(mainInterface);;
+				ContratController.cancel(mainInterface);
 			}
 		});
 		CancelAdding.setBounds(605, 120, 117, 50);
 		this.add(CancelAdding);
-					
+
 //BOUTON SAUVEGARDER LE NOUVEAU CONTRAT
-					
+
 		JButton boutonCreer = new JButton("Cr\u00E9er");
 		boutonCreer.setBackground(viewSettings.SECONDARY);
 		boutonCreer.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ContratController.setReservationTable(reservationTable);
 				ContratController.createContract();
@@ -85,9 +93,9 @@ public class AddNewContract extends JPanel{
 				}
 			}
 		});
-		
+
 	}
- 
+
 //GETTERS
 	public static JTable getReservationTable() {
 		return AddNewContract.reservationTable;
@@ -98,7 +106,7 @@ public class AddNewContract extends JPanel{
 	public JTextField getChercherReservation() {
 		return chercherReservation;
 	}
-	
+
 	public static  ReservationTableModel getRTableModel(){
 		return rtm;
 	}

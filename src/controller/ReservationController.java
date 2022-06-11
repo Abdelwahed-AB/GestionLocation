@@ -14,8 +14,8 @@ import dao.vehiculeDAO;
 import interfaces.MainInterface;
 import model.Client;
 import model.Reservation;
-import model.Vehicule;
 import model.Reservation.filtre;
+import model.Vehicule;
 import view.CreerReservPanel;
 import view.ModifierReserPanel;
 import view.ReservationPanel;
@@ -33,7 +33,7 @@ public class ReservationController {
 	private ModifierReserPanel mod_reserv;
 	private MainInterface mInterface;
 	private CardLayout cl;
-	
+
 	/**
 	 * Constructeur par defaut
 	 */
@@ -52,7 +52,7 @@ public class ReservationController {
 		this.cl = (CardLayout) mInterface.getMainPanel().getLayout();
 		reserv_panel.setReservController(this);
 		creer_reserv.setReservController(this);
-		
+
 		ActualiserTableau();
 	}
 
@@ -114,23 +114,23 @@ public class ReservationController {
 			else
 				creer_reserv.getWarning_lbl().setText("<html>La vehicule est déja reservé pendant cette interval choisi.</html>");
 		} else {
-			creer_reserv.getWarning_lbl().setText("<html>La date depart doit etre avant la date de retour</html>");
+			creer_reserv.getWarning_lbl().setText("<html>Veuillez selectionner une date appropriee</html>");
 		}
 	}
-	
+
 	public void goToNewReserv() {
 		ActualiserTableClient();
 		ActualiserTableVehicule();
-		
+
 		cl.show(mInterface.getMainPanel(), "newReserv");
 		reserv_panel.getReserv_warning_lbl().setText("");
 	}
-	
+
 	/**
 	 * Methode pour creer la nouvelle panel de modification
 	 */
 	public void goToModReserv() {
-		
+
 		int index = reserv_panel.getReserv_table().getSelectedRow();
 		if(index < 0) {
 			// if user hasnt selected any row :
@@ -152,12 +152,12 @@ public class ReservationController {
 		//Reset warning label on succesful operation
 		reserv_panel.getReserv_warning_lbl().setText("");
 	}
-	
+
 	public void goBack() {
 		cl.show(mInterface.getMainPanel(), "reserv");
 		mInterface.getMainPanel().remove(mod_reserv);
 	}
-	
+
 	/**
 	 * Methode qui recupere les donnés a partir de l'interface ModifierReservation et les verifie, puis il les enregistre dans la BD
 	 */
@@ -185,7 +185,7 @@ public class ReservationController {
 		int codeReserv = mod_reserv.getCodeReserv();
 		boolean isValid = mod_reserv.isValid();
 		boolean isCanceled = mod_reserv.isCanceled();
-		
+
 		if(isValid && isCanceled) {
 			mod_reserv.getWarning_lbl().setText("Une reservation ne peut pas être validée est annulée aux même temps.");
 			return;
@@ -204,7 +204,7 @@ public class ReservationController {
 			else
 				mod_reserv.getWarning_lbl().setText("<html>La vehicule est déja reservé pendant cette interval choisi.</html>");
 		} else {
-			mod_reserv.getWarning_lbl().setText("<html>La date depart doit etre avant la date de retour</html>");
+			mod_reserv.getWarning_lbl().setText("<html>Veuillez selectionner une date appropriee.</html>");
 		}
 
 	}
@@ -254,10 +254,12 @@ public class ReservationController {
 	 * @return true si dateDep < dateRet, false sinon
 	 */
 	public boolean checkDates(Date dateDep, Date dateRet) {
+		LocalDate today = LocalDate.now();
 		LocalDate d1 = dateDep.toLocalDate();
 		LocalDate d2 = dateRet.toLocalDate();
 		Duration d = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
-
+		
+		if(today.isAfter(d1)) return false;
 		return !(d.toSeconds() <= 0);
 	}
 
@@ -265,9 +267,9 @@ public class ReservationController {
 	public void setReservModPanel(ModifierReserPanel p) {
 		this.mod_reserv = p;
 	}
-	
+
 	/**
-	 * Methode qui actualise le tableau des vehicules dans le panel de creation de reservation 
+	 * Methode qui actualise le tableau des vehicules dans le panel de creation de reservation
 	 */
 	public void ActualiserTableVehicule() {
 		ArrayList<Vehicule> vList = ReservationDAO.getAvailableVehicles();
@@ -276,7 +278,7 @@ public class ReservationController {
 	public void ActualiserTableClient() {
 		ClientController.fetchAll(creer_reserv.getCient_table());
 	}
-	
+
 	/**
 	 * Methode qui permet de rechercher un client dans le panel de creation de reservation
 	 * @param nom
@@ -286,7 +288,7 @@ public class ReservationController {
 		DefaultTableModel dtm = ClientController.preparerModel(cList);
 		creer_reserv.getCient_table().setModel(dtm);
 	}
-	
+
 	public void searchVehicle(String matricule) {
 		ArrayList<Vehicule> vList = vehiculeDAO.findVehiculeAutoCompleting(matricule);
 		creer_reserv.getVehiculeTableModel().loadVehicules(vList);

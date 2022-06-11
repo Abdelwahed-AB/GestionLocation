@@ -6,7 +6,7 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 public class ReservationTableModel extends AbstractTableModel{
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private String[] nomColonnes = new String[]{
@@ -17,9 +17,9 @@ public class ReservationTableModel extends AbstractTableModel{
 			"Date Depart",
 			"Date Retour"
 	};
-	
-	private Vector<String[]> rows = new Vector<String[]>();
-	
+
+	private Vector<String[]> rows = new Vector<>();
+
 	@Override
 	public int getRowCount() {
 		return rows.size();
@@ -34,17 +34,17 @@ public class ReservationTableModel extends AbstractTableModel{
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return rows.get(rowIndex)[columnIndex];
 	}
-	
+
 	@Override
 	public String getColumnName(int index) {
 		return nomColonnes[index];
 	}
-	
+
 	@Override
-	public boolean isCellEditable(int row, int column){  
-        return false;  
+	public boolean isCellEditable(int row, int column){
+        return false;
 	}
-	
+
 	public void loadReservations(ArrayList<Reservation> list) {
 		rows.clear();
 		for(Reservation r: list) {
@@ -57,10 +57,10 @@ public class ReservationTableModel extends AbstractTableModel{
 					r.getDateDepart().toString(),
 					r.getDateRetour().toString()
 			};
-			
+
 			rows.add(row);
 		}
-		
+
 		fireTableChanged(null);
 	}
 

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,13 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.ClientController;
-import interfaces.MainInterface;
 import model.Client;
-import java.awt.Color;
 
 public class NouveauClientPanel extends JPanel {
 
@@ -117,6 +115,7 @@ public class NouveauClientPanel extends JPanel {
 		buttonRetour.setBackground(viewSettings.MAIN);
 		buttonRetour.setForeground(viewSettings.WHITE);
 		buttonRetour.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "client");
 			}
@@ -147,6 +146,7 @@ public class NouveauClientPanel extends JPanel {
 		JButton imageButton = new JButton("Choisir un fichier");
 		imageButton.setBackground(viewSettings.SECONDARY);
 		imageButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir une fenetre pour s�l�ctionn� l'image
 				JFileChooser chooser = new JFileChooser();
@@ -178,6 +178,7 @@ public class NouveauClientPanel extends JPanel {
 		JButton permisButton = new JButton("choisir un fichier");
 		permisButton.setBackground(viewSettings.SECONDARY);
 		permisButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir une fenetre pour s�l�ctionn� l'image
 				JFileChooser chooser = new JFileChooser();

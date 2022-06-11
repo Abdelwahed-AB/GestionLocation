@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.sql.Date;
 import java.time.Year;
 import java.util.Calendar;
@@ -18,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
@@ -25,7 +25,6 @@ import controller.ClientController;
 import controller.ReservationController;
 import interfaces.MainInterface;
 import model.VehiculeTableModel;
-import javax.swing.JTextField;
 
 public class CreerReservPanel extends JPanel {
 	private JTable client_table;
@@ -97,7 +96,7 @@ public class CreerReservPanel extends JPanel {
 		JLabel dateRetour_lbl = new JLabel("Date Retour:");
 		dateRetour_lbl.setBounds(23, 382, 136, 13);
 		this.add(dateRetour_lbl);
-		
+
 		search_client = new JTextField();
 		search_client.addKeyListener(new KeyAdapter() {
 			@Override
@@ -113,7 +112,7 @@ public class CreerReservPanel extends JPanel {
 		search_client.setBounds(170, 5, 352, 24);
 		add(search_client);
 		search_client.setColumns(10);
-		
+
 		search_voiture = new JTextField();
 		search_voiture.addKeyListener(new KeyAdapter() {
 			@Override
@@ -129,7 +128,7 @@ public class CreerReservPanel extends JPanel {
 		search_voiture.setColumns(10);
 		search_voiture.setBounds(170, 138, 352, 24);
 		add(search_voiture);
-		
+
 		JButton reserv_client_actualiser = new JButton("Actualiser");
 		reserv_client_actualiser.setBackground(viewSettings.SECONDARY);
 		reserv_client_actualiser.addActionListener(new ActionListener() {
@@ -180,7 +179,7 @@ public class CreerReservPanel extends JPanel {
 		});
 		sauvegarder_btn.setBounds(598, 501, 124, 36);
 		this.add(sauvegarder_btn);
-		
+
 		//Creation des panels de choix de date
 		dateDep();
 		dateRet();
@@ -243,7 +242,7 @@ public class CreerReservPanel extends JPanel {
 				}
 			});
 		}
-		
+
 		sauvegarder_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -304,9 +303,9 @@ public class CreerReservPanel extends JPanel {
 			});
 
 		}
-		
+
 		sauvegarder_btn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dateRetour = annee_comboBox.getSelectedItem() + "-" + mois_comboBox.getSelectedItem() + "-" + jour_comboBox.getSelectedItem();
@@ -332,22 +331,23 @@ public class CreerReservPanel extends JPanel {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void setupDayChooser(JComboBox annee, JComboBox mois, JComboBox jour) {
 		mois.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				setupJour(annee, mois, jour);			
+				setupJour(annee, mois, jour);
 			}
 		});
 		annee.setSelectedIndex(0);
 		mois.setSelectedIndex(0);
 		setupJour(annee, mois, jour);
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void setupJour(JComboBox annee, JComboBox mois, JComboBox jour) {
 		switch((String)mois.getSelectedItem()) {
-		case "01": case"03": case"05": case"07": case "08": case "10": case "12": 
+		case "01": case"03": case"05": case"07": case "08": case "10": case "12":
 			jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
 					"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
-					"20", "21", "22", "23", "24", "25", "26", "27", "28", "29", 
+					"20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
 					"30", "31"}));
 			break;
 		case "02":
@@ -364,7 +364,7 @@ public class CreerReservPanel extends JPanel {
 		default:
 			jour.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09",
 					"10", "11", "12", "13", "14", "15", "16", "17", "18","19",
-					"20", "21", "22", "23", "24", "25", "26", "27", "28", "29", 
+					"20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
 					"30"}));
 			break;
 		}
@@ -393,11 +393,11 @@ public class CreerReservPanel extends JPanel {
 	public JLabel getWarning_lbl() {
 		return warning_lbl;
 	}
-	
+
 	public VehiculeTableModel getVehiculeTableModel() {
 		return this.vTable_model;
 	}
-	
+
 	//Setter
 	public void setReservController(ReservationController reservCont) {
 		this.cont = reservCont;

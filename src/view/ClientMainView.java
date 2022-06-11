@@ -1,10 +1,12 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,9 +20,6 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.ClientController;
 import model.Client;
-import java.awt.Color;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class ClientMainView extends JPanel {
 
@@ -53,8 +52,8 @@ public class ClientMainView extends JPanel {
 
 		clienttable = new JTable(){
 			@Override
-			public boolean isCellEditable(int row, int column){  
-		        return false;  
+			public boolean isCellEditable(int row, int column){
+		        return false;
 			}
 		};
 		clienttable.addKeyListener(new KeyAdapter() {
@@ -91,6 +90,7 @@ public class ClientMainView extends JPanel {
 		buttonRecherche.setBackground(viewSettings.MAIN);
 		buttonRecherche.setForeground(viewSettings.WHITE);
 		buttonRecherche.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String string = searchclienttextField.getText();
 				// si le champ de recherche est vide une message doit affiché
@@ -108,6 +108,7 @@ public class ClientMainView extends JPanel {
 		JButton nouveauClientButton = new JButton("Nouveau Client");
 		nouveauClientButton.setBackground(viewSettings.SECONDARY);
 		nouveauClientButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// ouvrir la fenetre créer nouveau client
 				NouveauClientPanel nouveauClientPanel = new NouveauClientPanel(panel, clienttable);
@@ -143,6 +144,7 @@ public class ClientMainView extends JPanel {
 		modifierClientButton.setBackground(viewSettings.SECONDARY);
 		modifierClientButton.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// recuperer l'index de la ligne du tableau séléctionnée
 				int index = clienttable.getSelectedRow();
@@ -166,6 +168,7 @@ public class ClientMainView extends JPanel {
 		JButton actualiserClientButton = new JButton("Actualiser");
 		actualiserClientButton.setBackground(viewSettings.SECONDARY);
 		actualiserClientButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// rafraîchir le tableau des clients
 				ClientController.fetchAll(clienttable);
@@ -178,6 +181,7 @@ public class ClientMainView extends JPanel {
 		JButton supprimerClientButton = new JButton("Supprimer");
 		supprimerClientButton.setBackground(viewSettings.SECONDARY);
 		supprimerClientButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = clienttable.getSelectedRow();
 				// tester si le client a séléctionné une ligne
@@ -200,6 +204,7 @@ public class ClientMainView extends JPanel {
 		JButton afficherClientButton = new JButton("Afficher");
 		afficherClientButton.setBackground(viewSettings.SECONDARY);
 		afficherClientButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// recuperer l'index de la ligne du tableau séléctionnée
 				int index = clienttable.getSelectedRow();

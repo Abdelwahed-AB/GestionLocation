@@ -1,21 +1,26 @@
 package model;
 
-import javax.swing.table.AbstractTableModel;
-
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.swing.table.AbstractTableModel;
+
 public class FactureTableModel extends AbstractTableModel {
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String[] cols = {
 		"N° Facture",
-		"Prenom Client", 
+		"Prenom Client",
 		"Nom Client",
 		"N° Contrat",
 		"Montant"
 	};
-	
-	private Vector<String[]> rows = new Vector<String[]>();
+
+	private Vector<String[]> rows = new Vector<>();
 	@Override
 	public int getRowCount() {
 		return rows.size();
@@ -30,17 +35,17 @@ public class FactureTableModel extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return rows.get(rowIndex)[columnIndex];
 	}
-	
+
 	@Override
 	public String getColumnName(int index) {
 		return cols[index];
 	}
-	
+
 	@Override
-	public boolean isCellEditable(int row, int column){  
-        return false;  
+	public boolean isCellEditable(int row, int column){
+        return false;
 	}
-	
+
 	/**
 	 * Methode qui remplie le tableau a partir d'une liste des factures
 	 * @param fact_list
@@ -57,7 +62,7 @@ public class FactureTableModel extends AbstractTableModel {
 			};
 			rows.add(row);
 		}
-		
+
 		fireTableChanged(null);
 	}
 

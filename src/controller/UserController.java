@@ -5,8 +5,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+
 import dao.UserDAO;
 import interfaces.MainInterface;
 import model.User;
@@ -15,23 +17,23 @@ import view.ChangeExistingUser;
 import view.UserPanel;
 
 public class UserController {
-	
+
 	private static UserPanel userPanel;
 	private static JTable userTable;
 	private static MainInterface window;
 	private static MessageDigest md;
 	private static ChangeExistingUser CES;
-	private static AddUser AU;;
-	 
+	private static AddUser AU;
+
 // METHODE AUTOCOMPLETING
-	
+
 	public static void autoCompletion(String CleRecherche) {
 		 ArrayList<User>  u=UserDAO.findUserAutoCompleting(CleRecherche);
 		 UserPanel.getTableModel().loadUsers(u);
 	}
-	
+
 // SUPPRIMER UN UTILISATEUR
-	
+
 	public static void removeUser() {
 		int i = userTable.getSelectedRow();
 		if (i>= 0) {
@@ -50,9 +52,9 @@ public class UserController {
 		else
 			JOptionPane.showMessageDialog(userPanel,"Aucun utilisateur n'est sélectionné ", "Erreu de suppression", JOptionPane.ERROR_MESSAGE);
 	}
-	
+
 //CHANGER LES ATTRIBUTS D'UN UTILISATEUR
-	
+
 	public static void changeUser() {
 		int i = userTable.getSelectedRow();
 		if (i>= 0) {
@@ -79,16 +81,16 @@ public class UserController {
 			}
 		else
 			JOptionPane.showMessageDialog(userPanel,"Aucun utilisateur n'est sélectionné ", "Erreur de modification", JOptionPane.ERROR_MESSAGE);
-		
+
 	}
-	
-// AFFICHER TOUS LES UTILISATEUR QUI SONT DANS LA BASE DE DONNEES 
-	
+
+// AFFICHER TOUS LES UTILISATEUR QUI SONT DANS LA BASE DE DONNEES
+
 	public static void fetchAll() {
 		ArrayList<User> uList = UserDAO.fetchAll();
-		userPanel.getTableModel().loadUsers(uList);
+		UserPanel.getTableModel().loadUsers(uList);
 	}
-	
+
 // AJOUTER UN NOUVEAU UTILISATEUR
 	public static void createUser(UserPanel UP) {
 		try {
@@ -101,31 +103,31 @@ public class UserController {
 			ex.printStackTrace();
 		}
 	}
-	
-	
+
+
 //verifies si un utilisatru existe
-	
+
 	public static boolean findUser(int id) {
 		if(UserDAO.findUser( id).equals(null)) return true;
 		return false;
 	}
-	
+
 // changer le status d'un utilisateur en cochant le CheckBox
-	
+
 	public static void changeStatus(ChangeExistingUser changeUserPanel) {
 		if(!changeUserPanel.getChkBox().isSelected()) {
 			changeUserPanel.setStatus(false);
-			changeUserPanel.getUserSuspendu().setText("Suspendu");;
+			changeUserPanel.getUserSuspendu().setText("Suspendu");
 		}
 		else {
 		changeUserPanel.setStatus(true);
-		changeUserPanel.getUserSuspendu().setText("Actif");;
+		changeUserPanel.getUserSuspendu().setText("Actif");
 		}
 	}
-	
-	
-// sousmettre les information que l'admin a modifier 
-	
+
+
+// sousmettre les information que l'admin a modifier
+
 	public static void saveUserUpdate(User U,int oldId,String newPassword) {
 		if(UserDAO.verifyUser(U.getMatricule())&&U.getMatricule()!=oldId) {//SI LA MATRICULE EXITE DEJA MAIS DIFFERENT DE L'ANCIEN MATRICULE
 			JOptionPane.showMessageDialog(null,"le champ 'matricule' existe déja, changer le et cliquer sur enregistrer", "Probléme d'identifiant", JOptionPane.ERROR_MESSAGE);
@@ -135,7 +137,7 @@ public class UserController {
 				UserController.fetchAll();
 				JOptionPane.showMessageDialog(null,"Utilisateur modifié ", "Modification avec succés", JOptionPane.INFORMATION_MESSAGE);
 				window.showOnMainPanel("user");//REVENIR AU MENU UTILISATEUR
-				
+
 				}else
 				JOptionPane.showMessageDialog(null,"Modification echouée", "Probléme de modification", JOptionPane.ERROR_MESSAGE);
 			}else {
@@ -143,25 +145,24 @@ public class UserController {
 					UserController.CES.getNewTel().setText("");
 			}
 		}
-		
+
 	}
-	
+
 // ajouter les nouveaux utilisateurs à la base de données
-	
+
 	public static void saveNewUsers() {
 		if(!empty(UserController.AU)) {
-	
+
 			String a=UserController.AU.getNewUserNom().getText();
-		 
+
 			String b=UserController.AU.getNewUserPrenom().getText();
-		 
+
 			String c=UserController.AU.getNewUserTel().getText();
-		 
+
 			String d=UserController.AU.getNewUserAdresse().getText();
-		
+
 			String ee=UserController.AU.getNewUserUsername().getText();
-			
-			@SuppressWarnings("deprecation")
+
 			String encryptedPassword=UserController.cryptWithMD5(UserController.AU.getNewUserPassword().getText());// we store encrypted value instead of the real password
 			if(UserController.AU.getNewUserTel().getText().matches("[0-9 *+ #]*")){
 				if (matches(UserController.AU)) {
@@ -175,19 +176,19 @@ public class UserController {
 							JOptionPane.showMessageDialog(null,"Ajout d'utilisateur echoué", "Probleme d'Ajout", JOptionPane.ERROR_MESSAGE);
 					}else
 						JOptionPane.showMessageDialog(null,"Utilisateur existe deja", "Probleme d'ajout", JOptionPane.ERROR_MESSAGE);
-				}else 
+				}else
 						JOptionPane.showMessageDialog(null,"Verifie que les deux mots de passe sont similaires", "Probleme de mot de passe", JOptionPane.WARNING_MESSAGE);
 			}else {
 				JOptionPane.showMessageDialog(null,"Le champ telephone ne peut contenir que des nombres ou des symboles + * #", "Probléme de modification", JOptionPane.ERROR_MESSAGE);
-				UserController.AU.getNewUserTel().setText("");;
+				UserController.AU.getNewUserTel().setText("");
 			}
 		}
-		else 
+		else
 			JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Manque de données", JOptionPane.WARNING_MESSAGE);
-		
+
 	}
 
-	
+
 //méthodes de contrôle
 	public static boolean empty(ChangeExistingUser JP) {//verifie si les cahmps de text sont vides[ça concerne la modification des utilisateurs]
 		if(JP.getNewNom().getText().isEmpty()||JP.getNewPrenom().getText().isEmpty()||JP.getNewMatricule().getText().isEmpty()||JP.getNewTel().getText().isEmpty()||
@@ -195,15 +196,15 @@ public class UserController {
 			return true;
 		else return false;
 	}
-	@SuppressWarnings("deprecation")
+
 	public static boolean empty(AddUser addUser) {//verifie si les champs du nouveau utilisateur sont vides
 		if(addUser.getNewUserNom().getText().isEmpty()||addUser.getNewUserPrenom().getText().isEmpty()||addUser.getNewUserTel().getText().isEmpty()||
 				addUser.getNewUserAdresse().getText().isEmpty()||addUser.getNewUserPassword().getText().isEmpty()||addUser.getPasswordConfirmed().getText().isEmpty()||addUser.getNewUserUsername().getText().isEmpty())
 			return true;
 		else return false;
-		
+
 	}
-	@SuppressWarnings("deprecation")
+
 	public static boolean matches(AddUser addUser) {//TESTE SI LES DEUX MOTS DE PASSES SONT SIMILAIRES
 		if(addUser.getPasswordConfirmed().getText().equals(addUser.getNewUserPassword().getText()))
 			return true;
@@ -211,7 +212,7 @@ public class UserController {
 	}
 
 // vider les champs du panel ChangeExistingUser
-	
+
 	public static void emptyUpdateFields(ChangeExistingUser changeExistingUser) {
 		changeExistingUser.getNewMatricule().setText("");
 		changeExistingUser.getNewNom().setText("");
@@ -219,14 +220,14 @@ public class UserController {
 		changeExistingUser.getNewTel().setText("");
 		changeExistingUser.getNewAdresse().setText("");
 		changeExistingUser.getChkBox().setSelected(true);
-		changeExistingUser.getUserSuspendu().setText("Actif");;
+		changeExistingUser.getUserSuspendu().setText("Actif");
 		changeExistingUser.getUsername().setText("");
 		changeExistingUser.getNewPasword().setText("");
-	
+
 	}
-	
+
 // vider les champs du panel AddUser
-	
+
 		public static void emptyAddFields(AddUser addUser) {
 			addUser.getNewUserNom().setText("");
 			addUser.getNewUserPrenom().setText("");
@@ -236,18 +237,18 @@ public class UserController {
 			addUser.getNewUserPassword().setText("");
 			addUser.getPasswordConfirmed().setText("");
 		}
-	
+
 // methode de cryptage
 
-	public static String cryptWithMD5(String pass){// ON CRYPTE LES MOTS DE PASSES AVANT DE LES ENVOYER A LA BASE DE DONNEES 
+	public static String cryptWithMD5(String pass){// ON CRYPTE LES MOTS DE PASSES AVANT DE LES ENVOYER A LA BASE DE DONNEES
 	    try {
 	        md = MessageDigest.getInstance("MD5");
 	        byte[] passBytes = pass.getBytes();
 	        md.reset();
 	        byte[] digested = md.digest(passBytes);
 	        StringBuffer sb = new StringBuffer();
-	        for(int i=0;i<digested.length;i++){
-	            sb.append(Integer.toHexString(0xff & digested[i]));
+	        for (byte element : digested) {
+	            sb.append(Integer.toHexString(0xff & element));
 	        }
 	        return sb.toString();
 	    } catch (NoSuchAlgorithmException ex) {
@@ -255,9 +256,9 @@ public class UserController {
 	    }
 	        return null;
 	}
-	   
-	
-// SETTERS 
+
+
+// SETTERS
 	public static void setTable(JTable a) {
 		UserController.userTable=a;
 	}
@@ -270,9 +271,9 @@ public class UserController {
 
 	public static void setAU(AddUser addUser) {
 		UserController.AU=addUser;
-		
+
 	}
 
-	
-	
+
+
 }

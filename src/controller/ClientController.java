@@ -1,8 +1,6 @@
 package controller;
 
 import java.awt.Image;
-import java.io.File;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import connectionManager.ConnectionManager;
 import dao.ClientDAO;
 import model.Client;
 
@@ -59,7 +56,7 @@ public class ClientController {
 		dtm.addColumn("prenom");
 		dtm.addColumn("num Tel");
 
-		Iterator itr = list.iterator();
+		Iterator<Client> itr = list.iterator();
 
 		// remplir le model par les informations extraites de base de donn�es
 		while (itr.hasNext()) {

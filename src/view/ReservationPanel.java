@@ -4,6 +4,8 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -20,8 +22,6 @@ import controller.ReservationController;
 import interfaces.MainInterface;
 import model.Reservation.filtre;
 import model.ReservationTableModel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class ReservationPanel extends JPanel {
 
@@ -67,12 +67,13 @@ public class ReservationPanel extends JPanel {
 
 		reserv_filtre = new JComboBox();
 		reserv_filtre.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cont.ActualiserTableau();
 			}
 		});
 		reserv_filtre.setBackground(viewSettings.SECONDARY);
-		
+
 		reserv_filtre.setBounds(522, 432, 193, 21);
 		reserv_filtre.setModel(new DefaultComboBoxModel(filtre.values()));
 		reserv_filtre.setMaximumRowCount(4);
