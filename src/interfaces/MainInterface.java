@@ -2,7 +2,6 @@ package interfaces;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -14,8 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
@@ -51,30 +48,8 @@ public class MainInterface {
 	private ReservationController reservController;
 	private FactureController factureController;
 	private SanctionController sanctionController;
-	private JTable parkingtable;
-	private JTextField parkingtextField;
-	private JTable contrat_table;
 
 	private boolean isAdmin = false;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					MainInterface window = new MainInterface();
-					window.frame.setVisible(true);
-					window.frame.setLocationRelativeTo(null);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.

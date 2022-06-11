@@ -98,7 +98,7 @@ public interface ReservationDAO {
 	public static ArrayList<Reservation> fetchAll2 (filtre fil) {
 		String query= "SELECT * FROM reservation ";
 		query += "WHERE isValid = false AND isCanceled = false ";
-		query += "AND current_date() > dateDepReservation "
+		query += "AND current_date() >= dateDepReservation "
 				+ "AND current_date() < dateRetReservation "
 				+ "ORDER BY dateReservation DESC;";
 		ResultSet result = ConnectionManager.execute(query);
@@ -165,7 +165,7 @@ public interface ReservationDAO {
 				+" WHERE  codeReservation like ?"
 				+"AND isValid = false "
 				+ "AND isCanceled = false "
-				+ "AND current_date() > dateDepReservation "
+				+ "AND current_date() >= dateDepReservation "
 				+  "AND current_date() < dateRetReservation ;";
 	ArrayList<Reservation> reserv_list = new ArrayList<>();
 	try {

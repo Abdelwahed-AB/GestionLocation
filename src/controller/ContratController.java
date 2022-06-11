@@ -18,6 +18,7 @@ import model.Vehicule;
 import view.AddNewContract;
 import view.ChangeExistingContrat;
 import view.ContratPanel;
+import model.Reservation.filtre;
 
 public class ContratController {
 	private static JTable contratTable;

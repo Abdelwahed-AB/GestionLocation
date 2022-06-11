@@ -42,6 +42,6 @@ public class LogMgr {
 		if(Config.canLog) //if Logs are enabled
 			logr.log(Level.SEVERE, message, e);
 		else
-			System.out.println("hey");
+			System.out.println(e.getMessage());
 	}
 }
