@@ -41,8 +41,6 @@ public class ModifierClientPanel extends JPanel {
 		this.setLayout(null);
 		this.setBounds(0, 0, 766, 598);
 		
-		Color mainColor = new Color(75, 0, 130);
-		Color secondaryColor = new Color(224, 199, 242);
 		
 		nomClientTextField = new JTextField();
 		nomClientTextField.setBounds(142, 20, 202, 20);
@@ -129,7 +127,8 @@ public class ModifierClientPanel extends JPanel {
 		this.add(buttonEffacer);
 		
 		JButton buttonRetour = new JButton("Retour");
-		buttonRetour.setBackground(viewSettings.SECONDARY);
+		buttonRetour.setBackground(viewSettings.MAIN);
+		buttonRetour.setForeground(viewSettings.WHITE);
 		buttonRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "client");
@@ -214,7 +213,8 @@ public class ModifierClientPanel extends JPanel {
 		this.add(permisButton);
 		
 		JButton buttonSauvgarder = new JButton("Sauvgarder");
-		buttonSauvgarder.setBackground(viewSettings.SECONDARY);
+		buttonSauvgarder.setBackground(viewSettings.MAIN);
+		buttonSauvgarder.setForeground(viewSettings.WHITE);
 		buttonSauvgarder.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

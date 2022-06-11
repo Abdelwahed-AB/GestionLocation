@@ -12,7 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import controller.FactureController;
-import controller.TempContratController;
 import interfaces.MainInterface;
 import model.ContractTableModel;
 
@@ -55,11 +54,14 @@ public class CreerFacturePanel extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					
+					if(!search_contrat.getText().isEmpty()) {
+						cont.searchContrat(search_contrat.getText());
+					}else
+						cont.ActualiserTableContrats();
 				}
 			}
 		});
-		search_contrat.setBounds(162, 22, 332, 19);
+		search_contrat.setBounds(192, 22, 302, 25);
 		add(search_contrat);
 		search_contrat.setColumns(10);
 		
@@ -73,6 +75,7 @@ public class CreerFacturePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cont.ActualiserTableContrats();
+				search_contrat.setText("");
 			}
 		});
 		actualiser_btn.setBounds(510, 51, 184, 49);
@@ -85,18 +88,21 @@ public class CreerFacturePanel extends JPanel {
 		creerFacture_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				search_contrat.setText("");
 				cont.CreerFacture();
 			}
 		});
 		this.add(creerFacture_btn);
 		
 		JButton annuler_btn = new JButton("Annuler");
-		annuler_btn.setBackground(viewSettings.SECONDARY);
+		annuler_btn.setBackground(viewSettings.MAIN);
+		annuler_btn.setForeground(viewSettings.WHITE);
 		annuler_btn.setBounds(510, 488, 184, 49);
 		
 		annuler_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				search_contrat.setText("");
 				cont.goBack();
 			}
 		});

@@ -35,6 +35,7 @@ public class AddNewContract extends JPanel{
 		RScrollPane.setBounds(10, 60, 585, 477);
 		this.add(RScrollPane);
 		reservationTable=new JTable(rtm);
+		reservationTable.setSelectionBackground(viewSettings.SECONDARY);
 		RScrollPane.setViewportView(reservationTable);
 		reservationTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	
@@ -53,7 +54,8 @@ public class AddNewContract extends JPanel{
 					
 //BOUTON ANNULER L'AJOUT DU CONTRAT
 		JButton CancelAdding = new JButton("Annuler");
-		CancelAdding.setBackground(viewSettings.SECONDARY);
+		CancelAdding.setBackground(viewSettings.MAIN);
+		CancelAdding.setForeground(viewSettings.WHITE);
 		CancelAdding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainInterface.showOnMainPanel("contrat");

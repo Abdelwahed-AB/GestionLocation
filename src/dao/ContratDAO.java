@@ -165,7 +165,10 @@ public class ContratDAO {
 		return false;
 	}
 	
-	
+	/**
+	 * Methode qui cherche tous les contrats qui n'ont pas une facture
+	 * @return ArrayList<Contrat>
+	 */
 	public static ArrayList<Contrat> getContratsNoFacture() {
 		String query= "SELECT * "
 					+ "FROM contrat C, client, reservation "
@@ -206,5 +209,54 @@ public class ContratDAO {
 		}
 		
 		return cList;
+	}
+	
+	/**
+	 * Methode qui cherche un contrats qui n'a pas une facture
+	 * @return ArrayList<Contrat>
+	 */
+	public static ArrayList<Contrat> searchContratNoFacture(int codeContrat){
+		String query= "SELECT * "
+				+ "FROM contrat C, client, reservation "
+				+ "WHERE C.codeReservation = reservation.codeReservation "
+				+ "AND reservation.codeClient = client.codeClient "
+				+ "AND C.codeContrat = ? "
+				+ "AND NOT EXISTS(SELECT * FROM facture WHERE C.codeContrat = facture.codeContrat);";
+	// We dont need to order by date because they are ordered by id which auto increment when we add a new date in
+	
+	
+	ArrayList<Contrat> cList = new ArrayList<Contrat>();
+	try {
+		PreparedStatement ps = ConnectionManager.getConnection().prepareStatement(query);
+		ps.setInt(1, codeContrat);
+		ResultSet result = ps.executeQuery();
+		while (result.next()) {
+			Contrat c = new Contrat();
+			c.setCodeContrat(result.getInt("codeContrat"));
+			c.setDateContrat(result.getDate("dateContrat"));
+			c.setDateEcheance(result.getDate("dateEcheance"));
+			c.setDateRetActuel(result.getDate("dateRetActuel"));
+			
+			Reservation r = new Reservation();
+			Client cli = new Client();
+			Vehicule v = new Vehicule();
+			
+			v.setCodeVehicule(result.getString("codeVehicule"));
+			
+			cli.setNomClient(result.getString("nomClient"));
+			cli.setPrenomClient(result.getString("prenomClient"));
+			
+			r.setClient(cli);
+			r.setVehicule(v);
+			c.setReservation(r);
+			
+			cList.add(c);
+		}
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+	return cList;
 	}
 }

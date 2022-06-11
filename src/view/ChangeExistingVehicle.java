@@ -104,7 +104,8 @@ public class ChangeExistingVehicle extends JPanel{
 		
 	// BOUTON ENREGISTRER  VEHICULE
 		JButton saveChanges = new JButton("Enregistrer");
-		saveChanges.setBackground(viewSettings.SECONDARY);
+		saveChanges.setBackground(viewSettings.MAIN);
+		saveChanges.setForeground(viewSettings.WHITE);
 		saveChanges.setBounds(531, 479, 159, 42);
 		saveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -145,7 +146,8 @@ public class ChangeExistingVehicle extends JPanel{
 		
 	// BOUTON POUR ANNULER L'AJOUT	
 		JButton CancelChanging = new JButton("Annuler");
-		CancelChanging.setBackground(viewSettings.SECONDARY);
+		CancelChanging.setBackground(viewSettings.MAIN);
+		CancelChanging.setForeground(viewSettings.WHITE);
 		CancelChanging.setBounds(27, 481, 159, 42);
 		CancelChanging.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

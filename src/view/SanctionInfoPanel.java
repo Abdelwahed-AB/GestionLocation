@@ -12,7 +12,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
 import controller.SanctionController;
-import controller.TempContratController;
 import model.Contrat;
 import model.SanctionTableModel;
 import model.TempContratTableModel;
@@ -76,10 +75,10 @@ public class SanctionInfoPanel extends JPanel {
 		contrat_scroll.setViewportView(contrat_table);
 		
 		JButton retour_btn = new JButton("Retour");
-		retour_btn.setBackground(viewSettings.SECONDARY);
+		retour_btn.setBackground(viewSettings.MAIN);
+		retour_btn.setForeground(viewSettings.WHITE);
 		retour_btn.setBounds(23, 505, 146, 46);
 		retour_btn.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cont.back();

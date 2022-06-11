@@ -91,6 +91,7 @@ public class FacturePanel extends JPanel {
 		dltFacture_btn.setBackground(viewSettings.SECONDARY);
 		dltFacture_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				facture_field.setText("");
 				cont.SupprimerFacture();
 			}
 		});
@@ -101,6 +102,7 @@ public class FacturePanel extends JPanel {
 		facture_actualiser_btn.setBackground(viewSettings.SECONDARY);
 		facture_actualiser_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				facture_field.setText("");
 				cont.ActualiserTableau();
 			}
 		});
@@ -114,6 +116,7 @@ public class FacturePanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				facture_field.setText("");
 				cont.imprimerFacture();
 			}
 		});

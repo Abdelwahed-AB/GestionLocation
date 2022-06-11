@@ -40,7 +40,8 @@ public class AllVehiculeInfoPanel extends JPanel {
 				
 			//BOUTON RETOUR AU MENU PRECEDENT
 				JButton retour_btn = new JButton("Retour");
-				retour_btn.setBackground(viewSettings.SECONDARY);
+				retour_btn.setBackground(viewSettings.MAIN);
+				retour_btn.setForeground(viewSettings.WHITE);
 				retour_btn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						mainInterface.showOnMainPanel("vehicule");;

@@ -69,6 +69,7 @@ public class SanctionPanel extends JPanel {
 		actualiser_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				sanction_search.setText("");
 				cont.Actualiser();
 				warning_lbl.setText("");
 			}
@@ -84,6 +85,7 @@ public class SanctionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				warning_lbl.setText("");
+				sanction_search.setText("");
 				cont.moreInfo();
 			}
 		});

@@ -121,8 +121,20 @@ public class FactureController {
 		ActualiserTableau();
 	}
 	
+	/*
+	 * Methode qui actualise le tableau des contrats dans la fenetre de creation de facture
+	 */
 	public void ActualiserTableContrats() {
 		ArrayList<Contrat> cList = ContratDAO.getContratsNoFacture();
+		cfPanel.getContractTableModel().loadContracts(cList);
+	}
+	
+	public void searchContrat(String input) {
+		if(!input.matches("^[0-9]+$")) {
+			return;
+		}
+		int codeContrat = Integer.parseInt(input);
+		ArrayList<Contrat> cList = ContratDAO.searchContratNoFacture(codeContrat);
 		cfPanel.getContractTableModel().loadContracts(cList);
 	}
 	

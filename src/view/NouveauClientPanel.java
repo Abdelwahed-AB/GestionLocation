@@ -25,7 +25,7 @@ import java.awt.Color;
 
 public class NouveauClientPanel extends JPanel {
 
-	// on a besion de ces variables � l'interieur de plusieurs fonction donc on les
+	// on a besion de ces variables a l'interieur de plusieurs fonction donc on les
 	// rendre globals
 	private static JTextField nomTextField;
 	private static JTextField prenomTextField;
@@ -38,9 +38,6 @@ public class NouveauClientPanel extends JPanel {
 		this.cl = (CardLayout) panel.getLayout();
 		this.setLayout(null);
 		this.setBounds(0, 0, 766, 598);
-		
-		Color mainColor = new Color(75, 0, 130);
-		Color secondaryColor = new Color(224, 199, 242);
 
 		nomTextField = new JTextField();
 		nomTextField.setBounds(142, 20, 202, 20);
@@ -116,7 +113,8 @@ public class NouveauClientPanel extends JPanel {
 		this.add(buttonEffacer);
 
 		JButton buttonRetour = new JButton("Retour");
-		buttonRetour.setBackground(viewSettings.SECONDARY);
+		buttonRetour.setBackground(viewSettings.MAIN);
+		buttonRetour.setForeground(viewSettings.WHITE);
 		buttonRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cl.show(panel, "client");
@@ -206,7 +204,8 @@ public class NouveauClientPanel extends JPanel {
 		this.add(permisButton);
 
 		JButton buttonSauvgarder = new JButton("Sauvgarder");
-		buttonSauvgarder.setBackground(viewSettings.SECONDARY);
+		buttonSauvgarder.setBackground(viewSettings.MAIN);
+		buttonSauvgarder.setForeground(viewSettings.WHITE);
 		buttonSauvgarder.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
