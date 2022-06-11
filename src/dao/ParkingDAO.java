@@ -28,7 +28,7 @@ public class ParkingDAO {
 			}
 		} catch (SQLException e) {
 			// genere erreur si le tableau parking dans la base de donnée est non validé
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Parking.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Parking.", e);
 		}
@@ -50,7 +50,7 @@ public class ParkingDAO {
 						Integer.parseInt(result.getString(6))));
 			}
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Find Parking By Name.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Find Parking By Name.", e);
 		}
@@ -71,7 +71,7 @@ public class ParkingDAO {
 				return parking;
 			}
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Find Parking By Code.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Find Parking By Code.", e);
 		}
@@ -89,7 +89,7 @@ public class ParkingDAO {
 			prepared.setInt(1, code);
 			prepared.execute();
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Delete Parking.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Delete Parking.", e);
 		}
@@ -106,7 +106,7 @@ public class ParkingDAO {
 			prepared.setInt(5, parking.getNombrePlaceVide());
 			prepared.execute();
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Creat Parking.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Creat Parking.", e);
 		}
@@ -125,7 +125,7 @@ public class ParkingDAO {
 			prepared.setInt(6, parking.getCodeParking());
 			prepared.execute();
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Modify Parking.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Modify Parking.", e);
 		}
@@ -140,7 +140,7 @@ public class ParkingDAO {
 			ResultSet result = prepared.executeQuery();
 			return result;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Find Vehicule By Code.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Find Vehicule By Code.", e);
 		}
@@ -159,7 +159,7 @@ public class ParkingDAO {
 				return Integer.parseInt(result.getString(1));
 			}
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Number Of Vehicule.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Number Of Vehicule.", e);
 		}
@@ -179,7 +179,7 @@ public class ParkingDAO {
 			prepared.setInt(1, codeParking);
 			prepared.execute();
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Remove Vehicule.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Remove Vehicule.", e);
 		}
@@ -193,7 +193,7 @@ public class ParkingDAO {
 			ResultSet result = prepared.executeQuery();
 			return result;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Find All Vehicule.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Find All Vehicule.", e);
 		}
@@ -214,7 +214,7 @@ public class ParkingDAO {
 			prepared.setInt(1, codeParking);
 			prepared.execute();
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Parking", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Add Vehicule.", "Erreur Parking", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Add Vehicule.", e);
 		}

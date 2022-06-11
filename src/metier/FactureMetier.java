@@ -25,7 +25,7 @@ import model.Facture;
 public interface FactureMetier {
 	public static void createPdf(Facture f){	
 			
-			String path = ".\\factures\\facture_"+f.getCodeFacture()+".pdf";
+			String path = ".\\factures\\facture_"+f.getCodeFacture()+"_"+f.getContrat().getReservation().getClient().getCodeClient()+".pdf";
 			PdfWriter writer = null;
 			try {
 				writer = new PdfWriter(path);

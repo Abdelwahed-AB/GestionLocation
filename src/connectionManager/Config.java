@@ -13,6 +13,7 @@ public class Config {
 	public static String PASS;
 	public static String IP;
 	public static String PORT;
+	public static boolean canLog;
 	
 	static {
 		String configFile = "config/config.ini";
@@ -25,11 +26,13 @@ public class Config {
 			PASS = prop.getProperty("PASS");
 			IP = prop.getProperty("IP");
 			PORT = prop.getProperty("PORT");
+			canLog = Boolean.parseBoolean(prop.getProperty("LOG"));
 		} catch (FileNotFoundException e) {
 			JOptionPane.showConfirmDialog(null, "Fichier de config introuvable.", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-			
+			e.printStackTrace();
 		} catch (IOException e) {
 			JOptionPane.showConfirmDialog(null, "Erreur ouverture de fichier config.", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 	}
 }

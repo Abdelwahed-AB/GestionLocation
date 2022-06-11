@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import connectionManager.ConnectionManager;
 import controller.UserController;
+import log.LogMgr;
 import model.User;
 
 public class UserDAO {
@@ -28,7 +29,8 @@ public class UserDAO {
 				}
 				
 			} catch (SQLException e) {
-				JOptionPane.showConfirmDialog(null, e.getMessage(), "User display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showConfirmDialog(null, "Erreur affichage utilisateurs", "Erreur utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("User display error", e);
 			}
 			return User_list;
 		}
@@ -44,21 +46,16 @@ public class UserDAO {
 				prepared.setString(1, nom+"%");
 				prepared.setString(2, nom+"%");
 				ResultSet result = prepared.executeQuery();
-				try {
-					while (result.next()) {
-						User  u=new User(result.getInt("matricule"), result.getString("nomUtilisateur"), result.getString("prenomUtilisateur"),
-								result.getString("TelUtilisateur"), result.getString("adresseUtilisateur"), result.getBoolean("IsActive"),
-								result.getBoolean("IsAdmin"),result.getString("username"),result.getString("password"));
-						User_list.add(u);
-					}
-					
-				} catch (SQLException e) {
-					JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur d'affichage", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				while (result.next()) {
+					User  u=new User(result.getInt("matricule"), result.getString("nomUtilisateur"), result.getString("prenomUtilisateur"),
+							result.getString("TelUtilisateur"), result.getString("adresseUtilisateur"), result.getBoolean("IsActive"),
+							result.getBoolean("IsAdmin"),result.getString("username"),result.getString("password"));
+					User_list.add(u);
 				}
-				
+
 			} catch (SQLException e) {
-				JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur d'affichage", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur recherche utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("User Autocomplete error", e);
 			}
 			
 			return User_list;
@@ -81,7 +78,8 @@ public class UserDAO {
 							result.getBoolean("IsAdmin"),result.getString("username"),result.getString("password"));
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur recherche utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur recherche utilisateur par id", e);
 			}
 			return user;
 		}
@@ -95,14 +93,15 @@ public class UserDAO {
 				PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 				prepared.setInt(1, id);
 				ResultSet result = prepared.executeQuery();
-			if(result.next())
-				return true;
-			else 
-				return false;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
+				if(result.next())
+					return true;
+				else 
+					return false;
+			} catch (SQLException e) {
+				JOptionPane.showConfirmDialog(null, "Erreur verification utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur verification utilisateur", e);
+			}
+			return false;
 		}
 	//VERIFIE SI L'UTILISATEUR EXISTE DEJA [ON TESTE SUR SON USERNAME]
 		public static boolean findUser (String username) {
@@ -116,7 +115,8 @@ public class UserDAO {
 				if( result.next()) return true;
 				else return false;//RETURNS FALSE IF THE RESULT IS EMPTY, TRUE OTHERWISE			
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur recherche utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur recherche utilisateur par username", e);
 			}
 			return true;
 		}
@@ -134,7 +134,8 @@ public class UserDAO {
 					return result.getBoolean("isAdmin");
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur verification admin", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur verification admin", e);
 			}
 			return false;
 		}		
@@ -156,7 +157,8 @@ public class UserDAO {
 				prepared.execute();
 				return true;
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur creation utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur creation utilisateur", e);
 			}
 			return false;
 		}
@@ -183,8 +185,8 @@ public class UserDAO {
 					prepared.execute();
 					return true;
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showConfirmDialog(null, "Erreur modification utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+					LogMgr.error("Erreur modification utilisateur", e);
 				}
 			}else {
 				String query="UPDATE `utilisateur`"
@@ -205,8 +207,8 @@ public class UserDAO {
 					prepared.execute();
 					return true;
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showConfirmDialog(null, "Erreur modification utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+					LogMgr.error("Erreur modification utilisateur", e);
 				}
 				
 			}
@@ -222,8 +224,8 @@ public class UserDAO {
 				prepared.execute();
 				return true;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur supression utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur supression utilisateur", e);
 			}
 			return false;
 		}
@@ -239,7 +241,8 @@ public class UserDAO {
 				prepared.execute();
 				return true;
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Erreur suspension utilisateur", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur suspension utilisateur", e);
 			}
 			return false;
 		}
@@ -257,8 +260,8 @@ public class UserDAO {
 				if (result.next()) return true;
 				else return false;
 			} catch (SQLException e) {
-				e.printStackTrace();
-			
+				JOptionPane.showConfirmDialog(null, "Erreur verification login", "Erreur Utilisateur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				LogMgr.error("Erreur verification login", e);
 			}
 			
 			return false;

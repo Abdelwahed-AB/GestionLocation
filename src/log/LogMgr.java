@@ -7,6 +7,8 @@ import java.util.logging.*;
 
 import javax.swing.JOptionPane;
 
+import connectionManager.Config;
+
 public class LogMgr {
 	//global logger object
 	public final static Logger logr = Logger.getGlobal();
@@ -20,8 +22,8 @@ public class LogMgr {
 		
 		try {
 			//handler qui gere les donnees de fichier
-			FileHandler handler = new FileHandler("logs/log-"+today+".xml", true);
-			handler.setFormatter(new XMLFormatter());
+			FileHandler handler = new FileHandler("logs/log-"+today+".txt", true);
+			handler.setFormatter(new SimpleFormatter());
 			handler.setLevel(Level.SEVERE);
 			logr.addHandler(handler);
 			
@@ -34,6 +36,9 @@ public class LogMgr {
 	}
 	
 	public static void error(String message, Exception e) {
-		logr.log(Level.SEVERE, message, e);
+		if(Config.canLog)
+			logr.log(Level.SEVERE, message, e);
+		else
+			System.out.println("hey");
 	}
 }

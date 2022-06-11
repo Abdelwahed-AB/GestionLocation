@@ -39,7 +39,6 @@ public class ConnectionManager {
 			return result;
 		} catch (SQLException e) {
 			LogMgr.error("Erreur Execution requete.", e);
-			e.printStackTrace();
 		}
 
 		return null;

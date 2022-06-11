@@ -29,7 +29,7 @@ public class ClientDAO {
 
 		} catch (SQLException e) {
 			// genere erreur si le tableau client dans la base de donnée est non validé
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Client", "Erreur", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Client.", e);
 
@@ -52,7 +52,7 @@ public class ClientDAO {
 			prepared.execute();
 		} catch (SQLException e) {
 			// genere erreur si le tableau client dans la base de donnée est non validé
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Creer Client.", "Erreur Client", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Creer Client.", e);
 		}
@@ -73,7 +73,7 @@ public class ClientDAO {
 				return client;
 			}
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Search Client By Code.", "Erreur Client", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Search Client By Code.", e);
 		}
@@ -94,7 +94,7 @@ public class ClientDAO {
 			}
 			return list;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Search Client By Name.", "Erreur Client", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Search Client By Name.", e);
 		}
@@ -115,7 +115,7 @@ public class ClientDAO {
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Modify Client.", "Erreur Client", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Modify Client.", e);
 		}
@@ -129,7 +129,7 @@ public class ClientDAO {
 			prepared.setInt(1, code);
 			prepared.execute();
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Delete Client.", "Erreur Client", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Delete Client.", e);
 		}
@@ -144,7 +144,7 @@ public class ClientDAO {
 			ResultSet result = prepared.executeQuery();
 			return result;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Client", JOptionPane.DEFAULT_OPTION,
+			JOptionPane.showConfirmDialog(null, "Erreur Search Vehicule.", "Erreur Client", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.ERROR_MESSAGE);
 			LogMgr.error("Erreur Search Vehicule.", e);
 		}

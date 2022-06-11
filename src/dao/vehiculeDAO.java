@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import connectionManager.ConnectionManager;
+import log.LogMgr;
 import model.Vehicule;
 
 public class vehiculeDAO {
@@ -33,7 +34,8 @@ public class vehiculeDAO {
 			}
 			
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Erreur affichage vehicules", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur affichage vehicules", e);
 		}
 		
 		return Vehicule_list;
@@ -49,27 +51,21 @@ public class vehiculeDAO {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 			prepared.setString(1, matricule);
 			ResultSet result = prepared.executeQuery();
-			try {
-				while (result.next()) {
-					V = new Vehicule(result.getString("Immatriculation"),
-							result.getString("marqueVehicule"),
-							result.getString("typeVehicule"),
-							result.getString("carburant"),
-							result.getInt("kilometrage"),
-							result.getDate("dateMiseCirculation"),
-							result.getInt("codePark"),
-							result.getInt("prixLocation"),
-							result.getBoolean("disponible"));
-					return V;
-				}
-			
-			} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Ereur de recherche", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			while (result.next()) {
+				V = new Vehicule(result.getString("Immatriculation"),
+						result.getString("marqueVehicule"),
+						result.getString("typeVehicule"),
+						result.getString("carburant"),
+						result.getInt("kilometrage"),
+						result.getDate("dateMiseCirculation"),
+						result.getInt("codePark"),
+						result.getInt("prixLocation"),
+						result.getBoolean("disponible"));
+				return V;
 			}
-		
 		} catch (SQLException e) {
-		JOptionPane.showConfirmDialog(null, e.getMessage(), "erreur de recherche", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-		e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, "Erreur recherche vehicule", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur recherche vehicule", e);
 		}
 		return V;
 		
@@ -89,7 +85,8 @@ public class vehiculeDAO {
 			else 
 				return false;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, "Erreur verification vehicules", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur verification vehicules", e);
 		}
 		return false;
 	}
@@ -103,27 +100,21 @@ public class vehiculeDAO {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 			prepared.setString(1, Immatriculation+"%");
 			ResultSet result = prepared.executeQuery();
-			try {
-				while (result.next()) {
-					Vehicule V = new Vehicule(result.getString("Immatriculation"),
-							result.getString("marqueVehicule"),
-							result.getString("typeVehicule"),
-							result.getString("carburant"),
-							result.getInt("kilometrage"),
-							result.getDate("dateMiseCirculation"),
-							result.getInt("codePark"),
-							result.getInt("prixLocation"),
-							result.getBoolean("disponible"));
-					Vehicule_list.add(V);
-				}
-				
-			} catch (SQLException e) {
-				JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			while (result.next()) {
+				Vehicule V = new Vehicule(result.getString("Immatriculation"),
+						result.getString("marqueVehicule"),
+						result.getString("typeVehicule"),
+						result.getString("carburant"),
+						result.getInt("kilometrage"),
+						result.getDate("dateMiseCirculation"),
+						result.getInt("codePark"),
+						result.getInt("prixLocation"),
+						result.getBoolean("disponible"));
+				Vehicule_list.add(V);
 			}
-			
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, "Erreur recherche vehicule", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur autocomplete vehicule", e);
 		}
 		
 		return Vehicule_list;
@@ -148,13 +139,13 @@ public class vehiculeDAO {
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Creation vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Erreur creation vehicules", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur creation vehicules", e);
 		}
 		return false;
 	}
 // METHODE SUPPRIMANT UN VEHICULE A L'AIDE DE SON MATRICULE
 	public static boolean removeVehicule(String id) {
-		// TODO Auto-generated method stub
 		String query="DELETE FROM `vehicule`"
 					+" WHERE (`Immatriculation` = ?);";
 		try {
@@ -163,13 +154,13 @@ public class vehiculeDAO {
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Supression vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Erreur supression vehicule", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur supression vehicule", e);
 		}
 		return false;
 	}
 //METHODE QUI ENVOI UNE REQUTE UPDATE AFIN DE CHANGER LES ATTRIBUTS D'UN VEHICULE
 	public static boolean ChangeVehicle(Vehicule vehicule,String oldId) {
-		// TODO Auto-generated method stub
 		String query="UPDATE `vehicule`"
 				+" SET `Immatriculation`=?, `marqueVehicule`=?, `typeVehicule`=?, `carburant`=?,"
 				+ " `kilometrage`=?, `dateMiseCirculation`=?, `codePark`=?, `prixLocation`=?, `disponible`=?"
@@ -190,7 +181,8 @@ public class vehiculeDAO {
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Creation vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Erreur modification vehicule", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur modification vehicule", e);
 		}
 		
 		return false;
@@ -206,7 +198,8 @@ public class vehiculeDAO {
 				Parkings.add(result.getString("codeParking")+"-"+result.getString("nomParking"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, "Erreur recherche des parks.", "Erreur vehicule", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur recherche des parks", e);
 		}
 		return Parkings;
 	}

@@ -5,3 +5,6 @@
 /interfaces/
 /controller/
 /model/
+/metier/
+/connectionManager/
+/log/

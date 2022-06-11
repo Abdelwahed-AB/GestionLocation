@@ -140,12 +140,13 @@ public interface ReservationDAO {
 			}
 			
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Vehicule display error", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Vehicule display error", e);
 		}
 		
 	} catch (SQLException e) {
-		JOptionPane.showConfirmDialog(null, e.getMessage(), "vehicule display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-		e.printStackTrace();
+		JOptionPane.showConfirmDialog(null, "Vehicule display error", "Erreur", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+		LogMgr.error("Vehicule display error", e);
 	}
 	
 	return reserv_list;

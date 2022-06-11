@@ -10,6 +10,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import connectionManager.ConnectionManager;
+import log.LogMgr;
 import model.Client;
 import model.Contrat;
 import model.Reservation;
@@ -34,7 +35,8 @@ public class ContratDAO {
 			}
 				
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "contrat display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Contrat display error", "Erreur Contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Contrat display error", e);
 		}
 		return contrat_list;
 	}
@@ -49,22 +51,17 @@ public class ContratDAO {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 			prepared.setInt(1, codeContrat);
 			ResultSet result = prepared.executeQuery();
-			try {
-				while (result.next()) {
-					c=new Contrat(result.getInt("codeContrat"), 
-							result.getDate("dateContrat"), 
-							result.getDate("dateEcheance"),
-							result.getDate("dateRetActuel"));
-					c.setCodeReservation(result.getInt("codeReservation"));
-				}
-				
-			} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Ereur de recherche", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-			}	
-		} catch (SQLException e) {
-		JOptionPane.showConfirmDialog(null, e.getMessage(), "erreur de recherche", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-		e.printStackTrace();
+			while (result.next()) {
+				c=new Contrat(result.getInt("codeContrat"), 
+				result.getDate("dateContrat"), 
+				result.getDate("dateEcheance"),
+				result.getDate("dateRetActuel"));
+				c.setCodeReservation(result.getInt("codeReservation"));
 			}
+		} catch (SQLException e) {
+			JOptionPane.showConfirmDialog(null, "Ereur de recherche Contrat", "Erreur Contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Ereur de recherche Contrat", e);
+		}
 		return c;	
 	}
 //VERIFIER SI UN CONTRAT EXISTE EN TESTANT SUR SON codeContrat LE RETOUR EST UN BOOLEAN
@@ -82,7 +79,8 @@ public class ContratDAO {
 			else 
 				return false;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, "Ereur de verification Contrat", "Erreur Contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Ereur de verification Contrat", e);
 		}
 		return false;
 	}
@@ -96,22 +94,17 @@ public class ContratDAO {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 			prepared.setString(1, codeContrat+"%");
 			ResultSet result = prepared.executeQuery();
-			try {
-				while (result.next()) {
-					Contrat c=new Contrat(result.getInt("codeContrat"), 
-							result.getDate("dateContrat"), 
-							result.getDate("dateEcheance"),
-							result.getDate("dateRetActuel"));
-					contrat_list.add(c);
-				}
-					
-			} catch (SQLException e) {
-				JOptionPane.showConfirmDialog(null, e.getMessage(), "contrat display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			while (result.next()) {
+				Contrat c=new Contrat(result.getInt("codeContrat"), 
+				result.getDate("dateContrat"), 
+				result.getDate("dateEcheance"),
+				result.getDate("dateRetActuel"));
+				contrat_list.add(c);
 			}
 				
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "contrat display error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, "Ereur de AutoComplete Contrat", "Erreur Contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Ereur de AutoComplete Contrat", e);
 		}
 		return contrat_list;
 	}
@@ -127,7 +120,8 @@ public class ContratDAO {
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Creation contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Erreur Creation contrat", "Erreur Contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Creation contrat", e);
 		}
 		return false;
 	}
@@ -144,7 +138,8 @@ public class ContratDAO {
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Creation contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null,"Erreur Modification contrat", "Erreur Contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Modification contrat", e);
 		}
 		
 		return false;
@@ -160,7 +155,8 @@ public class ContratDAO {
 			prepared.execute();
 			return true;
 		} catch (SQLException e) {
-			JOptionPane.showConfirmDialog(null, e.getMessage(), "Erreur Supression contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showConfirmDialog(null, "Erreur Supression contrat", "Erreur Contrat", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Supression contrat", e);
 		}
 		return false;
 	}
@@ -205,7 +201,8 @@ public class ContratDAO {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, "Erreur Recherche Contrat sans Facture", "Erreur Facture", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+			LogMgr.error("Erreur Recherche Contrat sans Facture", e);
 		}
 		
 		return cList;
