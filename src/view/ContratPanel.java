@@ -12,12 +12,14 @@ import java.awt.event.MouseEvent;
 import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import controller.ContratController;
+import controller.UserController;
 import interfaces.MainInterface;
 import model.ContractTableModel;
 
@@ -84,6 +86,17 @@ public class ContratPanel extends JPanel {
 		});
 		removeContrat.setBounds(605, 181, 117, 50);
 		this.add(removeContrat);
+//POUR SUPPRIMER AVEC LE BOUTON delete du clavier
+		contratTable.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_DELETE&&contratTable.getSelectedRow()!=-1) {
+					ContratController.setPanel(ContratPanel.this);
+					ContratController.setTable(contratTable);
+					ContratController.removeContrat();
+				}
+			}
+		});
 				
 //BOUTON MODIFIER LES ATTRIBUTS D'UN Contrat EXISTANT
 				

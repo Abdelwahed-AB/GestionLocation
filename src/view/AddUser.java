@@ -6,14 +6,18 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import controller.ContratController;
 import controller.UserController;
 import interfaces.MainInterface;
 
@@ -31,6 +35,7 @@ public class AddUser extends JPanel{
 	private UserPanel userPanel;
 	// constructor
 	public AddUser(MainInterface mainInterface) {
+		
 		setBounds(new Rectangle(0, 0, 732, 547));
 		this.mainInterface = mainInterface;
 		this.cl = (CardLayout) mainInterface.getMainPanel().getLayout();
@@ -61,6 +66,15 @@ public class AddUser extends JPanel{
 		newUserNom.setBounds(244, 92, 399, 29);
 		newUserNom.setColumns(10);
 		this.add(newUserNom);
+		newUserNom.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					UserController.setAU(AddUser.this);
+					UserController.saveNewUsers();
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Prenom");
 		lblNewLabel_1_1_1.setBounds(86, 131, 138, 29);
@@ -71,6 +85,15 @@ public class AddUser extends JPanel{
 		newUserPrenom.setBounds(244, 132, 399, 28);
 		newUserPrenom.setColumns(10);
 		this.add(newUserPrenom);
+		newUserPrenom.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					UserController.setAU(AddUser.this);
+					UserController.saveNewUsers();
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_1_1_2 = new JLabel("T\u00E9l\u00E9phone");
 		lblNewLabel_1_1_2.setBounds(86, 180, 138, 28);
@@ -81,6 +104,15 @@ public class AddUser extends JPanel{
 		newUserTel.setBounds(243, 180, 400, 28);
 		newUserTel.setColumns(10);
 		this.add(newUserTel);
+		newUserTel.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					UserController.setAU(AddUser.this);
+					UserController.saveNewUsers();
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_1_1_3 = new JLabel("Adresse");
 		lblNewLabel_1_1_3.setBounds(86, 228, 138, 28);
@@ -91,7 +123,15 @@ public class AddUser extends JPanel{
 		newUserAdresse.setBounds(244, 228, 399, 28);
 		newUserAdresse.setColumns(10);
 		this.add(newUserAdresse);
-		
+		newUserAdresse.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					UserController.setAU(AddUser.this);
+					UserController.saveNewUsers();
+				}
+			}
+		});
 		
 		JButton saveNewUser = new JButton("Enregistrer");
 		saveNewUser.setBounds(38, 444, 159, 54);
@@ -103,6 +143,7 @@ public class AddUser extends JPanel{
 			}
 		});
 		this.add(saveNewUser);
+				
 		
 		JButton deleteNewUserFields = new JButton("Effacer tout");
 		deleteNewUserFields.setBounds(288, 444, 159, 54);
@@ -134,6 +175,15 @@ public class AddUser extends JPanel{
 		newUserUsername.setBounds(244, 276, 399, 28);
 		newUserUsername.setColumns(10);
 		this.add(newUserUsername);
+		newUserUsername.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					UserController.setAU(AddUser.this);
+					UserController.saveNewUsers();
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_1_1_5_2 = new JLabel("Mot de passe");
 		lblNewLabel_1_1_5_2.setBounds(86, 324, 138, 28);
@@ -145,18 +195,38 @@ public class AddUser extends JPanel{
 		newUserPassword.setBounds(244, 324, 399, 28);
 		newUserPassword.setColumns(10);
 		this.add(newUserPassword);
+		newUserPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					UserController.setAU(AddUser.this);
+					UserController.saveNewUsers();
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_1_1_5_2_1 = new JLabel("Confirmer mot de passe ");
 		lblNewLabel_1_1_5_2_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_1_5_2_1.setBackground(viewSettings.SECONDARY);
-		lblNewLabel_1_1_5_2_1.setBounds(86, 371, 138, 28);
+		lblNewLabel_1_1_5_2_1.setBounds(78, 371, 140, 28);
 		add(lblNewLabel_1_1_5_2_1);
 		
 		passwordConfirmed = new JTextField();
 		passwordConfirmed.setColumns(10);
 		passwordConfirmed.setBounds(244, 371, 399, 28);
 		add(passwordConfirmed);
+		passwordConfirmed.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					UserController.setAU(AddUser.this);
+					UserController.saveNewUsers();
+				}
+			}
+		});
+	
 	}
+	
 
 	// GETTERS
 	public JTextField getNewUserNom() {

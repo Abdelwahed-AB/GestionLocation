@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -75,9 +76,19 @@ public class AddNewContract extends JPanel{
 		boutonCreer.setBounds(605, 60, 117, 50);
 		this.add(boutonCreer);
 		this.setLayout(null);
+	// SAUVEGARDER EN CLIQUANT SUR Entrer
+		reservationTable.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER&&reservationTable.getSelectedRow()!=-1) {
+					ContratController.setReservationTable(reservationTable);
+					ContratController.createContract();
+				}
+			}
+		});
 		
 	}
-	
+ 
 //GETTERS
 	public static JTable getReservationTable() {
 		return AddNewContract.reservationTable;

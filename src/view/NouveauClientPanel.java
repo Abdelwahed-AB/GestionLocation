@@ -140,7 +140,7 @@ public class NouveauClientPanel extends JPanel {
 		imageClientlbl.setBounds(25, 125, 139, 14);
 		this.add(imageClientlbl);
 
-		JLabel permisClientlbl = new JLabel("Permis Scanee de Client");
+		JLabel permisClientlbl = new JLabel("Permis Scanné du Client");
 		permisClientlbl.setHorizontalAlignment(SwingConstants.CENTER);
 		permisClientlbl.setBounds(371, 125, 139, 14);
 		this.add(permisClientlbl);

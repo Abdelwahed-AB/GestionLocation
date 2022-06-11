@@ -10,12 +10,15 @@ import java.awt.event.MouseEvent;
 import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import controller.UserController;
+import controller.VehiculeController;
+import dao.vehiculeDAO;
 import interfaces.MainInterface;
 import model.UserTableModel;
 
@@ -81,6 +84,17 @@ public class UserPanel extends JPanel{
 		removeUser.setBounds(605, 180, 117, 50);
 		this.add(removeUser);
 		
+		//POUR SUPPRIMER AVEC LE BOUTON delete du clavier
+		userTable.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_DELETE&&userTable.getSelectedRow()!=-1) {
+					UserController.setPanel(UserPanel.this);
+					UserController.setTable(userTable);
+					UserController.removeUser();
+				}
+			}
+		});
 		/**CHANGE USER DATA*/
 		
 		JButton changeUser = new JButton("Modifier");

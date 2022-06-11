@@ -37,7 +37,7 @@ public class UserController {
 	public static void removeUser() {
 		int i = userTable.getSelectedRow();
 		if (i>= 0) {
-			int result = JOptionPane.showConfirmDialog(null, "Etes-vous sure de bien vouloir supprimer l'utilisateur : "+userTable.getModel().getValueAt(i, 1).toString()+"  "+userTable.getModel().getValueAt(i, 2).toString(),
+			int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer l'utilisateur : "+userTable.getModel().getValueAt(i, 1).toString()+"  "+userTable.getModel().getValueAt(i, 2).toString()+" ?",
 					"Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if(result == JOptionPane.YES_OPTION) {
 				int id = Integer.parseInt(userTable.getModel().getValueAt(i, 0).toString());

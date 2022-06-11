@@ -6,6 +6,8 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 
 import javax.swing.JButton;
@@ -72,6 +74,32 @@ public class ChangeExistingUser extends JPanel{
 		setLayout(null);
 		this.add(newMatricule);
 		newMatricule.setColumns(10);
+		newMatricule.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!UserController.empty(ChangeExistingUser.this)) {
+						try {
+							if(!newPassword.getText().equals("")) {
+							User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+									StatusChkBox.isSelected(),false,username.getText(),newPassword.getText());
+							UserController.saveUserUpdate(u,ChangeExistingUser.oldId,newPassword.getText());
+							}
+							else {
+								User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+										StatusChkBox.isSelected(),false,username.getText(),"la on s'interesse pas au mot de passe car on va pas l'utiliser");
+								UserController.saveUserUpdate(u,ChangeExistingUser.oldId,"null");
+							}
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), ex+"", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_1 = new JLabel("Veuillez remplir les nouveaux donn\u00E9es");
 		lblNewLabel_1.setBounds(152, 23, 483, 42);
@@ -87,6 +115,32 @@ public class ChangeExistingUser extends JPanel{
 		newNom.setBounds(474, 102, 195, 42);
 		newNom.setColumns(10);
 		this.add(newNom);
+		newNom.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!UserController.empty(ChangeExistingUser.this)) {
+						try {
+							if(!newPassword.getText().equals("")) {
+							User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+									StatusChkBox.isSelected(),false,username.getText(),newPassword.getText());
+							UserController.saveUserUpdate(u,ChangeExistingUser.oldId,newPassword.getText());
+							}
+							else {
+								User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+										StatusChkBox.isSelected(),false,username.getText(),"la on s'interesse pas au mot de passe car on va pas l'utiliser");
+								UserController.saveUserUpdate(u,ChangeExistingUser.oldId,"null");
+							}
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), ex+"", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_3 = new JLabel("Telephone");
 		lblNewLabel_3.setBounds(371, 180, 82, 42);
@@ -97,6 +151,32 @@ public class ChangeExistingUser extends JPanel{
 		newPrenom.setBounds(140, 184, 183, 42);
 		newPrenom.setColumns(10);
 		this.add(newPrenom);
+		newPrenom.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!UserController.empty(ChangeExistingUser.this)) {
+						try {
+							if(!newPassword.getText().equals("")) {
+							User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+									StatusChkBox.isSelected(),false,username.getText(),newPassword.getText());
+							UserController.saveUserUpdate(u,ChangeExistingUser.oldId,newPassword.getText());
+							}
+							else {
+								User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+										StatusChkBox.isSelected(),false,username.getText(),"la on s'interesse pas au mot de passe car on va pas l'utiliser");
+								UserController.saveUserUpdate(u,ChangeExistingUser.oldId,"null");
+							}
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), ex+"", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_4 = new JLabel("Adresse");
 		lblNewLabel_4.setBounds(44, 256, 92, 42);
@@ -107,11 +187,63 @@ public class ChangeExistingUser extends JPanel{
 		newTel.setBounds(474, 183, 195, 42);
 		newTel.setColumns(10);
 		this.add(newTel);
+		newTel.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!UserController.empty(ChangeExistingUser.this)) {
+						try {
+							if(!newPassword.getText().equals("")) {
+							User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+									StatusChkBox.isSelected(),false,username.getText(),newPassword.getText());
+							UserController.saveUserUpdate(u,ChangeExistingUser.oldId,newPassword.getText());
+							}
+							else {
+								User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+										StatusChkBox.isSelected(),false,username.getText(),"la on s'interesse pas au mot de passe car on va pas l'utiliser");
+								UserController.saveUserUpdate(u,ChangeExistingUser.oldId,"null");
+							}
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), ex+"", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		newAdresse = new JTextField();
 		newAdresse.setBounds(140, 259, 183, 42);
 		newAdresse.setColumns(10);
 		this.add(newAdresse);
+		newAdresse.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!UserController.empty(ChangeExistingUser.this)) {
+						try {
+							if(!newPassword.getText().equals("")) {
+							User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+									StatusChkBox.isSelected(),false,username.getText(),newPassword.getText());
+							UserController.saveUserUpdate(u,ChangeExistingUser.oldId,newPassword.getText());
+							}
+							else {
+								User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+										StatusChkBox.isSelected(),false,username.getText(),"la on s'interesse pas au mot de passe car on va pas l'utiliser");
+								UserController.saveUserUpdate(u,ChangeExistingUser.oldId,"null");
+							}
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), ex+"", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		lblNewLabel_7 = new JLabel("Nom");
 		lblNewLabel_7.setBounds(371, 102, 82, 42);
@@ -205,11 +337,63 @@ public class ChangeExistingUser extends JPanel{
 		newPassword.setColumns(10);
 		newPassword.setBounds(140, 329, 183, 42);
 		add(newPassword);
+		newPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!UserController.empty(ChangeExistingUser.this)) {
+						try {
+							if(!newPassword.getText().equals("")) {
+							User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+									StatusChkBox.isSelected(),false,username.getText(),newPassword.getText());
+							UserController.saveUserUpdate(u,ChangeExistingUser.oldId,newPassword.getText());
+							}
+							else {
+								User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+										StatusChkBox.isSelected(),false,username.getText(),"la on s'interesse pas au mot de passe car on va pas l'utiliser");
+								UserController.saveUserUpdate(u,ChangeExistingUser.oldId,"null");
+							}
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), ex+"", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		username = new JTextField();
 		username.setColumns(10);
 		username.setBounds(474, 258, 195, 42);
 		add(username);
+		username.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!UserController.empty(ChangeExistingUser.this)) {
+						try {
+							if(!newPassword.getText().equals("")) {
+							User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+									StatusChkBox.isSelected(),false,username.getText(),newPassword.getText());
+							UserController.saveUserUpdate(u,ChangeExistingUser.oldId,newPassword.getText());
+							}
+							else {
+								User u = new User(Integer.parseInt(newMatricule.getText()),newNom.getText(),newPrenom.getText(),newTel.getText(),newAdresse.getText(),
+										StatusChkBox.isSelected(),false,username.getText(),"la on s'interesse pas au mot de passe car on va pas l'utiliser");
+								UserController.saveUserUpdate(u,ChangeExistingUser.oldId,"null");
+							}
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), ex+"", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 	
 		JLabel  lblNewLabel_5 = new JLabel("Username");
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.LEFT);

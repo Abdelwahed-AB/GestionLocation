@@ -125,7 +125,7 @@ public class ContratController {
 		int i = contratTable.getSelectedRow();
 		try {
 			if (i!=-1) {
-				int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer le contrat : "+contratTable.getModel().getValueAt(i, 0).toString(), "Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer le contrat numéro : "+contratTable.getModel().getValueAt(i, 0).toString()+" ?", "Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.YES_OPTION) {
 					String id =contratTable.getModel().getValueAt(i, 0).toString();
 					Contrat c=ContratDAO.findContract(Integer.parseInt(id));

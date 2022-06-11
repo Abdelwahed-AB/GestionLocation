@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.time.Year;
 import javax.swing.DefaultComboBoxModel;
@@ -18,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import controller.UserController;
 import controller.VehiculeController;
 import interfaces.MainInterface;
 import model.Vehicule;
@@ -71,6 +75,32 @@ public class ChangeExistingVehicle extends JPanel{
 		ImmatriculationVehicule.setBounds(70, 96, 262, 27);
 		ImmatriculationVehicule.setColumns(10);
 		this.add(ImmatriculationVehicule);
+		ImmatriculationVehicule.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!VehiculeController.empty(ChangeExistingVehicle.this)) {
+						try {
+							Vehicule V = new Vehicule(ImmatriculationVehicule.getText(),
+									marqueVehicule.getText(),
+									typeVehicule.getText(),
+									carburant.getText(),
+									Long.parseLong(kilometrage.getText()),
+									Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
+									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
+									Integer.parseInt(prixLocation.getText())
+									,disponible.isSelected());
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		JLabel marque_lbl = new JLabel("Marque:");
 		marque_lbl.setBounds(366, 71, 142, 19);
@@ -81,6 +111,32 @@ public class ChangeExistingVehicle extends JPanel{
 		marqueVehicule.setBounds(366, 96, 279, 27);
 		marqueVehicule.setColumns(10);
 		this.add(marqueVehicule);
+		marqueVehicule.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!VehiculeController.empty(ChangeExistingVehicle.this)) {
+						try {
+							Vehicule V = new Vehicule(ImmatriculationVehicule.getText(),
+									marqueVehicule.getText(),
+									typeVehicule.getText(),
+									carburant.getText(),
+									Long.parseLong(kilometrage.getText()),
+									Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
+									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
+									Integer.parseInt(prixLocation.getText())
+									,disponible.isSelected());
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		JLabel type_lbl = new JLabel("Type:");
 		type_lbl.setBounds(70, 133, 262, 13);
@@ -91,6 +147,32 @@ public class ChangeExistingVehicle extends JPanel{
 		typeVehicule.setBounds(70, 156, 262, 27);
 		typeVehicule.setColumns(10);
 		this.add(typeVehicule);
+		typeVehicule.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!VehiculeController.empty(ChangeExistingVehicle.this)) {
+						try {
+							Vehicule V = new Vehicule(ImmatriculationVehicule.getText(),
+									marqueVehicule.getText(),
+									typeVehicule.getText(),
+									carburant.getText(),
+									Long.parseLong(kilometrage.getText()),
+									Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
+									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
+									Integer.parseInt(prixLocation.getText())
+									,disponible.isSelected());
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_1_1_3 = new JLabel("Carburant:");
 		lblNewLabel_1_1_3.setBounds(366, 133, 142, 13);
@@ -101,6 +183,32 @@ public class ChangeExistingVehicle extends JPanel{
 		carburant.setBounds(366, 156, 279, 27);
 		carburant.setColumns(10);
 		this.add(carburant);
+		carburant.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!VehiculeController.empty(ChangeExistingVehicle.this)) {
+						try {
+							Vehicule V = new Vehicule(ImmatriculationVehicule.getText(),
+									marqueVehicule.getText(),
+									typeVehicule.getText(),
+									carburant.getText(),
+									Long.parseLong(kilometrage.getText()),
+									Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
+									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
+									Integer.parseInt(prixLocation.getText())
+									,disponible.isSelected());
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 	// BOUTON ENREGISTRER  VEHICULE
 		JButton saveChanges = new JButton("Enregistrer");
@@ -120,7 +228,6 @@ public class ChangeExistingVehicle extends JPanel{
 								Integer.parseInt(prixLocation.getText())
 								,disponible.isSelected());
 						VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
-//						AddUser.this.mainInterface.setMainPanel(AddUser.this.userPanel,"user");	//revenir au menu precedent
 					}catch(NumberFormatException ex) {
 						JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
 					}
@@ -163,6 +270,32 @@ public class ChangeExistingVehicle extends JPanel{
 		kilometrage.setBounds(70, 223, 262, 27);
 		kilometrage.setColumns(10);
 		this.add(kilometrage);
+		kilometrage.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!VehiculeController.empty(ChangeExistingVehicle.this)) {
+						try {
+							Vehicule V = new Vehicule(ImmatriculationVehicule.getText(),
+									marqueVehicule.getText(),
+									typeVehicule.getText(),
+									carburant.getText(),
+									Long.parseLong(kilometrage.getText()),
+									Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
+									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
+									Integer.parseInt(prixLocation.getText())
+									,disponible.isSelected());
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		JLabel lblNewLabel_1_1_5_2 = new JLabel("Nom parking:");
 		lblNewLabel_1_1_5_2.setBounds(71, 278, 142, 19);
@@ -247,6 +380,32 @@ public class ChangeExistingVehicle extends JPanel{
 		prixLocation.setColumns(10);
 		prixLocation.setBounds(366, 223, 279, 27);
 		add(prixLocation);
+		prixLocation.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!VehiculeController.empty(ChangeExistingVehicle.this)) {
+						try {
+							Vehicule V = new Vehicule(ImmatriculationVehicule.getText(),
+									marqueVehicule.getText(),
+									typeVehicule.getText(),
+									carburant.getText(),
+									Long.parseLong(kilometrage.getText()),
+									Date.valueOf(YcomboBox.getSelectedItem() +"-"+McomboBox.getSelectedItem()+"-"+DcomboBox.getSelectedItem()),
+									Integer.parseInt(parkComboBox.getSelectedItem().toString().split("-")[0]),
+									Integer.parseInt(prixLocation.getText())
+									,disponible.isSelected());
+							VehiculeController.saveChanges(V,ChangeExistingVehicle.oldId);
+						}catch(NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null,ex.getMessage(), "Entrer un nombre", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Un ou plusieurs champs sont vides", "Champs vides", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 		
 		parkComboBox = new JComboBox();
 		parkComboBox.setBackground(viewSettings.SECONDARY);

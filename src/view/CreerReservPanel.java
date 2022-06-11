@@ -199,7 +199,7 @@ public class CreerReservPanel extends JPanel {
 		Annuler_btn.setBounds(9, 501, 124, 36);
 		this.add(Annuler_btn);
 
-		JLabel choice_lbl_1 = new JLabel("Choisir une voiture:");
+		JLabel choice_lbl_1 = new JLabel("Choisir un véhicule:");
 		choice_lbl_1.setBounds(23, 142, 136, 13);
 		this.add(choice_lbl_1);
 

@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import controller.VehiculeController;
+import dao.vehiculeDAO;
 import interfaces.MainInterface;
 import model.VehiculeTableModel;
 import java.awt.Rectangle;
@@ -85,6 +86,24 @@ public class VehiculePanel extends JPanel{
 			});
 			removeVehicule.setBounds(605, 180, 117, 50);
 			this.add(removeVehicule);
+		//POUR SUPPRIMER AVEC LE BOUTON delete du clavier
+				vehiculeTable.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if(e.getKeyCode() == KeyEvent.VK_DELETE&&vehiculeTable.getSelectedRow()!=-1) {
+							int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement supprimer le vehicule immatriculée : "+vehiculeTable.getModel().getValueAt(vehiculeTable.getSelectedRow(), 0).toString()+" ?", "Confirmer la suppression", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+							if(result == JOptionPane.YES_OPTION) {
+								String id =vehiculeTable.getModel().getValueAt(vehiculeTable.getSelectedRow(), 0).toString();
+								vehiculeDAO.removeVehicule(id);
+								VehiculeController.fetchAll();
+								JOptionPane.showMessageDialog(null,"Vehicule supprimé avec succés", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+							}else {
+								VehiculeController.fetchAll();
+							}
+						}
+					}
+				});
+			
 			
 		//BOUTON MODIFIER LES ATTRIBUTS D'UN VEHICULE EXISTANT
 			

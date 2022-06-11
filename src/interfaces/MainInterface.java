@@ -159,7 +159,7 @@ public class MainInterface {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int result = JOptionPane.showConfirmDialog(null, "Etes-vous sure de bien vouloir quitter ",
+				int result = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiement  quitter ? ",
 						"Confirmer le logout", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.YES_OPTION) {
 					login window = new login();
