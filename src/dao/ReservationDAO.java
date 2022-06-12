@@ -23,7 +23,7 @@ public interface ReservationDAO {
 	 * @return list of reservations
 	 */
 	public static ArrayList<Reservation> fetchAll (filtre fil) {
-		String query= "SELECT * FROM reservation, vehicule";
+		String query= "SELECT * FROM reservation, vehicule ";
 		switch(fil) {
 			case Tous:
 				query += " WHERE ";
@@ -97,12 +97,10 @@ public interface ReservationDAO {
 		return reservList;
 	}
 	//CHERCHER LES RESERVATION DONT LiNTERVALLE DE VALIDITE COMPRENDS LA DATE ACTUELLE
-	public static ArrayList<Reservation> fetchAll2 (filtre fil) {
-		String query= "SELECT * FROM reservation , vehicule";
-		query += "WHERE isValid = false AND isCanceled = false ";
-		query += "AND current_date() >= dateDepReservation "
-				+ "AND current_date() < dateRetReservation "
-				+ "AND reservation.codeVehicule = vehicule.Immatriculation "
+	public static ArrayList<Reservation> getCurrentReserv () {
+		String query= "SELECT * FROM reservation , vehicule ";
+		query += "WHERE isValid = false AND isCanceled = 0 ";
+		query += "AND reservation.codeVehicule = vehicule.Immatriculation "
 				+ "ORDER BY dateReservation DESC;";
 		ResultSet result = ConnectionManager.execute(query);
 		ArrayList<Reservation> reservList = new ArrayList<>();
@@ -167,10 +165,8 @@ public interface ReservationDAO {
 		String query="SELECT *"
 				+" FROM reservation"
 				+" WHERE  codeReservation like ?"
-				+"AND isValid = false "
-				+ "AND isCanceled = false "
-				+ "AND current_date() >= dateDepReservation "
-				+  "AND current_date() < dateRetReservation ;";
+				+" AND isValid = false "
+				+ "AND isCanceled = false";
 	ArrayList<Reservation> reserv_list = new ArrayList<>();
 	try {
 		PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
@@ -343,8 +339,8 @@ public interface ReservationDAO {
 		String query = "UPDATE `reservation`"
 				+ " SET `dateDepReservation` = ?,"
 				+ " `dateRetReservation` = ?,"
-				+ " `isCanceled` = ?,"
-				+ " `isValid` = ?"
+				+ " `isCanceled` = ?, "
+				+ " `isValid` = ? "
 				+ " WHERE `reservation`.`codeReservation` = ?;";
 		try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);

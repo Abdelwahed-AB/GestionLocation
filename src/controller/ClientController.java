@@ -74,7 +74,7 @@ public class ClientController {
 		DefaultTableModel dtm = new DefaultTableModel();
 		dtm.addColumn("Matricule");
 		dtm.addColumn("Marque");
-		dtm.addColumn("Date de d�part");
+		dtm.addColumn("Date de depart");
 		dtm.addColumn("Date de retour");
 		try {
 			while (result.next()) {

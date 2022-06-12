@@ -62,7 +62,7 @@ public class ContratController {
 	}
 //METHODE QUI AFFICHE LA LISTE DES RESERVATION
 	public static void displayReservation() {//actualise la table d'affichage des reservations
-		 ArrayList<Reservation> reserv = ReservationDAO.fetchAll2(filtre.Non_valide) ;
+		 ArrayList<Reservation> reserv = ReservationDAO.getCurrentReserv() ;
 		 AddNewContract.getRTableModel().loadReservations(reserv);
 
 	}

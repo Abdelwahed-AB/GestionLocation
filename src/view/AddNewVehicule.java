@@ -347,6 +347,7 @@ public class AddNewVehicule  extends JPanel{
 		this.add(code_park_lbl);
 
 		disponible = new JCheckBox("Disponibilit\u00E9:");
+		disponible.setEnabled(false);
 		disponible.setBackground(viewSettings.SECONDARY);
 		disponible.addActionListener(new ActionListener() {
 			@Override

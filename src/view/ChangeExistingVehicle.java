@@ -359,6 +359,7 @@ public class ChangeExistingVehicle extends JPanel {
 		this.add(lblNewLabel_1_1_5_2);
 
 		disponible = new JCheckBox("Disponibilit\u00E9:");
+		disponible.setEnabled(false);
 		disponible.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

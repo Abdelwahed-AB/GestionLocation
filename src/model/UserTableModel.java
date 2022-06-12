@@ -12,7 +12,7 @@ public class UserTableModel extends AbstractTableModel {
 			"Prénom",
 			"Téléphone",
 			"Adresse",
-			"Disponible"
+			"Actif"
 	};
 
 	private Vector<String[]> rows = new Vector<>();

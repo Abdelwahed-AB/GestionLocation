@@ -114,7 +114,7 @@ public class ReservationController {
 			else
 				creer_reserv.getWarning_lbl().setText("<html>La vehicule est déja reservé pendant cette interval choisi.</html>");
 		} else {
-			creer_reserv.getWarning_lbl().setText("<html>Veuillez selectionner une date appropriee</html>");
+			creer_reserv.getWarning_lbl().setText("<html>Veuillez selectionner une date appropriee (date depart doit etre apres date retour ou date debut apres date actuel)</html>");
 		}
 	}
 
@@ -204,7 +204,7 @@ public class ReservationController {
 			else
 				mod_reserv.getWarning_lbl().setText("<html>La vehicule est déja reservé pendant cette interval choisi.</html>");
 		} else {
-			mod_reserv.getWarning_lbl().setText("<html>Veuillez selectionner une date appropriee.</html>");
+			mod_reserv.getWarning_lbl().setText("<html>Veuillez selectionner une date appropriee (date depart doit etre apres date retour ou date debut apres date actuel).</html>");
 		}
 
 	}

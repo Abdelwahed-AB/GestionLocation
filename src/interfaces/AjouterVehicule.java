@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.ParkingController;
 import view.viewSettings;
+import java.awt.Toolkit;
 
 public class AjouterVehicule extends JDialog {
 
@@ -32,6 +33,7 @@ public class AjouterVehicule extends JDialog {
 	 * Create the dialog.
 	 */
 	public AjouterVehicule(int codeParking, int capacite) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AjouterVehicule.class.getResource("/icons/icons8-garage-80.png")));
 
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setVisible(true);

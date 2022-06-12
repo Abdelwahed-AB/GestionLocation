@@ -132,7 +132,7 @@ public class login extends JFrame {
 						dispose();
 					}
 					else {
-						JOptionPane.showMessageDialog(login,"nom d'utilisateur ou  mot de passe est incorrecte", "Compte inexistant", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(login,"nom d'utilisateur ou  mot de passe est incorrecte (ou compte inactif)", "Compte inexistant", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

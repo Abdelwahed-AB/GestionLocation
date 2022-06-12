@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import controller.ClientController;
+import dao.ClientDAO;
 import model.Client;
 
 public class AfficherClientPanel extends JPanel {
@@ -123,5 +124,8 @@ public class AfficherClientPanel extends JPanel {
 		numTelClient.setBounds(229, 205, 279, 32);
 		add(numTelClient);
 
+		ClientController.findVehicule(table_1, client.getCodeClient()+"");
 	}
+	
+	
 }

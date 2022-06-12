@@ -270,7 +270,8 @@ public class UserDAO {
 			String query="SELECT *"
 						+" FROM utilisateur"
 						+" WHERE username LIKE BINARY ?"
-						+" AND password LIKE BINARY ?";
+						+" AND password LIKE BINARY ? "
+						+ "AND isActive = 1;";
 			try {
 			PreparedStatement prepared = ConnectionManager.getConnection().prepareStatement(query);
 			prepared.setString(1, username);
